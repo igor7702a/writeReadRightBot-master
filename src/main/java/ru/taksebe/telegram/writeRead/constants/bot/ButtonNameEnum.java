@@ -7,7 +7,11 @@ public enum ButtonNameEnum {
     GET_TASKS_BUTTON("Создать файл с заданиями"),
     GET_DICTIONARY_BUTTON("Скачать словарь"),
     UPLOAD_DICTIONARY_BUTTON("Загрузить мой словарь"),
-    HELP_BUTTON("Помощь");
+    HELP_BUTTON("Помощь"),
+
+    //Новые кнопки для рассылки материалов
+    UPLOAD_MATERIALS_BUTTON("Загрузить материалы")
+    ;
 
     private final String buttonName;
 

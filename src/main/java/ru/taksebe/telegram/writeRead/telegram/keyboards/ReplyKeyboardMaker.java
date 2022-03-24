@@ -24,6 +24,9 @@ public class ReplyKeyboardMaker {
         row2.add(new KeyboardButton(ButtonNameEnum.UPLOAD_DICTIONARY_BUTTON.getButtonName()));
         row2.add(new KeyboardButton(ButtonNameEnum.HELP_BUTTON.getButtonName()));
 
+        KeyboardRow row3 = new KeyboardRow();
+        row3.add(new KeyboardButton(ButtonNameEnum.UPLOAD_MATERIALS_BUTTON.getButtonName()));
+
         List<KeyboardRow> keyboard = new ArrayList<>();
         keyboard.add(row1);
         keyboard.add(row2);
