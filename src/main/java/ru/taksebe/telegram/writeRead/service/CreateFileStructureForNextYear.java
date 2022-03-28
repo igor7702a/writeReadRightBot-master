@@ -9,27 +9,43 @@ import java.util.Scanner;
 public class CreateFileStructureForNextYear {
 
     public void CreateFolder(){
-        String path = "c:/Books/files/2022/weeks/1";
-        File D = new File(path);
-        boolean D1 = D.mkdir();
-        if(D1){
-            System.out.println("Directory is created successfully");
-        }else{
-            System.out.println("Error !");
+
+//        // Weeks
+//        for (int i = 3; i<53; i++){
+//
+//            String str = "c:/Books/files/2022/weeks/";
+//            StringBuilder sb = new StringBuilder(str);
+//            sb.append(i);
+//
+//            String path = sb.toString();
+//            File D = new File(path);
+//            boolean D1 = D.mkdir();
+//            if(D1){
+//                System.out.println("Directory is created successfully");
+//            }else{
+//                System.out.println("Error !");
+//            }
+//
+//        }
+
+        // Months
+        for (int i = 1; i<13; i++){
+
+            String str = "c:/Books/files/2021/months/";
+            StringBuilder sb = new StringBuilder(str);
+            sb.append(i);
+
+            String path = sb.toString();
+            File D = new File(path);
+            boolean D1 = D.mkdir();
+            if(D1){
+                System.out.println("Directory is created successfully");
+            }else{
+                System.out.println("Error !");
+            }
+
         }
 
-//        System.out.println("Path of Directory? ");
-//        Scanner obj = new Scanner(System.in);
-//        String path = obj.next();
-//        System.out.println("Directory Name? ");
-//        path = path+obj.next();
-//        File D = new File(path);
-//        boolean D1 = D.mkdir();
-//        if(D1){
-//            System.out.println("Directory is created successfully");
-//        }else{
-//            System.out.println("Error !");
-//        }
     }
 
 }
