@@ -72,6 +72,29 @@ public class XLSDownloadEmployeeService {
         cell.setCellValue("Bonus");
         cell.setCellStyle(style);
 
+        // Data
+        for (Employee emp : list) {
+            rownum++;
+            row = sheet.createRow(rownum);
+
+            // EmpNo (A)
+            cell = row.createCell(0, CellType.STRING);
+            cell.setCellValue(emp.getEmpNo());
+            // EmpName (B)
+            cell = row.createCell(1, CellType.STRING);
+            cell.setCellValue(emp.getEmpName());
+            // Salary (C)
+            cell = row.createCell(2, CellType.NUMERIC);
+            cell.setCellValue(emp.getSalary());
+            // Grade (D)
+            cell = row.createCell(3, CellType.NUMERIC);
+            cell.setCellValue(emp.getGrade());
+            // Bonus (E)
+            String formula = "0.1*C" + (rownum + 1) + "*D" + (rownum + 1);
+            cell = row.createCell(4, CellType.FORMULA);
+            cell.setCellFormula(formula);
+        }
+
         workbook.write(outFile);
         System.out.println("Created file: " + file.getAbsolutePath());
 
