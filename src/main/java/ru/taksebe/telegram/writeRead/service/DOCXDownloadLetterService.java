@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
+import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,6 +16,9 @@ import java.util.List;
 
 @Component
 public class DOCXDownloadLetterService {
+
+    @Autowired
+    private XlsLoadSettingsFilesCrudRepository xlsLoadSettingsFilesCrudRepository;
 
     public void docxDownLoadEmptyLetter() throws IOException {
         //Blank Document
@@ -58,19 +63,48 @@ public class DOCXDownloadLetterService {
         //Write the Document in file system
         FileOutputStream out = new FileOutputStream(new File("c:/books/letters/realletter.docx"));
 
+        // Data
+        List<XlsLoadSettingsFilesEntity> result = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFiles();
+        result.forEach(it3-> System.out.println(it3));
+        System.out.println("result.size = " + result.size());
+        int resultExists = result.size();
 
-        //create Paragraph
-        XWPFParagraph paragraph = document.createParagraph();
-        XWPFRun run = paragraph.createRun();
-        run.setText("At tutorialspoint.com, we strive hard to " +
-                "provide quality tutorials for self-learning " +
-                "purpose in the domains of Academics, Information " +
-                "Technology, Management and Computer Programming Languages.");
+        if(resultExists != 0){
 
-        XWPFParagraph paragraph2 = document.createParagraph();
-        XWPFRun run2 = paragraph.createRun();
-        run2.addCarriageReturn();
-        run2.setText("new");
+            XWPFParagraph paragraph = document.createParagraph();
+            XWPFRun run = paragraph.createRun();
+
+            // Материалы к оперативному совещанию 20.12.2021
+            run.setText(
+                    result.get(0).getItem_name() + " " +
+                    result.get(0).getDate_item_name()
+            );
+            run.addCarriageReturn();
+            run.addCarriageReturn();
+
+            // 3. НАЦИОНАЛЬНЫЕ ЦЕЛИ (войти в АРМ Наццели) + войти... - это ссылка
+            run.setText(
+                    result.get(0).getRubric_number() + ". " +
+                            result.get(0).getRubric_name() +" (войти в АРМ " +
+                            result.get(0).getArm_name() + ")"
+            );
+            run.addCarriageReturn();
+
+            // Ответственные: справка- А.С. Мальков, таблицы - Н.Н. Баценков
+            run.setText(
+                    "Ответственные: " +
+                            result.get(0).getOfficer_for()
+            );
+            run.addCarriageReturn();
+
+           for (XlsLoadSettingsFilesEntity element : result) {
+               //  3.1 Справка достижение НЦР
+               run.setText(
+                       element.getBook_name()
+               );
+               run.addCarriageReturn();
+           }
+       }
 
         document.write(out);
         out.close();

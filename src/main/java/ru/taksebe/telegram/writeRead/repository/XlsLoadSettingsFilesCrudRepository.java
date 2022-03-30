@@ -24,6 +24,37 @@ public interface XlsLoadSettingsFilesCrudRepository extends JpaRepository<XlsLoa
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles WHERE id=:id", nativeQuery = true)
     List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFilesById(long id);
 
+    //Get findAllFromXlsLoadSettingsFilesByMonth
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT * FROM XlsLoadSettingsFiles WHERE month_number=:monthNumber", nativeQuery = true)
+    List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFilesByMonth(int monthNumber);
+
+    //Get findAllFromXlsLoadSettingsFilesByYear
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT * FROM XlsLoadSettingsFiles WHERE (date_item_name>=:dateFirst and date_item_name<=:dateEnd)", nativeQuery = true)
+    List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFilesByYear(LocalDate dateFirst, LocalDate dateEnd);
+
+    //Get findAllFromXlsLoadSettingsFilesByYearAndMonth
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT * FROM XlsLoadSettingsFiles " +
+            "WHERE (" +
+            "date_item_name>=:dateFirst " +
+            "and date_item_name<=:dateEnd " +
+            "and month_number=:monthNumber" +
+            ")", nativeQuery = true)
+    List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFilesByYearAndMonth(LocalDate dateFirst, LocalDate dateEnd, int monthNumber);
+
+    //Get findAllFromXlsLoadSettingsFilesBy4Param
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT * FROM XlsLoadSettingsFiles " +
+            "WHERE (" +
+            "date_item_name>=:dateFirst " +
+            "and date_item_name<=:dateEnd " +
+            "and month_number=:monthNumber " +
+            "and timetable=:timetableParam" +
+            ")", nativeQuery = true)
+    List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFiles4Param(LocalDate dateFirst, LocalDate dateEnd, int monthNumber, String timetableParam);
+
 //    //Delete
 //    @Modifying
 //    @Transactional

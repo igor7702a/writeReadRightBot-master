@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
 import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
 
@@ -33,6 +35,47 @@ public class XlsLoadSettingsFilesCrudRepositoryTests {
     void findAllFromMaterialsById() {
         List<XlsLoadSettingsFilesEntity> materials = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFilesById(83L);
         materials.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
+    // Get findAllFromxlsLoadSettingsFilesByMonth
+    @Test
+    void findAllFromxlsLoadSettingsFilesByMonth() {
+        List<XlsLoadSettingsFilesEntity> notes = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFilesByMonth(11);
+        notes.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
+    // Get findAllFromxlsLoadSettingsFilesByYear
+    @Test
+    void findAllFromxlsLoadSettingsFilesByYear() {
+        LocalDate ldFirst = LocalDate.ofYearDay(2021,1);
+        LocalDate ldEnd = LocalDate.ofYearDay(2021,365);
+        List<XlsLoadSettingsFilesEntity> notes = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFilesByYear(ldFirst, ldEnd);
+        notes.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
+    // Get findAllFromXlsLoadSettingsFilesByYearAndMonth
+    @Test
+    void findAllFromXlsLoadSettingsFilesByYearAndMonth() {
+        LocalDate ldFirst = LocalDate.ofYearDay(2021,1);
+        LocalDate ldEnd = LocalDate.ofYearDay(2021,365);
+        int monthNumber = 10;
+        List<XlsLoadSettingsFilesEntity> notes = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFilesByYearAndMonth(ldFirst, ldEnd, monthNumber);
+        notes.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
+    // Get findAllFromXlsLoadSettingsFilesByYearAndMonth
+    @Test
+    void findAllFromXlsLoadSettingsFilesBy4Param() {
+        LocalDate ldFirst = LocalDate.ofYearDay(2021,1);
+        LocalDate ldEnd = LocalDate.ofYearDay(2021,365);
+        int monthNumber = 10;
+        String timetableParam = "Ежемесячно";
+        List<XlsLoadSettingsFilesEntity> notes = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFiles4Param(ldFirst, ldEnd, monthNumber, timetableParam);
+        notes.forEach(it -> System.out.println(it));
         Assertions.assertEquals(1, 1);
     }
 

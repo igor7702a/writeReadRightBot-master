@@ -23,7 +23,7 @@ public class XLSLoadTests {
         Assertions.assertEquals(1, 1);
     }
 
-    @Test
+    @Test // Прототип для реальной загрузки
     void xlsLoadFileNewFormat() throws IOException {
         xlsNewFormatLoadSettingFilesService.xlsLoadFileNewFormat();
         Assertions.assertEquals(1, 1);

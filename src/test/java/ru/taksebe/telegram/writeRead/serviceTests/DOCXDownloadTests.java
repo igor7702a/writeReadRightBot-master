@@ -26,4 +26,10 @@ public class DOCXDownloadTests {
         Assertions.assertEquals(1, 1);
     }
 
+    @Test
+    void docxDownLoadRealLetter() throws IOException {
+        docxDownloadLetterService.docxDownLoadRealLetter();
+        Assertions.assertEquals(1, 1);
+    }
+
 }

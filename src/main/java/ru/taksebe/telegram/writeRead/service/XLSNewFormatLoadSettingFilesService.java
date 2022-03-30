@@ -47,7 +47,7 @@ public class XLSNewFormatLoadSettingFilesService {
         String systemFileName = "";
 
         // Read XSL file
-        FileInputStream inputStream = new FileInputStream(new File("C:/Books/settings/ФайлДляЗагрузки_New.xlsx"));
+        FileInputStream inputStream = new FileInputStream(new File("C:/Books/settings/ФайлДляЗагрузки_Риски.xlsx"));
 
         // Get the workbook instance for XLS file
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
