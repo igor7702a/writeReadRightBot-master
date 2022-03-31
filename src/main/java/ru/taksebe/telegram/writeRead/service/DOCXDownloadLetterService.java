@@ -12,13 +12,50 @@ import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudReposito
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class DOCXDownloadLetterService {
 
     @Autowired
     private XlsLoadSettingsFilesCrudRepository xlsLoadSettingsFilesCrudRepository;
+
+    public List<Integer> receiveQuantityRubrics(
+            int yearNumber,
+            int monthNumber,
+            String timetable
+    ){
+        List<Integer> notSoCoolStringList = new ArrayList<Integer>();
+        List<Integer> distinctInts = new ArrayList<Integer>();
+
+        LocalDate YearFirst = LocalDate.ofYearDay(yearNumber,1);
+        LocalDate YearEnd =LocalDate.ofYearDay(yearNumber,365);
+
+        List<XlsLoadSettingsFilesEntity> result = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFiles4Param(
+                YearFirst, YearEnd, monthNumber, timetable);
+
+        result.forEach(it3-> System.out.println(it3));
+        System.out.println("result.size = " + result.size());
+        int resultExists = result.size();
+
+        if(resultExists != 0){
+            // Добавить в ArrayList только номера рубрик
+            for (XlsLoadSettingsFilesEntity element : result) {
+                notSoCoolStringList.add(element.getRubric_number());
+            }
+
+            // Оставить уникальные
+            distinctInts = notSoCoolStringList.stream()
+                    .sorted()
+                    .distinct().collect(Collectors.toList());
+        }
+        distinctInts.forEach(it4-> System.out.println(it4));
+
+        return distinctInts;
+    };
 
     public void docxDownLoadEmptyLetter() throws IOException {
         //Blank Document
@@ -64,47 +101,76 @@ public class DOCXDownloadLetterService {
         FileOutputStream out = new FileOutputStream(new File("c:/books/letters/realletter.docx"));
 
         // Data
-        List<XlsLoadSettingsFilesEntity> result = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFiles();
-        result.forEach(it3-> System.out.println(it3));
-        System.out.println("result.size = " + result.size());
-        int resultExists = result.size();
+        int numberYear = 2021;
+        LocalDate ldFirst = LocalDate.ofYearDay(numberYear, 1);
+        LocalDate ldEnd = LocalDate.ofYearDay(numberYear, 365);
+        int numberMonth = 11;
+        String timetable = "Ежемесячно";
+        int numberRubric = 2;
 
-        if(resultExists != 0){
+        List<Integer> quantityRubrics = receiveQuantityRubrics(numberYear, numberMonth, timetable);
+        quantityRubrics.forEach(it3-> System.out.println(it3));
+        System.out.println("result.size = " + quantityRubrics.size());
+        int quantityRubricsExists = quantityRubrics.size();
 
-            XWPFParagraph paragraph = document.createParagraph();
-            XWPFRun run = paragraph.createRun();
+        if(quantityRubricsExists != 0) {
 
-            // Материалы к оперативному совещанию 20.12.2021
-            run.setText(
-                    result.get(0).getItem_name() + " " +
-                    result.get(0).getDate_item_name()
-            );
-            run.addCarriageReturn();
-            run.addCarriageReturn();
+            int itemNameIndex = 0;
+            for (Integer elementRubrics : quantityRubrics) {
 
-            // 3. НАЦИОНАЛЬНЫЕ ЦЕЛИ (войти в АРМ Наццели) + войти... - это ссылка
-            run.setText(
-                    result.get(0).getRubric_number() + ". " +
-                            result.get(0).getRubric_name() +" (войти в АРМ " +
-                            result.get(0).getArm_name() + ")"
-            );
-            run.addCarriageReturn();
+                ++itemNameIndex;
 
-            // Ответственные: справка- А.С. Мальков, таблицы - Н.Н. Баценков
-            run.setText(
-                    "Ответственные: " +
-                            result.get(0).getOfficer_for()
-            );
-            run.addCarriageReturn();
+                numberRubric = elementRubrics.intValue();
 
-           for (XlsLoadSettingsFilesEntity element : result) {
-               //  3.1 Справка достижение НЦР
-               run.setText(
-                       element.getBook_name()
-               );
-               run.addCarriageReturn();
-           }
-       }
+                List<XlsLoadSettingsFilesEntity> result = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFiles5Param(
+                        ldFirst, ldEnd, numberMonth, timetable, numberRubric);
+                result.forEach(it3-> System.out.println(it3));
+                System.out.println("result.size = " + result.size());
+                int resultExists = result.size();
+
+                if(resultExists != 0){
+
+                    XWPFParagraph paragraph = document.createParagraph();
+                    XWPFRun run = paragraph.createRun();
+
+                    if(itemNameIndex == 1){
+                        // Материалы к оперативному совещанию 20.12.2021
+                        run.setText(
+                                result.get(0).getItem_name() + " " +
+                                        result.get(0).getDate_item_name()
+                        );
+                        run.addCarriageReturn();
+                    }
+
+                    //run.addCarriageReturn();
+
+                    // 3. НАЦИОНАЛЬНЫЕ ЦЕЛИ (войти в АРМ Наццели) + войти... - это ссылка
+                    run.setText(
+                            result.get(0).getRubric_number() + ". " +
+                                    result.get(0).getRubric_name() +" (войти в АРМ " +
+                                    result.get(0).getArm_name() + ")"
+                    );
+                    run.addCarriageReturn();
+
+                    // Ответственные: справка- А.С. Мальков, таблицы - Н.Н. Баценков
+                    run.setText(
+                            "Ответственные: " +
+                                    result.get(0).getOfficer_for()
+                    );
+                    run.addCarriageReturn();
+
+                    for (XlsLoadSettingsFilesEntity element : result) {
+                        //  3.1 Справка достижение НЦР
+                        run.setText(
+                                element.getBook_name()
+                        );
+                        run.addCarriageReturn();
+                    }
+                }
+
+            }
+
+        }
 
         document.write(out);
         out.close();

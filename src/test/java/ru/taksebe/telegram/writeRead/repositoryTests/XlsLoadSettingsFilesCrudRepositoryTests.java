@@ -67,14 +67,29 @@ public class XlsLoadSettingsFilesCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Get findAllFromXlsLoadSettingsFilesByYearAndMonth
+    // Get findAllFromXlsLoadSettingsFilesBy4Param
     @Test
     void findAllFromXlsLoadSettingsFilesBy4Param() {
         LocalDate ldFirst = LocalDate.ofYearDay(2021,1);
         LocalDate ldEnd = LocalDate.ofYearDay(2021,365);
-        int monthNumber = 10;
+        int monthNumber = 11;
         String timetableParam = "Ежемесячно";
         List<XlsLoadSettingsFilesEntity> notes = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFiles4Param(ldFirst, ldEnd, monthNumber, timetableParam);
+        notes.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
+    // Get findAllFromXlsLoadSettingsFilesBy5Param
+    @Test
+    void findAllFromXlsLoadSettingsFilesBy5Param() {
+        LocalDate ldFirst = LocalDate.ofYearDay(2021,1);
+        LocalDate ldEnd = LocalDate.ofYearDay(2021,365);
+        int monthNumber = 11;
+        String timetableParam = "Ежемесячно";
+        int rubricNumber = 2;
+
+        List<XlsLoadSettingsFilesEntity> notes = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFiles5Param(
+                ldFirst, ldEnd, monthNumber, timetableParam, rubricNumber);
         notes.forEach(it -> System.out.println(it));
         Assertions.assertEquals(1, 1);
     }
