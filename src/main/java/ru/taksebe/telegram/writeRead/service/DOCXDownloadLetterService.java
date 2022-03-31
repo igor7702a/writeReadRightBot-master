@@ -23,6 +23,29 @@ public class DOCXDownloadLetterService {
     @Autowired
     private XlsLoadSettingsFilesCrudRepository xlsLoadSettingsFilesCrudRepository;
 
+    public String receivePathFile(
+            int yearNumber,
+            String timetable,
+            int monthNumber,
+            String systemNameRubric,
+            String systemNameFile
+    ){
+        String stPathFile = "";
+        StringBuilder sbPathFile = new StringBuilder("c:/Books/files");
+        sbPathFile.append("/" + yearNumber);
+        sbPathFile.append("/" + timetable);
+        sbPathFile.append("/" + monthNumber);
+        sbPathFile.append("/" + systemNameRubric);
+        sbPathFile.append("/" + systemNameFile);
+        stPathFile = sbPathFile.toString();
+        System.out.println("stPathFile - " + stPathFile);
+        // Получить список всех файлов из этой папки
+        // Отсортировать по дате создания
+        // Получить двоичный только для самого позднего файла
+
+     return stPathFile;
+    };
+
     public List<Integer> receiveQuantityRubrics(
             int yearNumber,
             int monthNumber,

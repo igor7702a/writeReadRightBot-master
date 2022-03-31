@@ -27,6 +27,7 @@ public class DOCXDownloadTests {
         Assertions.assertEquals(1, 1);
     }
 
+    // Для реальных данных
     @Test
     void docxDownLoadRealLetter() throws IOException {
         docxDownloadLetterService.docxDownLoadRealLetter();
@@ -36,6 +37,18 @@ public class DOCXDownloadTests {
     @Test
     void receiveQuantityRubrics() {
         docxDownloadLetterService.receiveQuantityRubrics(2021,11,"Ежемесячно");
+        Assertions.assertEquals(1, 1);
+    }
+
+    @Test
+    void receivePathFile() {
+        docxDownloadLetterService.receivePathFile(
+                2021,
+                "months",
+                11,
+                "нацпроекты",
+                "СправкаОпросыВЦИОМ"
+                );
         Assertions.assertEquals(1, 1);
     }
 
