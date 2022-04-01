@@ -7,14 +7,19 @@ import org.springframework.stereotype.Component;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
+import ru.taksebe.telegram.writeRead.model.DateFile;
 import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -22,6 +27,42 @@ public class DOCXDownloadLetterService {
 
     @Autowired
     private XlsLoadSettingsFilesCrudRepository xlsLoadSettingsFilesCrudRepository;
+
+    public List<String> receiveEndFile() throws IOException {
+        //c:/Books/files/2021/months/11/нацпроекты/СправкаОпросыВЦИОМ/1.3_Справка - опросы ВЦИОМ_220401_095822.pdf
+        String path = "c:/Books/files/2021/months/11/нацпроекты/СправкаОпросыВЦИОМ/";
+
+        File dir = new File(path); //path указывает на директорию
+        File[] arrFiles = dir.listFiles();
+        List<File> lst = Arrays.asList(arrFiles);
+
+        List<DateFile> myFiles = new ArrayList<>();
+
+        for (File element : lst) {
+            Path file = Paths.get(String.valueOf(element));
+            BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
+            FileTime creationTime = attr.creationTime();
+            System.out.println(
+                    " file path: " + file +
+                    " file bytes: " + element +
+                    " creationTime: " + creationTime
+            );
+            myFiles.add(new DateFile(file, element, creationTime));
+        }
+
+        lst.forEach(it3-> System.out.println(it3));
+
+        List listMyFile = myFiles.stream()
+                .sorted(Comparator.comparing(DateFile::getDataCreated)
+                        .reversed())
+                .limit(1)
+                .collect(Collectors.toList());
+
+        listMyFile.forEach(it5-> System.out.println(it5));
+
+        return listMyFile;
+
+    };
 
     public String receivePathFile(
             int yearNumber,
@@ -39,9 +80,6 @@ public class DOCXDownloadLetterService {
         sbPathFile.append("/" + systemNameFile);
         stPathFile = sbPathFile.toString();
         System.out.println("stPathFile - " + stPathFile);
-        // Получить список всех файлов из этой папки
-        // Отсортировать по дате создания
-        // Получить двоичный только для самого позднего файла
 
      return stPathFile;
     };

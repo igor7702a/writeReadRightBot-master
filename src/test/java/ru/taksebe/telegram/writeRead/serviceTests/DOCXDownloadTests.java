@@ -52,4 +52,11 @@ public class DOCXDownloadTests {
         Assertions.assertEquals(1, 1);
     }
 
+    //c:/Books/files/2021/months/11/нацпроекты/СправкаОпросыВЦИОМ
+
+    @Test
+    void receiveEndFile() throws IOException {
+        docxDownloadLetterService.receiveEndFile();
+        Assertions.assertEquals(1, 1);
+    }
 }
