@@ -59,4 +59,17 @@ public class DOCXDownloadTests {
         docxDownloadLetterService.receiveEndFile();
         Assertions.assertEquals(1, 1);
     }
+
+    @Test
+    void receiveEndFileParam() throws IOException {
+        docxDownloadLetterService.receiveEndFileParam(
+                "c:/Books/files/",
+                2021,
+                "months",
+                11,
+                "нацпроекты",
+                "СпрОпрВциом"
+        );
+        Assertions.assertEquals(1, 1);
+    }
 }

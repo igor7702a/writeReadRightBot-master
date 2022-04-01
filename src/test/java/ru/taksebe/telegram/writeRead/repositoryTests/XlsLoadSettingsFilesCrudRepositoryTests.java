@@ -94,6 +94,21 @@ public class XlsLoadSettingsFilesCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
+    // Get findAllFromXlsLoadSettingsFilesBy5Param1Order
+    @Test
+    void findAllFromXlsLoadSettingsFilesBy5Param1Order() {
+        LocalDate ldFirst = LocalDate.ofYearDay(2021,1);
+        LocalDate ldEnd = LocalDate.ofYearDay(2021,365);
+        int monthNumber = 11;
+        String timetableParam = "Ежемесячно";
+        int rubricNumber = 3;
+
+        List<XlsLoadSettingsFilesEntity> notes = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFiles5Param1Order(
+                ldFirst, ldEnd, monthNumber, timetableParam, rubricNumber);
+        notes.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
 //    // Delete
 //    @Test
 //    void deleteVoidWhereIdParametr() {

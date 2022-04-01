@@ -28,6 +28,60 @@ public class DOCXDownloadLetterService {
     @Autowired
     private XlsLoadSettingsFilesCrudRepository xlsLoadSettingsFilesCrudRepository;
 
+    public String receiveEndFileParam(
+            String initialPath, //c:/Books/files/
+            int numberYear,
+            String timetable,
+            int numberMonth,
+            String nameRubric,
+            String nameBook
+
+    ) throws IOException {
+        //Получаем: //c:/Books/files/2021/months/11/нацпроекты/СправкаОпросыВЦИОМ/1.3_Справка - опросы ВЦИОМ_220401_095822.pdf
+        StringBuilder sb = new StringBuilder(initialPath);
+        sb.append(numberYear + "/");
+        sb.append(timetable + "/");
+        sb.append(numberMonth + "/");
+        sb.append(nameRubric + "/");
+        sb.append(nameBook + "/");
+
+        String path = sb.toString();
+
+        File dir = new File(path); //path указывает на директорию
+        File[] arrFiles = dir.listFiles();
+        List<File> lst = Arrays.asList(arrFiles);
+
+        List<DateFile> myFiles = new ArrayList<>();
+
+        for (File element : lst) {
+            Path file = Paths.get(String.valueOf(element));
+            BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
+            FileTime creationTime = attr.creationTime();
+            System.out.println(
+                    " file path: " + file +
+                    " file bytes: " + element +
+                    " creationTime: " + creationTime
+            );
+            myFiles.add(new DateFile(file, element, creationTime));
+        }
+
+        lst.forEach(it3-> System.out.println(it3));
+
+        List listMyFile = myFiles.stream()
+                .sorted(Comparator.comparing(DateFile::getDataCreated)
+                        .reversed())
+                .limit(1)
+                .collect(Collectors.toList());
+
+        listMyFile.forEach(it5-> System.out.println(it5));
+
+        String myFile = ((DateFile) listMyFile.get(0)).getpathFile().toString();
+
+        return myFile;
+
+    };
+
+
     public String receiveEndFile() throws IOException {
         //c:/Books/files/2021/months/11/нацпроекты/СправкаОпросыВЦИОМ/1.3_Справка - опросы ВЦИОМ_220401_095822.pdf
         String path = "c:/Books/files/2021/months/11/нацпроекты/СправкаОпросыВЦИОМ/";
@@ -164,6 +218,7 @@ public class DOCXDownloadLetterService {
         FileOutputStream out = new FileOutputStream(new File("c:/books/letters/realletter.docx"));
 
         // Data
+        String initialPath = "c:/Books/files/";
         int numberYear = 2021;
         LocalDate ldFirst = LocalDate.ofYearDay(numberYear, 1);
         LocalDate ldEnd = LocalDate.ofYearDay(numberYear, 365);
@@ -229,8 +284,20 @@ public class DOCXDownloadLetterService {
                         );
                         run.addCarriageReturn();
 
+                        String nameRubric = element.getSystem_rubric_name();
+                        String nameBook = element.getSystem_file_name();
+                        String timetablePeriod = "months";
+                        String myFile = receiveEndFileParam(
+                                initialPath, //c:/Books/files/
+                                numberYear,
+                                timetablePeriod,
+                                numberMonth,
+                                nameRubric,
+                                nameBook
+                                    );
+
                         run.setText(
-                                "myFile - " + receiveEndFile()
+                                "myFile - " + myFile
                         );
                         run.addCarriageReturn();
 
