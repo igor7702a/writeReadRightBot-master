@@ -9,9 +9,15 @@ import java.nio.file.attribute.FileTime;
 
 public class DateFile {
 
-    @Getter
-    @Setter
     private Path pathFile;
+
+    public Path getpathFile() {
+        return pathFile;
+    }
+
+    public void setpathFile(Path pathFile) {
+        this.pathFile = pathFile;
+    }
 
     @Getter
     @Setter

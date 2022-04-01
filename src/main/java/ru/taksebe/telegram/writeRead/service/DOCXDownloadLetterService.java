@@ -28,7 +28,7 @@ public class DOCXDownloadLetterService {
     @Autowired
     private XlsLoadSettingsFilesCrudRepository xlsLoadSettingsFilesCrudRepository;
 
-    public List<String> receiveEndFile() throws IOException {
+    public String receiveEndFile() throws IOException {
         //c:/Books/files/2021/months/11/нацпроекты/СправкаОпросыВЦИОМ/1.3_Справка - опросы ВЦИОМ_220401_095822.pdf
         String path = "c:/Books/files/2021/months/11/нацпроекты/СправкаОпросыВЦИОМ/";
 
@@ -60,7 +60,9 @@ public class DOCXDownloadLetterService {
 
         listMyFile.forEach(it5-> System.out.println(it5));
 
-        return listMyFile;
+        String myFile = ((DateFile) listMyFile.get(0)).getpathFile().toString();
+
+        return myFile;
 
     };
 
@@ -226,6 +228,12 @@ public class DOCXDownloadLetterService {
                                 element.getBook_name()
                         );
                         run.addCarriageReturn();
+
+                        run.setText(
+                                "myFile - " + receiveEndFile()
+                        );
+                        run.addCarriageReturn();
+
                     }
                 }
 
