@@ -43,6 +43,12 @@ public class MessageHandler {
             throw new IllegalArgumentException();
         } else if (inputText.equals("/start")) {
             return getStartMessage(chatId);
+
+            // new buttons for materials
+        } else if (inputText.equals(ButtonNameEnum.UPLOAD_MATERIALS_BUTTON.getButtonName())) {
+            System.out.println("Это работает новая кнопка!");
+            return getStartMessageMaterials(chatId);
+
         } else if (inputText.equals(ButtonNameEnum.GET_TASKS_BUTTON.getButtonName())) {
             return getTasksMessage(chatId);
         } else if (inputText.equals(ButtonNameEnum.GET_DICTIONARY_BUTTON.getButtonName())) {
@@ -94,5 +100,13 @@ public class MessageHandler {
         } catch (Exception e) {
             return new SendMessage(chatId, BotMessageEnum.EXCEPTION_BAD_FILE_MESSAGE.getMessage());
         }
+    }
+
+    // Для новых кнопок
+    private SendMessage getStartMessageMaterials(String chatId) {
+        SendMessage sendMessage = new SendMessage(chatId, BotMessageEnum.HELP_MESSAGE.getMessage());
+        sendMessage.enableMarkdown(true);
+        sendMessage.setReplyMarkup(replyKeyboardMaker.getMainMenuKeyboard());
+        return sendMessage;
     }
 }

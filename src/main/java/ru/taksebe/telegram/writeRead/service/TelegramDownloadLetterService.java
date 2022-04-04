@@ -1,11 +1,10 @@
 package ru.taksebe.telegram.writeRead.service;
 
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
 import ru.taksebe.telegram.writeRead.model.DateFile;
 import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
@@ -19,11 +18,14 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class DOCXDownloadLetterService {
+public class TelegramDownloadLetterService {
 
     @Autowired
     private XlsLoadSettingsFilesCrudRepository xlsLoadSettingsFilesCrudRepository;
@@ -210,7 +212,7 @@ public class DOCXDownloadLetterService {
         System.out.println("createparagraph.docx written successfully");
     }
 
-    public void docxDownLoadRealLetter() throws IOException {
+    public String docxDownLoadRealLetter() throws IOException {
         //Blank Document
         XWPFDocument document = new XWPFDocument();
 
@@ -225,6 +227,7 @@ public class DOCXDownloadLetterService {
         int numberMonth = 11;
         String timetable = "Ежемесячно";
         int numberRubric = 2;
+        StringBuilder letterForTelegram = new StringBuilder("");
 
         List<Integer> quantityRubrics = receiveQuantityRubrics(numberYear, numberMonth, timetable);
         quantityRubrics.forEach(it3-> System.out.println(it3));
@@ -258,9 +261,13 @@ public class DOCXDownloadLetterService {
                                         result.get(0).getDate_item_name()
                         );
                         run.addCarriageReturn();
-                    }
 
-                    //run.addCarriageReturn();
+                        letterForTelegram.append(
+                                result.get(0).getItem_name() + " " +
+                                        result.get(0).getDate_item_name() +
+                                "\n"
+                        );
+                    }
 
                     // 3. НАЦИОНАЛЬНЫЕ ЦЕЛИ (войти в АРМ Наццели) + войти... - это ссылка
                     run.setText(
@@ -270,6 +277,13 @@ public class DOCXDownloadLetterService {
                     );
                     run.addCarriageReturn();
 
+                    letterForTelegram.append(
+                            result.get(0).getRubric_number() + ". " +
+                                    result.get(0).getRubric_name() +" (войти в АРМ " +
+                                    result.get(0).getArm_name() + ")" +
+                            "\n"
+                    );
+
                     // Ответственные: справка- А.С. Мальков, таблицы - Н.Н. Баценков
                     run.setText(
                             "Ответственные: " +
@@ -277,12 +291,23 @@ public class DOCXDownloadLetterService {
                     );
                     run.addCarriageReturn();
 
+                    letterForTelegram.append(
+                            "Ответственные: " +
+                                    result.get(0).getOfficer_for() +
+                                    "\n"
+                    );
+
                     for (XlsLoadSettingsFilesEntity element : result) {
                         //  3.1 Справка достижение НЦР
                         run.setText(
                                 element.getBook_name()
                         );
                         run.addCarriageReturn();
+
+                        letterForTelegram.append(
+                                element.getBook_name() +
+                                        "\n"
+                        );
 
                         String nameRubric = element.getSystem_rubric_name();
                         String nameBook = element.getSystem_file_name();
@@ -301,6 +326,11 @@ public class DOCXDownloadLetterService {
                         );
                         run.addCarriageReturn();
 
+                        letterForTelegram.append(
+                                "myFile - " + myFile +
+                                        "\n"
+                        );
+
                     }
                 }
 
@@ -311,6 +341,11 @@ public class DOCXDownloadLetterService {
         document.write(out);
         out.close();
         System.out.println("createparagraph.docx written successfully");
+
+        String letterForTelegramString = letterForTelegram.toString();
+        System.out.println("letterForTelegramString - " + letterForTelegramString);
+
+        return letterForTelegramString;
     }
 
 }
