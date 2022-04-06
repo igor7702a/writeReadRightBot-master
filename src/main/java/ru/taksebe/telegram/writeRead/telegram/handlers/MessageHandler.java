@@ -3,6 +3,7 @@ package ru.taksebe.telegram.writeRead.telegram.handlers;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -17,20 +18,29 @@ import ru.taksebe.telegram.writeRead.exceptions.DictionaryTooBigException;
 import ru.taksebe.telegram.writeRead.exceptions.TelegramFileNotFoundException;
 import ru.taksebe.telegram.writeRead.telegram.TelegramApiClient;
 import ru.taksebe.telegram.writeRead.telegram.keyboards.InlineKeyboardMaker;
+import ru.taksebe.telegram.writeRead.telegram.keyboards.InlineKeyboardMakerPdf;
 import ru.taksebe.telegram.writeRead.telegram.keyboards.ReplyKeyboardMaker;
+
+import ru.taksebe.telegram.writeRead.service.TelegramDownloadLetterService;
+
+import java.io.IOException;
 
 @Component
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 public class MessageHandler {
+    @Autowired
+    TelegramDownloadLetterService telegramDownloadLetterService;
+
     DictionaryAdditionService dictionaryAdditionService;
     DictionaryExcelService dictionaryExcelService;
 
     TelegramApiClient telegramApiClient;
     ReplyKeyboardMaker replyKeyboardMaker;
     InlineKeyboardMaker inlineKeyboardMaker;
+    InlineKeyboardMakerPdf inlineKeyboardMakerPdf;
 
-    public BotApiMethod<?> answerMessage(Message message) {
+    public BotApiMethod<?> answerMessage(Message message) throws IOException {
         String chatId = message.getChatId().toString();
 
         if (message.hasDocument()) {
@@ -48,6 +58,9 @@ public class MessageHandler {
         } else if (inputText.equals(ButtonNameEnum.UPLOAD_MATERIALS_BUTTON.getButtonName())) {
             System.out.println("Это работает новая кнопка!");
             return getStartMessageMaterials(chatId);
+        } else if (inputText.equals(ButtonNameEnum.UPLOAD_FILES_BUTTON.getButtonName())) {
+            System.out.println("Это работает новая кнопка Тест пересылки файлов!");
+            return getDictionaryMessageFiles(chatId);
 
         } else if (inputText.equals(ButtonNameEnum.GET_TASKS_BUTTON.getButtonName())) {
             return getTasksMessage(chatId);
@@ -103,10 +116,21 @@ public class MessageHandler {
     }
 
     // Для новых кнопок
-    private SendMessage getStartMessageMaterials(String chatId) {
-        SendMessage sendMessage = new SendMessage(chatId, BotMessageEnum.HELP_MESSAGE.getMessage());
+    private SendMessage getStartMessageMaterials(String chatId) throws IOException {
+        SendMessage sendMessage = new SendMessage(chatId, telegramDownloadLetterService.docxDownLoadRealLetter());
+        System.out.println("chatId - " + chatId);
         sendMessage.enableMarkdown(true);
         sendMessage.setReplyMarkup(replyKeyboardMaker.getMainMenuKeyboard());
+        return sendMessage;
+    }
+
+    // Для тестирования рассылки файлов
+    private SendMessage getDictionaryMessageFiles(String chatId) {
+        SendMessage sendMessage = new SendMessage(chatId, BotMessageEnum.CHOOSE_DICTIONARY_MESSAGE.getMessage());
+        sendMessage.setReplyMarkup(inlineKeyboardMakerPdf.getInlineMessageButtonsWithTemplate(
+                CallbackDataPartsEnum.DICTIONARY_.name(),
+                dictionaryExcelService.isUserDictionaryExist(chatId)
+        ));
         return sendMessage;
     }
 }

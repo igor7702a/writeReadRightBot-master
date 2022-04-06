@@ -35,7 +35,14 @@ public class ResourceLoader {
     }
 
     public XSSFWorkbook loadTemplateWorkbook() throws IOException {
-        return loadWorkbook(TemplateResourcePathsEnum.TEMPLATE_DICTIONARY.getFilePath());
+        XSSFWorkbook myResult = loadWorkbook(TemplateResourcePathsEnum.TEMPLATE_DICTIONARY.getFilePath());
+        return myResult;
+    }
+
+    // Для работы с файлами pdf
+    public XSSFWorkbook loadTemplateWorkbookPdf() throws IOException {
+        XSSFWorkbook myResult = loadWorkbookPdf(TemplateResourcePathsEnum.TEMPLATE_DICTIONARY.getFilePath());
+        return myResult;
     }
 
     public XSSFWorkbook loadDefaultDictionaryWorkbook(DictionaryResourcePathEnum dictionaryResourcePath) throws IOException {
@@ -59,4 +66,29 @@ public class ResourceLoader {
                 )
         );
     }
+
+    // Для работы с pdf
+    private XSSFWorkbook loadWorkbookPdf(String filePath) throws IOException {
+        return new XSSFWorkbook(
+                Objects.requireNonNull(
+                        getClass()
+                                .getClassLoader()
+                                .getResourceAsStream(filePath)
+                )
+        );
+    }
 }
+
+//import java.io.File;
+//        import java.io.FileInputStream;
+//        import java.io.ByteArrayOutputStream;
+//public class PdfToByteArray {
+//    public static void main(String args[]) throws Exception {
+//        File file = new File("sample.pdf");
+//        FileInputStream fis = new FileInputStream(file);
+//        byte [] data = new byte[(int)file.length()];
+//        fis.read(data);
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        data = bos.toByteArray();
+//    }
+//}

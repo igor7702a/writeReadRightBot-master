@@ -5,6 +5,7 @@ package ru.taksebe.telegram.writeRead.constants.resources;
  */
 public enum TemplateResourcePathsEnum {
     TEMPLATE_TASKS("templates/Template.docx"),
+    TEMPLATE_PDF("templates/Template.pdf"),
     TEMPLATE_DICTIONARY("templates/Template.xlsx");
 
     private final String filePath;

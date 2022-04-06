@@ -19,4 +19,12 @@ public class WordService {
         }
         return new ArrayList<>(allWordSet);
     }
+
+    public List<Word> getDictionariesWordListPdf(List<Dictionary> dictionaryList) {
+        Set<Word> allWordSet = new HashSet<>();
+        for (Dictionary dictionary : dictionaryList) {
+            allWordSet.addAll(dictionary.getWordList());
+        }
+        return new ArrayList<>(allWordSet);
+    }
 }

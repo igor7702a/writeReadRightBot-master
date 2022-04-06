@@ -26,6 +26,7 @@ public class ReplyKeyboardMaker {
 
         KeyboardRow row3 = new KeyboardRow();
         row3.add(new KeyboardButton(ButtonNameEnum.UPLOAD_MATERIALS_BUTTON.getButtonName()));
+        row3.add(new KeyboardButton(ButtonNameEnum.UPLOAD_FILES_BUTTON.getButtonName()));
 
         List<KeyboardRow> keyboard = new ArrayList<>();
         keyboard.add(row1);

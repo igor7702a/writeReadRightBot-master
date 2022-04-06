@@ -3,6 +3,7 @@ package ru.taksebe.telegram.writeRead.telegram.handlers;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -40,6 +41,12 @@ public class CallbackQueryHandler {
             return getDictionary(chatId, chatId);
         } else if (data.equals(CallbackDataPartsEnum.DICTIONARY_.name() + CallbackDataPartsEnum.ALL_GRADES.name())) {
             return getAllDefaultDictionaries(chatId);
+
+        // Для новых инлайн клавиатур
+        } else if (data.equals(CallbackDataPartsEnum.DICTIONARY_.name() + CallbackDataPartsEnum.ALL_GRADES_PDF.name())) {
+            System.out.println("Это работает клавиатура Все классы PDF");
+            return getAllDefaultDictionariesPdf(chatId);
+
         }else if (data.equals(CallbackDataPartsEnum.DICTIONARY_.name() + CallbackDataPartsEnum.TEMPLATE.name())) {
             return getTemplate(chatId);
         } else {
@@ -91,7 +98,8 @@ public class CallbackQueryHandler {
 
     private SendMessage getAllDefaultDictionaries(String chatId) {
         try {
-            telegramApiClient.uploadFile(chatId, dictionaryExcelService.getAllDefaultDictionariesWorkbook());
+            ByteArrayResource myResult = dictionaryExcelService.getAllDefaultDictionariesWorkbook();
+            telegramApiClient.uploadFile(chatId, myResult);
         } catch (UserDictionaryNotFoundException e) {
             return new SendMessage(chatId, BotMessageEnum.EXCEPTION_DICTIONARY_NOT_FOUND_MESSAGE.getMessage());
         } catch (Exception e) {
@@ -108,4 +116,31 @@ public class CallbackQueryHandler {
         }
         return null;
     }
+
+    // Добавить конвертацию Pdf в байт код
+    private SendMessage getTemplatePdf(String chatId) {
+        try {
+            telegramApiClient.uploadFile(chatId, dictionaryResourceFileService.getTemplateWorkbookPdf());
+        } catch (Exception e) {
+            return new SendMessage(chatId, BotMessageEnum.EXCEPTION_TEMPLATE_WTF_MESSAGE.getMessage());
+        }
+        return null;
+    }
+
+    // Для новой инлайн клавиатуры
+    private SendMessage getAllDefaultDictionariesPdf(String chatId) {
+        try {
+            System.out.println("Это работает пересылка файла");
+            ByteArrayResource myResult = dictionaryExcelService.getAllDefaultDictionariesWorkbookPdf();
+            telegramApiClient.uploadFile(chatId, myResult);
+        } catch (UserDictionaryNotFoundException e) {
+            System.out.println("catch - EXCEPTION_DICTIONARY_NOT_FOUND_MESSAGE");
+            return new SendMessage(chatId, BotMessageEnum.EXCEPTION_DICTIONARY_NOT_FOUND_MESSAGE.getMessage());
+        } catch (Exception e) {
+            System.out.println("catch - EXCEPTION_DICTIONARY_WTF_MESSAGE");
+            return new SendMessage(chatId, BotMessageEnum.EXCEPTION_DICTIONARY_WTF_MESSAGE.getMessage());
+        }
+        return null;
+    }
+
 }

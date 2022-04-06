@@ -3,7 +3,9 @@ package ru.taksebe.telegram.writeRead.constants.bot;
 /**
  * Текстовые сообщения, посылаемые ботом
  */
+
 public enum BotMessageEnum {
+
     //ответы на команды с клавиатуры
     HELP_MESSAGE("\uD83D\uDC4B Привет, я бот ЗагрузкаИОтправкаМатериалов, и я помогу Вам загрузить материалы и отправить их " +
             "необходимым пользователям.\n\n" +
@@ -45,4 +47,5 @@ public enum BotMessageEnum {
     public String getMessage() {
         return message;
     }
+
 }

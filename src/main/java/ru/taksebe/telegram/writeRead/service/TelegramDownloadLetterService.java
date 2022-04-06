@@ -83,7 +83,6 @@ public class TelegramDownloadLetterService {
 
     };
 
-
     public String receiveEndFile() throws IOException {
         //c:/Books/files/2021/months/11/нацпроекты/СправкаОпросыВЦИОМ/1.3_Справка - опросы ВЦИОМ_220401_095822.pdf
         String path = "c:/Books/files/2021/months/11/нацпроекты/СправкаОпросыВЦИОМ/";
@@ -213,11 +212,6 @@ public class TelegramDownloadLetterService {
     }
 
     public String docxDownLoadRealLetter() throws IOException {
-        //Blank Document
-        XWPFDocument document = new XWPFDocument();
-
-        //Write the Document in file system
-        FileOutputStream out = new FileOutputStream(new File("c:/books/letters/realletter.docx"));
 
         // Data
         String initialPath = "c:/Books/files/";
@@ -251,16 +245,8 @@ public class TelegramDownloadLetterService {
 
                 if(resultExists != 0){
 
-                    XWPFParagraph paragraph = document.createParagraph();
-                    XWPFRun run = paragraph.createRun();
-
                     if(itemNameIndex == 1){
                         // Материалы к оперативному совещанию 20.12.2021
-                        run.setText(
-                                result.get(0).getItem_name() + " " +
-                                        result.get(0).getDate_item_name()
-                        );
-                        run.addCarriageReturn();
 
                         letterForTelegram.append(
                                 result.get(0).getItem_name() + " " +
@@ -270,26 +256,16 @@ public class TelegramDownloadLetterService {
                     }
 
                     // 3. НАЦИОНАЛЬНЫЕ ЦЕЛИ (войти в АРМ Наццели) + войти... - это ссылка
-                    run.setText(
-                            result.get(0).getRubric_number() + ". " +
-                                    result.get(0).getRubric_name() +" (войти в АРМ " +
-                                    result.get(0).getArm_name() + ")"
-                    );
-                    run.addCarriageReturn();
 
                     letterForTelegram.append(
-                            result.get(0).getRubric_number() + ". " +
-                                    result.get(0).getRubric_name() +" (войти в АРМ " +
+                            "\n" +
+                            "*" + result.get(0).getRubric_number() + ". " +
+                                    result.get(0).getRubric_name() +"* (войти в АРМ " +
                                     result.get(0).getArm_name() + ")" +
                             "\n"
                     );
 
                     // Ответственные: справка- А.С. Мальков, таблицы - Н.Н. Баценков
-                    run.setText(
-                            "Ответственные: " +
-                                    result.get(0).getOfficer_for()
-                    );
-                    run.addCarriageReturn();
 
                     letterForTelegram.append(
                             "Ответственные: " +
@@ -299,10 +275,6 @@ public class TelegramDownloadLetterService {
 
                     for (XlsLoadSettingsFilesEntity element : result) {
                         //  3.1 Справка достижение НЦР
-                        run.setText(
-                                element.getBook_name()
-                        );
-                        run.addCarriageReturn();
 
                         letterForTelegram.append(
                                 element.getBook_name() +
@@ -321,26 +293,36 @@ public class TelegramDownloadLetterService {
                                 nameBook
                                     );
 
-                        run.setText(
-                                "myFile - " + myFile
-                        );
-                        run.addCarriageReturn();
+                    }
 
-                        letterForTelegram.append(
-                                "myFile - " + myFile +
-                                        "\n"
+                    for (XlsLoadSettingsFilesEntity element : result) {
+                        //  Отдельно по файлам
+
+                        String nameRubric = element.getSystem_rubric_name();
+                        String nameBook = element.getSystem_file_name();
+                        String timetablePeriod = "months";
+                        String myFile = receiveEndFileParam(
+                                initialPath, //c:/Books/files/
+                                numberYear,
+                                timetablePeriod,
+                                numberMonth,
+                                nameRubric,
+                                nameBook
                         );
+
+//                        letterForTelegram.append(
+//                                myFile + "\n"
+//                        );
+
+                        // Отправить файлы в этот канал
 
                     }
+
                 }
 
             }
 
         }
-
-        document.write(out);
-        out.close();
-        System.out.println("createparagraph.docx written successfully");
 
         String letterForTelegramString = letterForTelegram.toString();
         System.out.println("letterForTelegramString - " + letterForTelegramString);
@@ -349,82 +331,5 @@ public class TelegramDownloadLetterService {
     }
 
 }
-
-//1+    itemName String
-//2+    dateItemName LocalDate (String)
-//3+    armName String
-//4+    armLink String
-//5+    officerFor String
-//6+    rubricNumber int
-//7+    rubricName String
-//8+    bookNumber int
-//9+    bookName String
-//10+    fileName String
-//11+    monthNumber int
-//12+    timetable String
-//13+    typeRecipient String
-//14+    nameRecipient String
-//15+    fioUpload String
-//16+    datetimeUpload LocalDateTime
-//17+    systemRubricName String
-//18+    systemFileName String
-
-//    Id SERIAL PRIMARY KEY,
-//+    item_name VARCHAR(200),
-//+    date_item_name DATE,
-//+    arm_name VARCHAR(200),
-//+    arm_link VARCHAR(200),
-//+    officer_for VARCHAR(200),
-//+    rubric_number INTEGER,
-//+    rubric_name VARCHAR(150),
-//+    book_number INTEGER,
-//+    book_name VARCHAR(200),
-//+    file_name VARCHAR(200),
-//+    month_number INTEGER,
-//+    timetable VARCHAR(100),
-//+    type_recipient VARCHAR(100),
-//+    name_recipient VARCHAR(200),
-//+    fio_upload VARCHAR(200),
-//+    datetime_upload TIMESTAMP,
-//+    system_rubric_name VARCHAR(100),
-//+    system_file_name VARCHAR(100)
-
-//    itemName = "";
-//    dateItemName = LocalDate.now();
-//    armName = "";
-//    armLink = "";
-//    officerFor = "";
-//    rubricNumber = 0;
-//    rubricName = "";
-//    bookNumber = 0;
-//    bookName = "";
-//    fileName = "";
-//    monthNumber = 0;
-//    timetable = "";
-//    typeRecipient = "";
-//    nameRecipient = "";
-//    fioUpload = "";
-//    datetimeUpload = LocalDateTime.now();
-//    systemRubricName = "";
-//    systemFileName = "";
-
-//    itemName
-//    dateItemName
-//    armName
-//    armLink
-//    officerFor
-//    rubricNumber
-//    rubricName
-//    bookNumber
-//    bookName
-//    fileName
-//    monthNumber
-//    timetable
-//    typeRecipient
-//    nameRecipient
-//    fioUpload
-//    datetimeUpload
-//    systemRubricName
-//    systemFileName
 
 

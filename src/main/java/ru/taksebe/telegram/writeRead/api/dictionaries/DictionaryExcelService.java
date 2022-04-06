@@ -3,6 +3,7 @@ package ru.taksebe.telegram.writeRead.api.dictionaries;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.apache.poi.ooxml.POIXMLDocument;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -16,7 +17,9 @@ import ru.taksebe.telegram.writeRead.model.Word;
 import ru.taksebe.telegram.writeRead.utils.FileUtils;
 import ru.taksebe.telegram.writeRead.utils.ResourceLoader;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -84,4 +87,51 @@ public class DictionaryExcelService {
                 .collect(Collectors.toList());
         return defaultDictionaryNames.isEmpty() ? "Personal dictionary" : defaultDictionaryNames.get(0);
     }
+
+    // Для тестирования отправки Pdf вариант 1
+    public ByteArrayResource getAllDefaultDictionariesWorkbookPdfVar1() throws IOException {
+        File file = new File("c:\\Books\\files\\2021\\months\\11\\нацпроекты\\ТабКасИсп\\1.2_НП_касса_2020vs2021_220331_153802.pdf");
+        FileInputStream fis = new FileInputStream(file);
+
+        byte [] data = new byte[(int)file.length()];
+        fis.read(data);
+        System.out.println("data.length - " + data.length);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        data = bos.toByteArray();
+        ByteArrayResource myResultPdf = new ByteArrayResource(data);
+        return myResultPdf;
+
+    }
+
+    public ByteArrayResource getAllDefaultDictionariesWorkbookPdf() throws IOException {
+        List<Dictionary> defaultDictionaryList = Arrays.stream(DictionaryResourcePathEnum.values())
+                .map(resourcePath -> repository.findById(resourcePath.name()).orElseThrow(UserDictionaryNotFoundException::new))
+                .collect(Collectors.toList());
+        ByteArrayResource myResult = createWorkbookByteArrayPdf(defaultDictionaryList, "All grades");
+        return myResult;
+    }
+
+    // Для тестирования работы с Pdf
+    private ByteArrayResource createWorkbookByteArrayPdf(List<Dictionary> dictionaryList, String fileName) throws IOException {
+        XSSFWorkbook workbook = createWorkbookPdf(dictionaryList);
+        // 06.04.22 Замена суффикса с .xlsx на .pdf
+        ByteArrayResource myResult = FileUtils.createOfficeDocumentResourcePdf(workbook, fileName, ".pdf");
+        return myResult;
+    }
+
+    private XSSFWorkbook createWorkbookPdf(List<Dictionary> dictionaryList) throws IOException {
+        XSSFWorkbook workbook = resourceLoader.loadTemplateWorkbookPdf();
+        if (dictionaryList.isEmpty()) {
+            return workbook;
+        }
+
+        List<Word> wordList = wordService.getDictionariesWordListPdf(dictionaryList);
+        wordList.sort(Comparator.comparing(Word::getWord, String::compareToIgnoreCase));
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        writeDictionary(sheet, wordList);
+
+        return workbook;
+    }
+
 }

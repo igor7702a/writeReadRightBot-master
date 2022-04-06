@@ -1,8 +1,9 @@
 telegram:
   api-url: "https://api.telegram.org/"
-  webhook-path: "https://6972-178-176-14-153.ngrok.io"
+  webhook-path: "https://f53e-178-176-14-153.ngrok.io"
   bot-name: "@igor7702testbot"
   bot-token: "5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4"
-# https://api.telegram.org/bot5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4/setWebhook?url=https://9efc-178-176-14-153.ngrok.io
+# https://api.telegram.org/bot5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4/setWebhook?url=https://a2d9-178-176-14-153.ngrok.io
+# https://api.telegram.org/bot5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4/setWebhook?url=https://72c3-178-176-14-153.ngrok.io
 server:
     port: "5000"

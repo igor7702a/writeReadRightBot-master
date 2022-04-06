@@ -8,5 +8,6 @@ public enum CallbackDataPartsEnum {
     DICTIONARY_,
     USER_DICTIONARY,
     TEMPLATE,
-    ALL_GRADES
+    ALL_GRADES,
+    ALL_GRADES_PDF
 }
