@@ -8,6 +8,7 @@ public enum CallbackDataPartsEnum {
     DICTIONARY_,
     USER_DICTIONARY,
     TEMPLATE,
+    TEMPLATE_NEW, // Для одиночного файла Pdf
     ALL_GRADES,
-    ALL_GRADES_PDF
+    ALL_GRADES_PDF // Для множественного файла Pdf
 }

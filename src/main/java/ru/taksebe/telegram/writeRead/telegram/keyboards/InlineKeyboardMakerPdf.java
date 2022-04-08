@@ -19,7 +19,7 @@ public class InlineKeyboardMakerPdf {
         InlineKeyboardMarkup inlineKeyboardMarkup = getInlineMessageButtons(prefix, isUserDictionaryNeed);
         inlineKeyboardMarkup.getKeyboard().add(getButton(
                 "Шаблон Pdf",
-                prefix + CallbackDataPartsEnum.TEMPLATE.name()
+                prefix + CallbackDataPartsEnum.TEMPLATE_NEW.name()
         ));
         return inlineKeyboardMarkup;
     }

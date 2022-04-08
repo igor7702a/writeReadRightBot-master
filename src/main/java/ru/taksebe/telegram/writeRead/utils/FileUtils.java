@@ -34,7 +34,38 @@ public class FileUtils {
         return myResult;
     }
 
+    // Было
+    public static ByteArrayResource createOfficeDocumentResourceNew(POIXMLDocument document, String name, String suffix)
+            throws IOException {
+
+        Path paramreadAllBytes = createOfficeDocumentFile(document, name, suffix);
+
+        byte[] param1 = Files.readAllBytes(paramreadAllBytes);
+
+        ByteArrayResource myResult = new ByteArrayResource(param1) {
+
+            @Override
+            public String getFilename() {
+                return MessageFormat.format("{0}.{1}", name, suffix);
+            }
+        };
+
+        return myResult;
+    }
+
     private static Path createOfficeDocumentFile(POIXMLDocument document, String name, String suffix) throws IOException {
+        File file = File.createTempFile(name, suffix);
+        try (FileOutputStream out = new FileOutputStream(file)) {
+            document.write(out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file.toPath();
+    }
+
+    // Для работы с одиночным файлом pdf
+    // Было
+    private static Path createOfficeDocumentFileNew(POIXMLDocument document, String name, String suffix) throws IOException {
         File file = File.createTempFile(name, suffix);
         try (FileOutputStream out = new FileOutputStream(file)) {
             document.write(out);

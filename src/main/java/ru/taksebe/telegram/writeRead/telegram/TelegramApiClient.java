@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.client.RestTemplate;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.taksebe.telegram.writeRead.exceptions.TelegramFileNotFoundException;
 import ru.taksebe.telegram.writeRead.exceptions.TelegramFileUploadException;
 
@@ -32,6 +35,29 @@ public class TelegramApiClient {
     }
 
     public void uploadFile(String chatId, ByteArrayResource value) {
+
+        LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+        map.add("document", value);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
+
+        try {
+            restTemplate.exchange(
+                    MessageFormat.format("{0}bot{1}/sendDocument?chat_id={2}", URL, botToken, chatId),
+                    HttpMethod.POST,
+                    requestEntity,
+                    String.class);
+        } catch (Exception e) {
+            throw new TelegramFileUploadException();
+        }
+    }
+
+    // Для одиночного файла pdf
+    public void uploadFileNew(String chatId, ByteArrayResource value) {
+
         LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
         map.add("document", value);
 

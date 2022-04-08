@@ -3,11 +3,14 @@ package ru.taksebe.telegram.writeRead.utils;
 import lombok.Getter;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Component;
 import ru.taksebe.telegram.writeRead.constants.resources.DictionaryResourcePathEnum;
 import ru.taksebe.telegram.writeRead.constants.resources.TemplateResourcePathsEnum;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -39,6 +42,15 @@ public class ResourceLoader {
         return myResult;
     }
 
+    // Для работы с одиночным файлом pdf
+    // Заменить на тип файла для Pdf
+    // Было
+    public XSSFWorkbook loadTemplateWorkbookNew() throws IOException {
+        String myTemplateDictionary = TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath();
+        XSSFWorkbook myResult = loadWorkbookNew(myTemplateDictionary);
+        return myResult;
+    }
+
     // Для работы с файлами pdf
     public XSSFWorkbook loadTemplateWorkbookPdf() throws IOException {
         String param1 = TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath();
@@ -66,6 +78,31 @@ public class ResourceLoader {
                                 .getResourceAsStream(filePath)
                 )
         );
+    }
+
+    // Для работы с одиночным файлом pdf
+    // Было
+    private XSSFWorkbook loadWorkbookNew(String filePath) throws IOException {
+        InputStream param1 = Objects.requireNonNull(
+                getClass()
+                        .getClassLoader()
+                        .getResourceAsStream(filePath)
+        );
+
+        XSSFWorkbook myResult = new XSSFWorkbook(param1);
+        return myResult;
+    }
+
+    // Стало
+    private InputStream loadWorkbookNewType(String filePath) throws IOException {
+        InputStream param1 = Objects.requireNonNull(
+                getClass()
+                        .getClassLoader()
+                        .getResourceAsStream(filePath)
+        );
+
+        XSSFWorkbook myResult = new XSSFWorkbook(param1);
+        return param1;
     }
 
     // Для работы с pdf
