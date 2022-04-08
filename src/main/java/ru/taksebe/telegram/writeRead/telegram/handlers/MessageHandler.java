@@ -117,7 +117,8 @@ public class MessageHandler {
 
     // Для новых кнопок
     private SendMessage getStartMessageMaterials(String chatId) throws IOException {
-        SendMessage sendMessage = new SendMessage(chatId, telegramDownloadLetterService.docxDownLoadRealLetter());
+        String myResult = telegramDownloadLetterService.docxDownLoadRealLetter();
+        SendMessage sendMessage = new SendMessage(chatId, myResult);
         System.out.println("chatId - " + chatId);
         sendMessage.enableMarkdown(true);
         sendMessage.setReplyMarkup(replyKeyboardMaker.getMainMenuKeyboard());

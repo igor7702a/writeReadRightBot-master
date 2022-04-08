@@ -41,7 +41,8 @@ public class ResourceLoader {
 
     // Для работы с файлами pdf
     public XSSFWorkbook loadTemplateWorkbookPdf() throws IOException {
-        XSSFWorkbook myResult = loadWorkbookPdf(TemplateResourcePathsEnum.TEMPLATE_DICTIONARY.getFilePath());
+        String param1 = TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath();
+        XSSFWorkbook myResult = loadWorkbookPdf(param1);
         return myResult;
     }
 

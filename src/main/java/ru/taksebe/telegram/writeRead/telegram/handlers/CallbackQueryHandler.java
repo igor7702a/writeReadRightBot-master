@@ -17,6 +17,11 @@ import ru.taksebe.telegram.writeRead.constants.resources.DictionaryResourcePathE
 import ru.taksebe.telegram.writeRead.exceptions.UserDictionaryNotFoundException;
 import ru.taksebe.telegram.writeRead.telegram.TelegramApiClient;
 
+// Для работы с pdf
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ByteArrayOutputStream;
+
 import java.io.IOException;
 
 @Component
@@ -130,9 +135,19 @@ public class CallbackQueryHandler {
     // Для новой инлайн клавиатуры
     private SendMessage getAllDefaultDictionariesPdf(String chatId) {
         try {
+//            File file = new File("c:/books/sample.pdf");
+//            FileInputStream fis = new FileInputStream(file);
+//            byte [] data = new byte[(int)file.length()];
+//            fis.read(data);
+//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//            ByteArrayResource bar = new ByteArrayResource(bos.toByteArray());
+//            data = bos.toByteArray();
+//            telegramApiClient.uploadFile(chatId, bar);
+
             System.out.println("Это работает пересылка файла");
             ByteArrayResource myResult = dictionaryExcelService.getAllDefaultDictionariesWorkbookPdf();
             telegramApiClient.uploadFile(chatId, myResult);
+
         } catch (UserDictionaryNotFoundException e) {
             System.out.println("catch - EXCEPTION_DICTIONARY_NOT_FOUND_MESSAGE");
             return new SendMessage(chatId, BotMessageEnum.EXCEPTION_DICTIONARY_NOT_FOUND_MESSAGE.getMessage());

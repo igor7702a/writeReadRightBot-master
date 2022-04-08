@@ -10,6 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Component;
+import ru.taksebe.telegram.writeRead.constants.resources.DictionaryPdfResourcePathEnum;
 import ru.taksebe.telegram.writeRead.constants.resources.DictionaryResourcePathEnum;
 import ru.taksebe.telegram.writeRead.exceptions.UserDictionaryNotFoundException;
 import ru.taksebe.telegram.writeRead.model.Dictionary;
@@ -105,7 +106,8 @@ public class DictionaryExcelService {
     }
 
     public ByteArrayResource getAllDefaultDictionariesWorkbookPdf() throws IOException {
-        List<Dictionary> defaultDictionaryList = Arrays.stream(DictionaryResourcePathEnum.values())
+        DictionaryPdfResourcePathEnum[] param1 = DictionaryPdfResourcePathEnum.values();
+        List<Dictionary> defaultDictionaryList = Arrays.stream(param1)
                 .map(resourcePath -> repository.findById(resourcePath.name()).orElseThrow(UserDictionaryNotFoundException::new))
                 .collect(Collectors.toList());
         ByteArrayResource myResult = createWorkbookByteArrayPdf(defaultDictionaryList, "All grades");
