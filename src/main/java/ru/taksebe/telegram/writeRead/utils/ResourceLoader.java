@@ -1,14 +1,13 @@
 package ru.taksebe.telegram.writeRead.utils;
 
 import lombok.Getter;
+import org.apache.commons.compress.utils.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Component;
 import ru.taksebe.telegram.writeRead.constants.resources.DictionaryResourcePathEnum;
 import ru.taksebe.telegram.writeRead.constants.resources.TemplateResourcePathsEnum;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -48,6 +47,13 @@ public class ResourceLoader {
     public XSSFWorkbook loadTemplateWorkbookNew() throws IOException {
         String myTemplateDictionary = TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath();
         XSSFWorkbook myResult = loadWorkbookNew(myTemplateDictionary);
+        return myResult;
+    }
+
+    // Стало новый тип
+    public byte[] loadTemplateWorkbookNewType() throws IOException {
+        String myTemplateDictionary = TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath();
+        byte[] myResult = loadWorkbookNewType(myTemplateDictionary);
         return myResult;
     }
 
@@ -94,15 +100,14 @@ public class ResourceLoader {
     }
 
     // Стало
-    private InputStream loadWorkbookNewType(String filePath) throws IOException {
-        InputStream param1 = Objects.requireNonNull(
+    private byte[] loadWorkbookNewType(String filePath) throws IOException {
+        InputStream myInputStream = Objects.requireNonNull(
                 getClass()
                         .getClassLoader()
                         .getResourceAsStream(filePath)
         );
-
-        XSSFWorkbook myResult = new XSSFWorkbook(param1);
-        return param1;
+        byte[] arrayByte = IOUtils.toByteArray(myInputStream);
+        return arrayByte;
     }
 
     // Для работы с pdf

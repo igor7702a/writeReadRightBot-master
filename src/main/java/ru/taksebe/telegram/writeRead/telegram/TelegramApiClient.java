@@ -77,6 +77,28 @@ public class TelegramApiClient {
         }
     }
 
+    // Для одиночного файла pdf
+    public void uploadFileNewType(String chatId, ByteArrayResource value) {
+
+        LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+        map.add("document", value);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
+
+        try {
+            restTemplate.exchange(
+                    MessageFormat.format("{0}bot{1}/sendDocument?chat_id={2}", URL, botToken, chatId),
+                    HttpMethod.POST,
+                    requestEntity,
+                    String.class);
+        } catch (Exception e) {
+            throw new TelegramFileUploadException();
+        }
+    }
+
     public File getDocumentFile(String fileId) {
         try {
             return restTemplate.execute(

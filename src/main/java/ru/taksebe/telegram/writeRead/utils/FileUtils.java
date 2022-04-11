@@ -53,6 +53,25 @@ public class FileUtils {
         return myResult;
     }
 
+    // Стало
+    public static ByteArrayResource createOfficeDocumentResourceNewType(byte[] document, String name, String suffix)
+            throws IOException {
+
+        Path paramreadAllBytes = createOfficeDocumentFileNewType(document, name, suffix);
+
+        byte[] param1 = Files.readAllBytes(paramreadAllBytes);
+
+        ByteArrayResource myResult = new ByteArrayResource(param1) {
+
+            @Override
+            public String getFilename() {
+                return MessageFormat.format("{0}.{1}", name, suffix);
+            }
+        };
+
+        return myResult;
+    }
+
     private static Path createOfficeDocumentFile(POIXMLDocument document, String name, String suffix) throws IOException {
         File file = File.createTempFile(name, suffix);
         try (FileOutputStream out = new FileOutputStream(file)) {
@@ -72,6 +91,19 @@ public class FileUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return file.toPath();
+    }
+
+    private static Path createOfficeDocumentFileNewType(byte[] document, String name, String suffix) throws IOException {
+        File file = File.createTempFile(name, suffix);
+        // Похоже здесь в файл дописывается информация об имени и расширении файла
+        // Попробовать получить двоичный код и добавить в документ (в начало или в конец)
+        // Или просто убрать документ - т.к. он ничего не делает похоже, возвращается только файл
+//        try (FileOutputStream out = new FileOutputStream(file)) {
+//            document.write(out);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         return file.toPath();
     }
 

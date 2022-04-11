@@ -131,8 +131,8 @@ public class CallbackQueryHandler {
     // Для одиночного pdf
     private SendMessage getTemplateNew(String chatId) {
         try {
-            ByteArrayResource myResult = dictionaryResourceFileService.getTemplateWorkbookNew();
-            telegramApiClient.uploadFileNew(chatId, myResult);
+            ByteArrayResource myResult = dictionaryResourceFileService.getTemplateWorkbookNewType();
+            telegramApiClient.uploadFileNewType(chatId, myResult);
         } catch (Exception e) {
             return new SendMessage(chatId, BotMessageEnum.EXCEPTION_TEMPLATE_WTF_MESSAGE.getMessage());
         }

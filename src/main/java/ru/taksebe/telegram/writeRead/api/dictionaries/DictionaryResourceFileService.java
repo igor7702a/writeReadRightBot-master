@@ -30,9 +30,20 @@ public class DictionaryResourceFileService {
     // Для одиночного файла Pdf
     // Было
     public ByteArrayResource getTemplateWorkbookNew() throws IOException {
-        // XSSFWorkbook - надо заменить на тип для Pdf
+
         XSSFWorkbook myResourceLoader = resourceLoader.loadTemplateWorkbookNew();
         ByteArrayResource myResult = FileUtils.createOfficeDocumentResourceNew(
+                myResourceLoader,
+                "TemplatePdf", // Здесь должно быть имя реального файла
+                "pdf");
+        return myResult;
+    }
+
+    // Стало новый тип
+    public ByteArrayResource getTemplateWorkbookNewType() throws IOException {
+
+        byte[] myResourceLoader = resourceLoader.loadTemplateWorkbookNewType();
+        ByteArrayResource myResult = FileUtils.createOfficeDocumentResourceNewType(
                 myResourceLoader,
                 "TemplatePdf", // Здесь должно быть имя реального файла
                 "pdf");
