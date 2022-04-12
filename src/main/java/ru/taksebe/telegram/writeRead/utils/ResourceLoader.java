@@ -64,9 +64,28 @@ public class ResourceLoader {
     }
 
     // Только для PDF
-    public PDDocument loadTemplateWorkbookOnlyPDF() throws IOException {
-        String myTemplateDictionary = TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath();
-        PDDocument myResult = loadWorkbookOnlyPDF(myTemplateDictionary);
+    public PDDocument loadTemplateWorkbookOnlyPDF(
+        String chatId,
+        String token,
+        String upPath,
+        String fullPath,
+        String file_name,
+        String file_suffix,
+        String file_id
+
+    ) throws IOException {
+        //String myTemplateDictionary = TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath();
+        String myTemplateDictionary = fullPath;
+                PDDocument myResult = loadWorkbookOnlyPDF(
+                myTemplateDictionary
+                    ,chatId,
+                    token,
+                    upPath,
+                    fullPath,
+                    file_name,
+                    file_suffix,
+                    file_id
+        );
         return myResult;
     }
 
@@ -137,10 +156,19 @@ public class ResourceLoader {
     }
 
     // Только для PDF
-    private PDDocument loadWorkbookOnlyPDF(String filePath) throws IOException {
-        InputStream inputStream = getClass()
-                .getClassLoader()
-                .getResourceAsStream(TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath());
+    private PDDocument loadWorkbookOnlyPDF(
+            String filePath
+            ,String chatId,
+            String token,
+            String upPath,
+            String fullPath,
+            String file_name,
+            String file_suffix,
+            String file_id
+    ) throws IOException {
+
+        File initialFile = new File(fullPath);
+        InputStream inputStream = new FileInputStream(initialFile);
 
         OutputStream outputStream = new FileOutputStream(new File("C:/books/temp.pdf"));
 
@@ -171,17 +199,3 @@ public class ResourceLoader {
         );
     }
 }
-
-//import java.io.File;
-//        import java.io.FileInputStream;
-//        import java.io.ByteArrayOutputStream;
-//public class PdfToByteArray {
-//    public static void main(String args[]) throws Exception {
-//        File file = new File("sample.pdf");
-//        FileInputStream fis = new FileInputStream(file);
-//        byte [] data = new byte[(int)file.length()];
-//        fis.read(data);
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        data = bos.toByteArray();
-//    }
-//}

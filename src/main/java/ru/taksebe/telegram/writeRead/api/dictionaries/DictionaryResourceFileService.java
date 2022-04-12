@@ -62,13 +62,35 @@ public class DictionaryResourceFileService {
     }
 
     // Стало новый тип Только PDF
-    public ByteArrayResource getTemplateWorkbookOnlyPDF() throws IOException {
+    public ByteArrayResource getTemplateWorkbookOnlyPDF(
+            String chatId,
+            String token,
+            String upPath,
+            String fullPath,
+            String file_name,
+            String file_suffix,
+            String file_id
+    ) throws IOException {
 
-        PDDocument myResourceLoader = resourceLoader.loadTemplateWorkbookOnlyPDF();
+        PDDocument myResourceLoader = resourceLoader.loadTemplateWorkbookOnlyPDF(
+                chatId,
+                token,
+                upPath,
+                fullPath,
+                file_name,
+                file_suffix,
+                file_id
+        );
         ByteArrayResource myResult = FileUtils.createOfficeDocumentResourceOnlyPDF(
                 myResourceLoader,
-                "TemplatePdf", // Здесь должно быть имя реального файла
-                "pdf");
+                file_name, // Здесь должно быть имя реального файла для отображения в телеграм
+                file_suffix,
+                chatId,
+                token,
+                upPath,
+                fullPath,
+                file_id
+                );
         return myResult;
     }
 

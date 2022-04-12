@@ -99,7 +99,16 @@ public class TelegramApiClient {
         }
     }
 
-    public void uploadFileOnlyPDF(String chatId, ByteArrayResource value) {
+    public void uploadFileOnlyPDF(
+            String chatId,
+            ByteArrayResource value
+            ,String token,
+            String upPath,
+            String fullPath,
+            String file_name,
+            String file_suffix,
+            String file_id
+    ) {
 
         LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
         map.add("document", value);

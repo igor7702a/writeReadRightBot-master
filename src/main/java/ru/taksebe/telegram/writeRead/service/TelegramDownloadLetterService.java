@@ -256,29 +256,35 @@ public class TelegramDownloadLetterService {
                     }
 
                     // 3. НАЦИОНАЛЬНЫЕ ЦЕЛИ (войти в АРМ Наццели) + войти... - это ссылка
-
+                    StringBuilder sbArm = new StringBuilder(" (войти в АРМ ");
+                    sbArm.append(result.get(0).getArm_name());
+                    sbArm.append(")");
+                    String stArm = sbArm.toString();
+                    String urlArm = "https://t.me/";
                     letterForTelegram.append(
                             "\n" +
                             "*" + result.get(0).getRubric_number() + ". " +
-                                    result.get(0).getRubric_name() +"* (войти в АРМ " +
-                                    result.get(0).getArm_name() + ")" +
+                                    result.get(0).getRubric_name() +"*" +
+                            "[" + stArm +"](" + urlArm + ")" +
                             "\n"
                     );
 
                     // Ответственные: справка- А.С. Мальков, таблицы - Н.Н. Баценков
 
                     letterForTelegram.append(
+                                    "_" + // Курсив начало markdown
                             "Ответственные: " +
                                     result.get(0).getOfficer_for() +
+                                    "_" + // Курсив окончание markdown
                                     "\n"
                     );
 
                     for (XlsLoadSettingsFilesEntity element : result) {
                         //  3.1 Справка достижение НЦР
-
                         letterForTelegram.append(
+                                "\u25FD" + // маленький белый квадрат
                                 element.getBook_name() +
-                                        "\n"
+                                "\n"
                         );
 
                         String nameRubric = element.getSystem_rubric_name();

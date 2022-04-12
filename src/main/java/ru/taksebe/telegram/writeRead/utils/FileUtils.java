@@ -69,7 +69,16 @@ public class FileUtils {
     }
 
     // Только PDF
-    public static ByteArrayResource createOfficeDocumentResourceOnlyPDF(PDDocument document, String name, String suffix)
+    public static ByteArrayResource createOfficeDocumentResourceOnlyPDF(
+            PDDocument document,
+            String name,
+            String suffix
+            ,String chatId,
+            String token,
+            String upPath,
+            String fullPath,
+            String file_id
+    )
             throws IOException {
         Path paramreadAllBytes = createOfficeDocumentFileOnlyPDF(document, name, suffix);
         byte[] param1 = Files.readAllBytes(paramreadAllBytes);

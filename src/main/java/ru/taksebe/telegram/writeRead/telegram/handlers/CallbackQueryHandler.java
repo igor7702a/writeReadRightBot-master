@@ -138,7 +138,7 @@ public class CallbackQueryHandler {
         return null;
     }
 
-    // Для одиночного pdf
+    // PowerPoint
     private SendMessage getTemplatePPTX(String chatId) {
         try {
             ByteArrayResource myResult = dictionaryResourceFileService.getTemplateWorkbookNewType();
@@ -148,11 +148,47 @@ public class CallbackQueryHandler {
         }
         return null;
     }
-    // Для одиночного pdf
+    // Для одиночного pdf - проверка пересылки с клавиатуры + инлайн
     private SendMessage getTemplateNew(String chatId) {
         try {
             ByteArrayResource myResult = dictionaryResourceFileService.getTemplateWorkbookNewType();
             telegramApiClient.uploadFileNewType(chatId, myResult);
+        } catch (Exception e) {
+            return new SendMessage(chatId, BotMessageEnum.EXCEPTION_TEMPLATE_WTF_MESSAGE.getMessage());
+        }
+        return null;
+    }
+
+    // Только для PDF - есть тест
+    public SendMessage getTemplateOnlyPDF(
+            String chatId,
+            String token,
+            String upPath,
+            String fullPath,
+            String file_name,
+            String file_suffix,
+            String file_id
+    ) {
+        try {
+            ByteArrayResource myResult = dictionaryResourceFileService.getTemplateWorkbookOnlyPDF(
+                        chatId,
+                        token,
+                        upPath,
+                        fullPath,
+                        file_name,
+                        file_suffix,
+                        file_id
+            );
+            telegramApiClient.uploadFileOnlyPDF(
+                    chatId,
+                    myResult,
+                    token,
+                    upPath,
+                    fullPath,
+                    file_name,
+                    file_suffix,
+                    file_id
+            );
         } catch (Exception e) {
             return new SendMessage(chatId, BotMessageEnum.EXCEPTION_TEMPLATE_WTF_MESSAGE.getMessage());
         }
