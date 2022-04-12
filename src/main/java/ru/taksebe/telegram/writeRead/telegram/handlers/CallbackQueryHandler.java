@@ -42,13 +42,17 @@ public class CallbackQueryHandler {
         String data = buttonQuery.getData();
 
         if (data.equals(CallbackDataPartsEnum.TASK_.name() + CallbackDataPartsEnum.USER_DICTIONARY.name())) {
+            System.out.println("Это работает кнопка - " + "CallbackDataPartsEnum.USER_DICTIONARY");
             return getDictionaryTasks(chatId, chatId, "personal dictionary");
         } else if (data.equals(CallbackDataPartsEnum.TASK_.name() + CallbackDataPartsEnum.ALL_GRADES.name())) {
+            System.out.println("Это работает кнопка - " + "CallbackDataPartsEnum.ALL_GRADES");
             return getAllDictionaryTasks(chatId);
         } else if (data.equals(CallbackDataPartsEnum.DICTIONARY_.name() + CallbackDataPartsEnum.USER_DICTIONARY.name())) {
+            System.out.println("Это работает кнопка - " + "CallbackDataPartsEnum.DICTIONARY_");
             System.out.println("Это работает кнопка - " + CallbackDataPartsEnum.DICTIONARY_.name());
             return getDictionary(chatId, chatId);
         } else if (data.equals(CallbackDataPartsEnum.DICTIONARY_.name() + CallbackDataPartsEnum.ALL_GRADES.name())) {
+            System.out.println("Это работает кнопка - " + "CallbackDataPartsEnum.ALL_GRADES");
             return getAllDefaultDictionaries(chatId);
 
         // Для новых инлайн клавиатур
@@ -57,10 +61,12 @@ public class CallbackQueryHandler {
             return getAllDefaultDictionariesPdf(chatId);
         // Одиночного pdf файла
         }else if (data.equals(CallbackDataPartsEnum.DICTIONARY_.name() + CallbackDataPartsEnum.TEMPLATE_NEW.name())) {
+            System.out.println("Это работает кнопка - " + "CallbackDataPartsEnum.TEMPLATE_NEW");
             System.out.println("Это работает кнопка - " + CallbackDataPartsEnum.TEMPLATE_NEW.name());
             SendMessage myResult = getTemplateNew(chatId);
             return myResult;
         } else {
+            System.out.println("Это работает кнопка - " + "handleDefaultDictionary");
             return handleDefaultDictionary(chatId, data);
         }
     }
@@ -70,17 +76,21 @@ public class CallbackQueryHandler {
             DictionaryResourcePathEnum resourcePath = DictionaryResourcePathEnum.valueOf(
                     data.substring(CallbackDataPartsEnum.TASK_.name().length())
             );
+            System.out.println("Это работает кнопка - " + "CallbackDataPartsEnum.TASK_.name");
             return getDictionaryTasks(chatId, resourcePath.name(), resourcePath.getFileName());
         } else if (data.startsWith(CallbackDataPartsEnum.DICTIONARY_.name())) {
+            System.out.println("Это работает кнопка - " + "CallbackDataPartsEnum.DICTIONARY_.name");
             return getDictionary(chatId, data.substring(CallbackDataPartsEnum.DICTIONARY_.name().length()));
         } else {
+            System.out.println("Это работает кнопка - " + "BotMessageEnum.EXCEPTION_BAD_BUTTON_NAME_MESSAGE");
             return new SendMessage(chatId, BotMessageEnum.EXCEPTION_BAD_BUTTON_NAME_MESSAGE.getMessage());
         }
     }
 
     private SendMessage getDictionaryTasks(String chatId, String dictionaryId, String fileName) throws IOException {
         try {
-            telegramApiClient.uploadFile(chatId, taskService.getTasksDocument(dictionaryId, fileName));
+            ByteArrayResource param1 = taskService.getTasksDocument(dictionaryId, fileName);
+            telegramApiClient.uploadFile(chatId, param1);
         } catch (Exception e) {
             return new SendMessage(chatId, BotMessageEnum.EXCEPTION_TASKS_WTF_MESSAGE.getMessage());
         }
@@ -129,6 +139,16 @@ public class CallbackQueryHandler {
     }
 
     // Для одиночного pdf
+    private SendMessage getTemplatePPTX(String chatId) {
+        try {
+            ByteArrayResource myResult = dictionaryResourceFileService.getTemplateWorkbookNewType();
+            telegramApiClient.uploadFileNewType(chatId, myResult);
+        } catch (Exception e) {
+            return new SendMessage(chatId, BotMessageEnum.EXCEPTION_TEMPLATE_WTF_MESSAGE.getMessage());
+        }
+        return null;
+    }
+    // Для одиночного pdf
     private SendMessage getTemplateNew(String chatId) {
         try {
             ByteArrayResource myResult = dictionaryResourceFileService.getTemplateWorkbookNewType();
@@ -152,16 +172,6 @@ public class CallbackQueryHandler {
     // Для новой инлайн клавиатуры
     private SendMessage getAllDefaultDictionariesPdf(String chatId) {
         try {
-            // Var1
-//            File file = new File("c:/books/sample.pdf");
-//            FileInputStream fis = new FileInputStream(file);
-//            byte [] data = new byte[(int)file.length()];
-//            fis.read(data);
-//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//            ByteArrayResource bar = new ByteArrayResource(bos.toByteArray());
-//            data = bos.toByteArray();
-//            telegramApiClient.uploadFile(chatId, bar);
-
             System.out.println("Это работает пересылка файла");
             ByteArrayResource myResult = dictionaryExcelService.getAllDefaultDictionariesWorkbookPdf();
             telegramApiClient.uploadFile(chatId, myResult);

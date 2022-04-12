@@ -1,10 +1,10 @@
 package ru.taksebe.telegram.writeRead.utils;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.poi.ooxml.POIXMLDocument;
 import org.springframework.core.io.ByteArrayResource;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -54,21 +54,31 @@ public class FileUtils {
     }
 
     // Стало
-    public static ByteArrayResource createOfficeDocumentResourceNewType(byte[] document, String name, String suffix)
+    public static ByteArrayResource createOfficeDocumentResourceNewType(PDDocument document, String name, String suffix)
             throws IOException {
 
         Path paramreadAllBytes = createOfficeDocumentFileNewType(document, name, suffix);
-
         byte[] param1 = Files.readAllBytes(paramreadAllBytes);
-
         ByteArrayResource myResult = new ByteArrayResource(param1) {
-
             @Override
             public String getFilename() {
                 return MessageFormat.format("{0}.{1}", name, suffix);
             }
         };
+        return myResult;
+    }
 
+    // Только PDF
+    public static ByteArrayResource createOfficeDocumentResourceOnlyPDF(PDDocument document, String name, String suffix)
+            throws IOException {
+        Path paramreadAllBytes = createOfficeDocumentFileOnlyPDF(document, name, suffix);
+        byte[] param1 = Files.readAllBytes(paramreadAllBytes);
+        ByteArrayResource myResult = new ByteArrayResource(param1) {
+            @Override
+            public String getFilename() {
+                return MessageFormat.format("{0}.{1}", name, suffix);
+            }
+        };
         return myResult;
     }
 
@@ -94,16 +104,24 @@ public class FileUtils {
         return file.toPath();
     }
 
-    private static Path createOfficeDocumentFileNewType(byte[] document, String name, String suffix) throws IOException {
+    private static Path createOfficeDocumentFileNewType(PDDocument document, String name, String suffix) throws IOException {
         File file = File.createTempFile(name, suffix);
-        // Похоже здесь в файл дописывается информация об имени и расширении файла
-        // Попробовать получить двоичный код и добавить в документ (в начало или в конец)
-        // Или просто убрать документ - т.к. он ничего не делает похоже, возвращается только файл
-//        try (FileOutputStream out = new FileOutputStream(file)) {
-//            document.write(out);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try (FileOutputStream out = new FileOutputStream(file)) {
+            document.save(out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file.toPath();
+    }
+
+    // Только для PDF
+    private static Path createOfficeDocumentFileOnlyPDF(PDDocument document, String name, String suffix) throws IOException {
+        File file = File.createTempFile(name, suffix);
+        try (FileOutputStream out = new FileOutputStream(file)) {
+            document.save(out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return file.toPath();
     }
 

@@ -2,14 +2,18 @@ package ru.taksebe.telegram.writeRead.utils;
 
 import lombok.Getter;
 import org.apache.commons.compress.utils.IOUtils;
+import org.apache.pdfbox.cos.COSDocument;
+import org.apache.pdfbox.io.MemoryUsageSetting;
+import org.apache.pdfbox.io.ScratchFile;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.poi.poifs.crypt.dsig.SignaturePart;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.stereotype.Component;
 import ru.taksebe.telegram.writeRead.constants.resources.DictionaryResourcePathEnum;
 import ru.taksebe.telegram.writeRead.constants.resources.TemplateResourcePathsEnum;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -21,12 +25,14 @@ import java.util.Objects;
 public class ResourceLoader {
     @Getter
     private final Map<String, XSSFWorkbook> defaultDictionaries;
+    private SignaturePart signatureObjPAdES;
 
     public ResourceLoader() throws IOException {
         this.defaultDictionaries = loadAllDefaultDictionaryWorkbooks();
     }
 
     public XWPFDocument loadTemplateDocument() throws IOException {
+
         return new XWPFDocument(
                 Objects.requireNonNull(
                         getClass()
@@ -51,9 +57,16 @@ public class ResourceLoader {
     }
 
     // Стало новый тип
-    public byte[] loadTemplateWorkbookNewType() throws IOException {
+    public PDDocument loadTemplateWorkbookNewType() throws IOException {
         String myTemplateDictionary = TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath();
-        byte[] myResult = loadWorkbookNewType(myTemplateDictionary);
+        PDDocument myResult = loadWorkbookNewType(myTemplateDictionary);
+        return myResult;
+    }
+
+    // Только для PDF
+    public PDDocument loadTemplateWorkbookOnlyPDF() throws IOException {
+        String myTemplateDictionary = TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath();
+        PDDocument myResult = loadWorkbookOnlyPDF(myTemplateDictionary);
         return myResult;
     }
 
@@ -100,14 +113,51 @@ public class ResourceLoader {
     }
 
     // Стало
-    private byte[] loadWorkbookNewType(String filePath) throws IOException {
-        InputStream myInputStream = Objects.requireNonNull(
-                getClass()
-                        .getClassLoader()
-                        .getResourceAsStream(filePath)
-        );
-        byte[] arrayByte = IOUtils.toByteArray(myInputStream);
-        return arrayByte;
+    private PDDocument loadWorkbookNewType(String filePath) throws IOException {
+        InputStream inputStream = getClass()
+                .getClassLoader()
+                .getResourceAsStream(TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath());
+
+        OutputStream outputStream = new FileOutputStream(new File("C:/books/temp.pdf"));
+
+        byte[] buffer = new byte[1000];
+        while (inputStream.available() > 0) //пока есть еще непрочитанные байты
+        {
+            // прочитать очередной блок байт в переменную buffer и реальное количество в count
+            int count = inputStream.read(buffer);
+            outputStream.write(buffer, 0, count); //записать блок(часть блока) во второй поток
+        }
+
+        inputStream.close(); //закрываем оба потока. Они больше не нужны.
+        outputStream.close();
+
+        PDDocument myResult = PDDocument.load(new File("C:/books/temp.pdf"));
+
+        return myResult;
+    }
+
+    // Только для PDF
+    private PDDocument loadWorkbookOnlyPDF(String filePath) throws IOException {
+        InputStream inputStream = getClass()
+                .getClassLoader()
+                .getResourceAsStream(TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath());
+
+        OutputStream outputStream = new FileOutputStream(new File("C:/books/temp.pdf"));
+
+        byte[] buffer = new byte[1000];
+        while (inputStream.available() > 0) //пока есть еще непрочитанные байты
+        {
+            // прочитать очередной блок байт в переменную buffer и реальное количество в count
+            int count = inputStream.read(buffer);
+            outputStream.write(buffer, 0, count); //записать блок(часть блока) во второй поток
+        }
+
+        inputStream.close(); //закрываем оба потока. Они больше не нужны.
+        outputStream.close();
+
+        PDDocument myResult = PDDocument.load(new File("C:/books/temp.pdf"));
+
+        return myResult;
     }
 
     // Для работы с pdf

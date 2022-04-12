@@ -2,6 +2,7 @@ package ru.taksebe.telegram.writeRead.api.dictionaries;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Component;
 import ru.taksebe.telegram.writeRead.utils.FileUtils;
@@ -27,6 +28,16 @@ public class DictionaryResourceFileService {
         return myResult;
     }
 
+    // Для PPTX
+    public ByteArrayResource getTemplateWorkbookPPTX() throws IOException {
+        XSSFWorkbook myResourceLoader = resourceLoader.loadTemplateWorkbook();
+        ByteArrayResource myResult = FileUtils.createOfficeDocumentResource(
+                myResourceLoader,
+                "TemplatePptx",
+                "pptx");
+        return myResult;
+    }
+
     // Для одиночного файла Pdf
     // Было
     public ByteArrayResource getTemplateWorkbookNew() throws IOException {
@@ -42,8 +53,19 @@ public class DictionaryResourceFileService {
     // Стало новый тип
     public ByteArrayResource getTemplateWorkbookNewType() throws IOException {
 
-        byte[] myResourceLoader = resourceLoader.loadTemplateWorkbookNewType();
+        PDDocument myResourceLoader = resourceLoader.loadTemplateWorkbookNewType();
         ByteArrayResource myResult = FileUtils.createOfficeDocumentResourceNewType(
+                myResourceLoader,
+                "TemplatePdf", // Здесь должно быть имя реального файла
+                "pdf");
+        return myResult;
+    }
+
+    // Стало новый тип Только PDF
+    public ByteArrayResource getTemplateWorkbookOnlyPDF() throws IOException {
+
+        PDDocument myResourceLoader = resourceLoader.loadTemplateWorkbookOnlyPDF();
+        ByteArrayResource myResult = FileUtils.createOfficeDocumentResourceOnlyPDF(
                 myResourceLoader,
                 "TemplatePdf", // Здесь должно быть имя реального файла
                 "pdf");
@@ -106,13 +128,3 @@ public class DictionaryResourceFileService {
         return myResultPdf;
     }
 }
-
-//    public static void main(String args[]) throws Exception {
-//        File file = new File("sample.pdf");
-//        FileInputStream fis = new FileInputStream(file);
-//        byte [] data = new byte[(int)file.length()];
-//        fis.read(data);
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        data = bos.toByteArray();
-//    }
-//}
