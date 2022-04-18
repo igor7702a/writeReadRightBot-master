@@ -5,6 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.taksebe.telegram.writeRead.constants.bot.CallbackDataPartsEnum;
 import ru.taksebe.telegram.writeRead.constants.resources.DictionaryResourcePathEnum;
+import ru.taksebe.telegram.writeRead.constants.resources.DictionaryResourcePathEnumPDF;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,23 +28,26 @@ public class InlineKeyboardMakerPdf {
     public InlineKeyboardMarkup getInlineMessageButtons(String prefix, boolean isUserDictionaryNeed) {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
 
-        for (DictionaryResourcePathEnum dictionary : DictionaryResourcePathEnum.values()) {
-            rowList.add(getButton(
-                    dictionary.getButtonName(),
-                    prefix + dictionary.name()
-            ));
+        for (DictionaryResourcePathEnumPDF dictionary : DictionaryResourcePathEnumPDF.values()) {
+            String myDictionaryButtonName = dictionary.getButtonName();
+            String myDictionaryName = dictionary.name();
+
+            List<InlineKeyboardButton> myGetButton = getButton(myDictionaryButtonName,prefix
+                    + myDictionaryName);
+
+            rowList.add(myGetButton);
         }
 
         if (!rowList.isEmpty()) {
             rowList.add(getButton(
-                    "Все классы Pdf",
+                    "Все файлы Pdf",
                     prefix + CallbackDataPartsEnum.ALL_GRADES_PDF.name()
             ));
         }
 
         if (isUserDictionaryNeed) {
             rowList.add(getButton(
-                    "Ваш словарь Pdf",
+                    "Ваш файл Pdf",
                     prefix + CallbackDataPartsEnum.USER_DICTIONARY.name()
             ));
         }

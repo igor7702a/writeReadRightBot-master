@@ -20,6 +20,7 @@ import ru.taksebe.telegram.writeRead.telegram.TelegramApiClient;
 import ru.taksebe.telegram.writeRead.telegram.keyboards.InlineKeyboardMaker;
 import ru.taksebe.telegram.writeRead.telegram.keyboards.InlineKeyboardMakerPdf;
 import ru.taksebe.telegram.writeRead.telegram.keyboards.ReplyKeyboardMaker;
+import ru.taksebe.telegram.writeRead.telegram.handlers.CallbackQueryHandler;
 
 import ru.taksebe.telegram.writeRead.service.TelegramDownloadLetterService;
 
@@ -31,6 +32,8 @@ import java.io.IOException;
 public class MessageHandler {
     @Autowired
     TelegramDownloadLetterService telegramDownloadLetterService;
+    @Autowired
+    CallbackQueryHandler callbackQueryHandler;
 
     DictionaryAdditionService dictionaryAdditionService;
     DictionaryExcelService dictionaryExcelService;
@@ -52,16 +55,22 @@ public class MessageHandler {
         if (inputText == null) {
             throw new IllegalArgumentException();
         } else if (inputText.equals("/start")) {
-            return getStartMessage(chatId);
+            SendMessage myResult = getStartMessage(chatId);
+        return myResult;
 
             // new buttons for materials
         } else if (inputText.equals(ButtonNameEnum.UPLOAD_MATERIALS_BUTTON.getButtonName())) {
             System.out.println("Это работает новая кнопка!");
             return getStartMessageMaterials(chatId);
+
+        } else if (inputText.equals(ButtonNameEnum.UPLOAD_MATERIALS_WITH_FILES_BUTTON.getButtonName())) {
+            System.out.println("Это работает новая кнопка рассылки материалов с файлами!");
+            SendMessage sendResult = getStartMessageMaterialsWithFiles(chatId);
+            return sendResult;
+
         } else if (inputText.equals(ButtonNameEnum.UPLOAD_FILES_BUTTON.getButtonName())) {
             System.out.println("Это работает новая кнопка Тест пересылки файлов!");
             return getDictionaryMessageFiles(chatId);
-
         } else if (inputText.equals(ButtonNameEnum.GET_TASKS_BUTTON.getButtonName())) {
             return getTasksMessage(chatId);
         } else if (inputText.equals(ButtonNameEnum.GET_DICTIONARY_BUTTON.getButtonName())) {
@@ -116,12 +125,32 @@ public class MessageHandler {
     }
 
     // Для новых кнопок
+    // Получаем текстовое письмо без пересылки файлов
     private SendMessage getStartMessageMaterials(String chatId) throws IOException {
         String myResult = telegramDownloadLetterService.docxDownLoadRealLetter();
         SendMessage sendMessage = new SendMessage(chatId, myResult);
         System.out.println("chatId - " + chatId);
-        sendMessage.enableMarkdown(true);
+        sendMessage.setParseMode("HTML");
         sendMessage.setReplyMarkup(replyKeyboardMaker.getMainMenuKeyboard());
+        String myParseMode = sendMessage.getParseMode();
+
+        return sendMessage;
+    }
+
+    // Получаем текстовое письмо + пересылкa файлов - на новой кнопке
+    private SendMessage getStartMessageMaterialsWithFiles(String chatId) throws IOException {
+        // Цикл по пунктам 1-3, получить запросом количество пунктов, организовать цикл по пуктам
+        // В цикле получить сообщение и список файлов и отправить.
+        // Получаем текст первой части сообщения
+        // Пересылка сообщения в телеграм
+
+        String myResult = telegramDownloadLetterService.docxDownLoadRealLetterWithFiles();
+        SendMessage sendMessage = new SendMessage(chatId, myResult);
+        System.out.println("chatId - " + chatId);
+        sendMessage.setParseMode("HTML");
+        sendMessage.setReplyMarkup(replyKeyboardMaker.getMainMenuKeyboard());
+        String myParseMode = sendMessage.getParseMode();
+
         return sendMessage;
     }
 

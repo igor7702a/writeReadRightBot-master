@@ -17,8 +17,8 @@ public enum ButtonNameEnum {
 
     //Новые кнопки для рассылки материалов
     UPLOAD_MATERIALS_BUTTON("Тест рассылки материалов"),
+    UPLOAD_MATERIALS_WITH_FILES_BUTTON("Тест рассылки материалов c файлами"),
     UPLOAD_FILES_BUTTON("Тест рассылки файлов");
-    ;
 
     private final String buttonName;
 

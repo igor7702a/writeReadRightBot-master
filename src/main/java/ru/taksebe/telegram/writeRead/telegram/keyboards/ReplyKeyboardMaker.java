@@ -17,15 +17,16 @@ public class ReplyKeyboardMaker {
 
     public ReplyKeyboardMarkup getMainMenuKeyboard() {
         KeyboardRow row1 = new KeyboardRow();
-        row1.add(new KeyboardButton(ButtonNameEnum.GET_TASKS_BUTTON.getButtonName()));
-        row1.add(new KeyboardButton(ButtonNameEnum.GET_DICTIONARY_BUTTON.getButtonName()));
+        //row1.add(new KeyboardButton(ButtonNameEnum.GET_TASKS_BUTTON.getButtonName()));
+        //row1.add(new KeyboardButton(ButtonNameEnum.GET_DICTIONARY_BUTTON.getButtonName()));
 
         KeyboardRow row2 = new KeyboardRow();
-        row2.add(new KeyboardButton(ButtonNameEnum.UPLOAD_DICTIONARY_BUTTON.getButtonName()));
+        //row2.add(new KeyboardButton(ButtonNameEnum.UPLOAD_DICTIONARY_BUTTON.getButtonName()));
         row2.add(new KeyboardButton(ButtonNameEnum.HELP_BUTTON.getButtonName()));
 
         KeyboardRow row3 = new KeyboardRow();
         row3.add(new KeyboardButton(ButtonNameEnum.UPLOAD_MATERIALS_BUTTON.getButtonName()));
+        row3.add(new KeyboardButton(ButtonNameEnum.UPLOAD_MATERIALS_WITH_FILES_BUTTON.getButtonName()));
         row3.add(new KeyboardButton(ButtonNameEnum.UPLOAD_FILES_BUTTON.getButtonName()));
 
         List<KeyboardRow> keyboard = new ArrayList<>();

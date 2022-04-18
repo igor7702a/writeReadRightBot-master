@@ -14,6 +14,7 @@ public class WebhookController {
 
     @PostMapping("/")
     public BotApiMethod<?> onUpdateReceived(@RequestBody Update update) {
-        return writeReadBot.onWebhookUpdateReceived(update);
+        BotApiMethod<?> myResult = writeReadBot.onWebhookUpdateReceived(update);
+        return myResult;
     }
 }

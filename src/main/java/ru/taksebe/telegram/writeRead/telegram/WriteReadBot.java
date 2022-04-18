@@ -37,7 +37,8 @@ public class WriteReadBot extends SpringWebhookBot {
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
         try {
-            return handleUpdate(update);
+            BotApiMethod<?> myResult = handleUpdate(update);
+            return myResult;
         } catch (IllegalArgumentException e) {
             return new SendMessage(update.getMessage().getChatId().toString(),
                     BotMessageEnum.EXCEPTION_ILLEGAL_MESSAGE.getMessage());
@@ -54,7 +55,8 @@ public class WriteReadBot extends SpringWebhookBot {
         } else {
             Message message = update.getMessage();
             if (message != null) {
-                return messageHandler.answerMessage(update.getMessage());
+                BotApiMethod<?> myResult = messageHandler.answerMessage(update.getMessage());
+                return myResult;
             }
         }
         return null;

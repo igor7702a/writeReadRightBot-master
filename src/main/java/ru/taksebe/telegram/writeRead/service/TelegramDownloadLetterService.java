@@ -5,9 +5,11 @@ import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
 import ru.taksebe.telegram.writeRead.model.DateFile;
 import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
+import ru.taksebe.telegram.writeRead.telegram.handlers.CallbackQueryHandler;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,6 +31,8 @@ public class TelegramDownloadLetterService {
 
     @Autowired
     private XlsLoadSettingsFilesCrudRepository xlsLoadSettingsFilesCrudRepository;
+    @Autowired
+    private CallbackQueryHandler callbackQueryHandler;
 
     public String receiveEndFileParam(
             String initialPath, //c:/Books/files/
@@ -260,30 +264,39 @@ public class TelegramDownloadLetterService {
                     sbArm.append(result.get(0).getArm_name());
                     sbArm.append(")");
                     String stArm = sbArm.toString();
-                    String urlArm = "https://t.me/";
+                    String urlArm = result.get(0).getArm_link();
+
+                    char charQuotes = '"';
+                    StringBuilder sbUrl = new StringBuilder("<a href=" + charQuotes);
+                    sbUrl.append(urlArm);
+                    sbUrl.append(charQuotes + ">" + stArm + "</a>");
+                    String stUrlArm = sbUrl.toString();
+
                     letterForTelegram.append(
                             "\n" +
-                            "*" + result.get(0).getRubric_number() + ". " +
-                                    result.get(0).getRubric_name() +"*" +
-                            "[" + stArm +"](" + urlArm + ")" +
+                            "<b>" + result.get(0).getRubric_number() + ". " +
+                                    result.get(0).getRubric_name() +"</b>" +
+                                    stUrlArm +
                             "\n"
                     );
 
                     // Ответственные: справка- А.С. Мальков, таблицы - Н.Н. Баценков
-
                     letterForTelegram.append(
-                                    "_" + // Курсив начало markdown
+                                    // Курсив начало markdown
+                            "<i>"  +
                             "Ответственные: " +
                                     result.get(0).getOfficer_for() +
-                                    "_" + // Курсив окончание markdown
+                                    // Курсив окончание markdown
+                            "</i>" +
                                     "\n"
                     );
 
+                    // Перечень подпунктов в Цели:
                     for (XlsLoadSettingsFilesEntity element : result) {
                         //  3.1 Справка достижение НЦР
                         letterForTelegram.append(
-                                "\u25FD" + // маленький белый квадрат
-                                element.getBook_name() +
+                                "\u25FD" +  // маленький белый квадрат
+                                "<u>" + element.getBook_name() + "</u>" +
                                 "\n"
                         );
 
@@ -301,8 +314,8 @@ public class TelegramDownloadLetterService {
 
                     }
 
+                    //  Отдельно по файлам
                     for (XlsLoadSettingsFilesEntity element : result) {
-                        //  Отдельно по файлам
 
                         String nameRubric = element.getSystem_rubric_name();
                         String nameBook = element.getSystem_file_name();
@@ -316,11 +329,154 @@ public class TelegramDownloadLetterService {
                                 nameBook
                         );
 
-//                        letterForTelegram.append(
-//                                myFile + "\n"
-//                        );
+                    }
+
+                }
+
+            }
+
+        }
+
+        String letterForTelegramString = letterForTelegram.toString();
+        System.out.println("letterForTelegramString - " + letterForTelegramString);
+
+        return letterForTelegramString;
+    }
+
+    public String docxDownLoadRealLetterWithFiles() throws IOException {
+
+        // Data
+        String initialPath = "c:/Books/files/";
+        int numberYear = 2021;
+        LocalDate ldFirst = LocalDate.ofYearDay(numberYear, 1);
+        LocalDate ldEnd = LocalDate.ofYearDay(numberYear, 365);
+        int numberMonth = 11;
+        String timetable = "Ежемесячно";
+        int numberRubric = 2;
+        StringBuilder letterForTelegram = new StringBuilder("");
+
+        List<Integer> quantityRubrics = receiveQuantityRubrics(numberYear, numberMonth, timetable);
+        quantityRubrics.forEach(it3-> System.out.println(it3));
+        System.out.println("result.size = " + quantityRubrics.size());
+        int quantityRubricsExists = quantityRubrics.size();
+
+        if(quantityRubricsExists != 0) {
+
+            int itemNameIndex = 0;
+            for (Integer elementRubrics : quantityRubrics) {
+
+                ++itemNameIndex;
+
+                numberRubric = elementRubrics.intValue();
+
+                List<XlsLoadSettingsFilesEntity> result = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFiles5Param1Order(
+                        ldFirst, ldEnd, numberMonth, timetable, numberRubric);
+                result.forEach(it3-> System.out.println(it3));
+                System.out.println("result.size = " + result.size());
+                int resultExists = result.size();
+
+                if(resultExists != 0 && result.get(0).getRubric_number() == 1){
+
+                    if(itemNameIndex == 1){
+                        // Материалы к оперативному совещанию 20.12.2021
+                        letterForTelegram.append(
+                                result.get(0).getItem_name() + " " +
+                                        result.get(0).getDate_item_name() +
+                                        "\n"
+                        );
+
+                    }
+
+                    // 3. НАЦИОНАЛЬНЫЕ ЦЕЛИ (войти в АРМ Наццели) + войти... - это ссылка
+                    StringBuilder sbArm = new StringBuilder(" (войти в АРМ ");
+                    sbArm.append(result.get(0).getArm_name());
+                    sbArm.append(")");
+                    String stArm = sbArm.toString();
+                    String urlArm = result.get(0).getArm_link();
+
+                    char charQuotes = '"';
+                    StringBuilder sbUrl = new StringBuilder("<a href=" + charQuotes);
+                    sbUrl.append(urlArm);
+                    sbUrl.append(charQuotes + ">" + stArm + "</a>");
+                    String stUrlArm = sbUrl.toString();
+
+                    letterForTelegram.append(
+                            "\n" +
+                                    "<b>" + result.get(0).getRubric_number() + ". " +
+                                    result.get(0).getRubric_name() +"</b>" +
+                                    stUrlArm +
+                                    "\n"
+                    );
+
+                    // Ответственные: справка- А.С. Мальков, таблицы - Н.Н. Баценков
+                    letterForTelegram.append(
+                            // Курсив начало markdown
+                            "<i>"  +
+                                    "Ответственные: " +
+                                    result.get(0).getOfficer_for() +
+                                    // Курсив окончание markdown
+                                    "</i>" +
+                                    "\n"
+                    );
+
+                    // Перечень подпунктов в Цели:
+                    for (XlsLoadSettingsFilesEntity element : result) {
+                        //  3.1 Справка достижение НЦР
+                        letterForTelegram.append(
+                                "\u25FD" +  // маленький белый квадрат
+                                        "<u>" + element.getBook_name() + "</u>" +
+                                        "\n"
+                        );
+
+                        String nameRubric = element.getSystem_rubric_name();
+                        String nameBook = element.getSystem_file_name();
+                        String timetablePeriod = "months";
+                        String myFile = receiveEndFileParam(
+                                initialPath, //c:/Books/files/
+                                numberYear,
+                                timetablePeriod,
+                                numberMonth,
+                                nameRubric,
+                                nameBook
+                        );
+
+                    }
+
+                    //  Отдельно по файлам
+                    for (XlsLoadSettingsFilesEntity element : result) {
+
+                        String nameRubric = element.getSystem_rubric_name();
+                        String nameBook = element.getSystem_file_name();
+                        String timetablePeriod = "months";
+                        String myFile = receiveEndFileParam(
+                                initialPath, //c:/Books/files/
+                                numberYear,
+                                timetablePeriod,
+                                numberMonth,
+                                nameRubric,
+                                nameBook
+                        );
+
+                        System.out.println(myFile);
 
                         // Отправить файлы в этот канал
+                        String chatId = "5297506090";
+                        String token = "5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4";
+                        String upPath = "c:/books/";
+                        String fullPath = myFile; // "c:/books/TemplatePdf.pdf";
+                        String file_name = element.getBook_name();// "TemplatePdf.pdf";
+                        String file_suffix = "pdf";
+                        String file_id = "AAMCBAADGQMAAgHiYk6ZEvv6ciQtEMp90nF16o_j-owAAhcDAAKuGnVSxKpibmP79SABAAdtAAMjBA";
+
+                        callbackQueryHandler.getTemplateOnlyPDF(
+                                chatId,
+                                token,
+                                upPath,
+                                fullPath,
+                                file_name,
+                                file_suffix,
+                                file_id
+                        );
 
                     }
 

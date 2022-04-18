@@ -17,6 +17,7 @@ public enum BotMessageEnum {
             "Удачи!\n\n" +
             "Воспользуйтесь клавиатурой, чтобы начать работу\uD83D\uDC47"),
     CHOOSE_DICTIONARY_MESSAGE("Выберите словарь\uD83D\uDC47 "),
+
     UPLOAD_DICTIONARY_MESSAGE("Добавьте файл, соответствующий шаблону. Вы можете сделать это в любой момент"),
     NON_COMMAND_MESSAGE("Пожалуйста, воспользуйтесь клавиатурой\uD83D\uDC47"),
 
