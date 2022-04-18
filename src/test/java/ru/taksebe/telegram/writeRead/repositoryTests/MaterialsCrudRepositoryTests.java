@@ -112,4 +112,23 @@ public class MaterialsCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
+    @Test
+    void create_Materials_All11Unix() {
+        materialsCrudRepository.create_Materials_All11(
+                "fileSectionSynonumTest",
+                "fileSynonymTest",
+                "fileNameTest",
+                "pdf",
+                LocalDate.now(),
+                LocalTime.now(),
+                "first",
+                "TarasovIY",
+                "/home/svc_chatbot/Books/",
+                "WorkFiles",
+                LocalDateTime.now()
+
+        );
+        Assertions.assertEquals(1, 1);
+    }
+
 }

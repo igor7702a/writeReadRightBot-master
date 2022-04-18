@@ -9,6 +9,7 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
 import ru.taksebe.telegram.writeRead.model.DateFile;
 import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
+import ru.taksebe.telegram.writeRead.service.OSValidator;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,6 +28,8 @@ public class DOCXDownloadLetterService {
 
     @Autowired
     private XlsLoadSettingsFilesCrudRepository xlsLoadSettingsFilesCrudRepository;
+    @Autowired
+    OSValidator osValidator;
 
     public String receiveEndFileParam(
             String initialPath, //c:/Books/files/
@@ -128,7 +131,23 @@ public class DOCXDownloadLetterService {
             String systemNameFile
     ){
         String stPathFile = "";
-        StringBuilder sbPathFile = new StringBuilder("c:/Books/files");
+
+        // For OS +
+        String myOS = osValidator.returnOS();
+        String pathOS = "";
+
+        if(myOS == "This is Windows"){
+            pathOS = "c:/Books/";
+        }
+        else if(myOS == "This is Unix or Linux"){
+            pathOS = "/home/svc_chatbot/Books/";
+        }
+        else {
+        }
+        StringBuilder sbPath = new StringBuilder(pathOS);
+        // -
+
+        StringBuilder sbPathFile = new StringBuilder(sbPath.toString() + "files");
         sbPathFile.append("/" + yearNumber);
         sbPathFile.append("/" + timetable);
         sbPathFile.append("/" + monthNumber);
@@ -218,7 +237,25 @@ public class DOCXDownloadLetterService {
         FileOutputStream out = new FileOutputStream(new File("c:/books/letters/realletter.docx"));
 
         // Data
-        String initialPath = "c:/Books/files/";
+        // For OS +
+        String myOS = osValidator.returnOS();
+        String pathOS = "";
+
+        if(myOS == "This is Windows"){
+            pathOS = "c:/Books/";
+        }
+        else if(myOS == "This is Unix or Linux"){
+            pathOS = "/home/svc_chatbot/Books/";
+        }
+        else {
+        }
+        StringBuilder sbPath = new StringBuilder(pathOS);
+        // -
+
+        StringBuilder sb = new StringBuilder(sbPath.toString() + "files/");
+
+        //String initialPath = "c:/Books/files/";
+        String initialPath = sb.toString();
         int numberYear = 2021;
         LocalDate ldFirst = LocalDate.ofYearDay(numberYear, 1);
         LocalDate ldEnd = LocalDate.ofYearDay(numberYear, 365);

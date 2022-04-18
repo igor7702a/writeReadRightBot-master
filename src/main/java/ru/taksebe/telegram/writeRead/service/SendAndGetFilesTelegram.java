@@ -1,22 +1,12 @@
 package ru.taksebe.telegram.writeRead.service;
 
+import org.apache.tomcat.jni.OS;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.taksebe.telegram.writeRead.telegram.TelegramApiClient;
-
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.User;
-import org.telegram.telegrambots.meta.bots.AbsSender;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.taksebe.telegram.writeRead.service.OSValidator;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -26,6 +16,9 @@ import java.nio.channels.ReadableByteChannel;
 
 @Component
 public class SendAndGetFilesTelegram {
+
+    @Autowired
+    OSValidator osValidator;
 
     public void uploadFile(String file_name, String file_id) throws IOException {
         String token = "";
@@ -49,7 +42,23 @@ public class SendAndGetFilesTelegram {
 
     public void sendDocument(String file_name, String file_id) throws IOException {
         String token = "5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4";
-        String upPath = "c:/books/";
+
+        // For OS +
+        String myOS = osValidator.returnOS();
+        String pathOS = "";
+
+        if(myOS == "This is Windows"){
+            pathOS = "c:/Books/";
+        }
+        else if(myOS == "This is Unix or Linux"){
+            pathOS = "/home/svc_chatbot/Books/";
+        }
+        else {
+        }
+        StringBuilder sbPath = new StringBuilder(pathOS);
+        // -
+
+        String upPath = sbPath.toString();
         file_name= "new.jpg";
         file_id = "AAMCBAADGQMAAgHiYk6ZEvv6ciQtEMp90nF16o_j-owAAhcDAAKuGnVSxKpibmP79SABAAdtAAMjBA";
 

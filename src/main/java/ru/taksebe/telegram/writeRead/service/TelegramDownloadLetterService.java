@@ -10,6 +10,7 @@ import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
 import ru.taksebe.telegram.writeRead.model.DateFile;
 import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
 import ru.taksebe.telegram.writeRead.telegram.handlers.CallbackQueryHandler;
+import ru.taksebe.telegram.writeRead.service.OSValidator;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,6 +34,8 @@ public class TelegramDownloadLetterService {
     private XlsLoadSettingsFilesCrudRepository xlsLoadSettingsFilesCrudRepository;
     @Autowired
     private CallbackQueryHandler callbackQueryHandler;
+    @Autowired
+    OSValidator osValidator;
 
     public String receiveEndFileParam(
             String initialPath, //c:/Books/files/
@@ -133,7 +136,23 @@ public class TelegramDownloadLetterService {
             String systemNameFile
     ){
         String stPathFile = "";
-        StringBuilder sbPathFile = new StringBuilder("c:/Books/files");
+
+        // For OS +
+        String myOS = osValidator.returnOS();
+        String pathOS = "";
+
+        if(myOS == "This is Windows"){
+            pathOS = "c:/Books/";
+        }
+        else if(myOS == "This is Unix or Linux"){
+            pathOS = "/home/svc_chatbot/Books/";
+        }
+        else {
+        }
+        StringBuilder sbPath = new StringBuilder(pathOS);
+        // -
+
+        StringBuilder sbPathFile = new StringBuilder(sbPath.toString() + "files");
         sbPathFile.append("/" + yearNumber);
         sbPathFile.append("/" + timetable);
         sbPathFile.append("/" + monthNumber);
@@ -218,7 +237,24 @@ public class TelegramDownloadLetterService {
     public String docxDownLoadRealLetter() throws IOException {
 
         // Data
-        String initialPath = "c:/Books/files/";
+        // For OS +
+        String myOS = osValidator.returnOS();
+        String pathOS = "";
+
+        if(myOS == "This is Windows"){
+            pathOS = "c:/Books/";
+        }
+        else if(myOS == "This is Unix or Linux"){
+            pathOS = "/home/svc_chatbot/Books/";
+        }
+        else {
+        }
+        StringBuilder sbPath = new StringBuilder(pathOS);
+        // -
+
+        StringBuilder sb = new StringBuilder(sbPath.toString() + "files/");
+
+        String initialPath = sb.toString();
         int numberYear = 2021;
         LocalDate ldFirst = LocalDate.ofYearDay(numberYear, 1);
         LocalDate ldEnd = LocalDate.ofYearDay(numberYear, 365);
@@ -346,7 +382,23 @@ public class TelegramDownloadLetterService {
     public String docxDownLoadRealLetterWithFiles() throws IOException {
 
         // Data
-        String initialPath = "c:/Books/files/";
+        // For OS +
+        String myOS = osValidator.returnOS();
+        String pathOS = "";
+
+        if(myOS == "This is Windows"){
+            pathOS = "c:/Books/";
+        }
+        else if(myOS == "This is Unix or Linux"){
+            pathOS = "/home/svc_chatbot/Books/";
+        }
+        else {
+        }
+        StringBuilder sbPath = new StringBuilder(pathOS);
+        // -
+
+        StringBuilder sb = new StringBuilder(sbPath.toString() + "files/");
+        String initialPath = sb.toString();
         int numberYear = 2021;
         LocalDate ldFirst = LocalDate.ofYearDay(numberYear, 1);
         LocalDate ldEnd = LocalDate.ofYearDay(numberYear, 365);
@@ -462,7 +514,8 @@ public class TelegramDownloadLetterService {
                         // Отправить файлы в этот канал
                         String chatId = "5297506090";
                         String token = "5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4";
-                        String upPath = "c:/books/";
+
+                        String upPath = sbPath.toString();
                         String fullPath = myFile; // "c:/books/TemplatePdf.pdf";
                         String file_name = element.getBook_name();// "TemplatePdf.pdf";
                         String file_suffix = "pdf";
