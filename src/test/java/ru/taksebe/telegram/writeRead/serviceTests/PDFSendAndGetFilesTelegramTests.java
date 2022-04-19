@@ -17,13 +17,13 @@ public class PDFSendAndGetFilesTelegramTests {
     @Test
     void sendPDFDocument() throws IOException {
         callbackQueryHandler.getTemplateOnlyPDF(
-"5297506090",
-"5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4",
-"c:/books/",
-"c:/books/MyFile.pdf",
-"MyFile",
-"pdf",
-"AAMCBAADGQMAAgHiYk6ZEvv6ciQtEMp90nF16o_j-owAAhcDAAKuGnVSxKpibmP79SABAAdtAAMjBA"
+    "5297506090",
+    "5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4",
+    "c:/books/",
+    "c:/books/MyFile.pdf",
+    "MyFile",
+    "pdf",
+    "AAMCBAADGQMAAgHiYk6ZEvv6ciQtEMp90nF16o_j-owAAhcDAAKuGnVSxKpibmP79SABAAdtAAMjBA"
         );
         Assertions.assertEquals(1, 1);
     }
