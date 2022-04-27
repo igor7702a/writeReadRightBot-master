@@ -9,9 +9,11 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.poi.poifs.crypt.dsig.SignaturePart;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.taksebe.telegram.writeRead.constants.resources.DictionaryResourcePathEnum;
 import ru.taksebe.telegram.writeRead.constants.resources.TemplateResourcePathsEnum;
+import ru.taksebe.telegram.writeRead.service.OSValidator;
 
 import java.io.*;
 import java.util.HashMap;
@@ -23,6 +25,10 @@ import java.util.Objects;
  */
 @Component
 public class ResourceLoader {
+
+    @Autowired
+    OSValidator osValidator;
+
     @Getter
     private final Map<String, XSSFWorkbook> defaultDictionaries;
     private SignaturePart signatureObjPAdES;
@@ -137,7 +143,22 @@ public class ResourceLoader {
                 .getClassLoader()
                 .getResourceAsStream(TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath());
 
-        OutputStream outputStream = new FileOutputStream(new File("C:/books/temp.pdf"));
+        // For OS +
+        String myOS = osValidator.returnOS();
+        String pathOS = "";
+
+        if(myOS == "This is Windows"){
+            pathOS = "c:/Books/";
+        }
+        else if(myOS == "This is Unix or Linux"){
+            pathOS = "/home/svc_chatbot/Books/";
+        }
+        else {
+        }
+        StringBuilder sbPath = new StringBuilder(pathOS);
+        // -
+
+        OutputStream outputStream = new FileOutputStream(new File(sbPath.toString() + "temp.pdf"));
 
         byte[] buffer = new byte[1000];
         while (inputStream.available() > 0) //пока есть еще непрочитанные байты
@@ -150,7 +171,7 @@ public class ResourceLoader {
         inputStream.close(); //закрываем оба потока. Они больше не нужны.
         outputStream.close();
 
-        PDDocument myResult = PDDocument.load(new File("C:/books/temp.pdf"));
+        PDDocument myResult = PDDocument.load(new File(sbPath.toString() + "temp.pdf"));
 
         return myResult;
     }
@@ -170,7 +191,22 @@ public class ResourceLoader {
         File initialFile = new File(fullPath);
         InputStream inputStream = new FileInputStream(initialFile);
 
-        OutputStream outputStream = new FileOutputStream(new File("C:/books/temp.pdf"));
+        // For OS +
+        String myOS = osValidator.returnOS();
+        String pathOS = "";
+
+        if(myOS == "This is Windows"){
+            pathOS = "c:/Books/";
+        }
+        else if(myOS == "This is Unix or Linux"){
+            pathOS = "/home/svc_chatbot/Books/";
+        }
+        else {
+        }
+        StringBuilder sbPath = new StringBuilder(pathOS);
+        // -
+
+        OutputStream outputStream = new FileOutputStream(new File(sbPath.toString() + "temp.pdf"));
 
         byte[] buffer = new byte[1000];
         while (inputStream.available() > 0) //пока есть еще непрочитанные байты
@@ -183,7 +219,7 @@ public class ResourceLoader {
         inputStream.close(); //закрываем оба потока. Они больше не нужны.
         outputStream.close();
 
-        PDDocument myResult = PDDocument.load(new File("C:/books/temp.pdf"));
+        PDDocument myResult = PDDocument.load(new File(sbPath.toString() + "temp.pdf"));
 
         return myResult;
     }

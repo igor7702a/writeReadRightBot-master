@@ -5,8 +5,9 @@ telegram:
   bot-token: "5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4"
 # Адрес сервера - IP-адрес сервера: 82.146.40.191
 # ChatId: 5297506090
-# https://api.telegram.org/bot5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4/setWebhook?url=https://82.146.40.191
-# https://api.telegram.org/bot5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4/setWebhook?url=https://17b9-178-176-14-153.ngrok.io
+# https://api.telegram.org/bot5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4/setWebhook?url=https://82.146.40.191:8443
+# http://api.telegram.org/bot5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4/setWebhook?url=https://82.146.40.191:8443
+# https://api.telegram.org/bot5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4/setWebhook?url=https://f171-82-146-40-191.eu.ngrok.io
 # Пересылка сообщения в чат
 # https://api.telegram.org/bot5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4/sendMessage?chat_id=5297506090&text=%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82%20%D0%BC%D0%B8%D1%80
 # Получение информации о боте
