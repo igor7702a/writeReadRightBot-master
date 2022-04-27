@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import ru.taksebe.telegram.writeRead.api.dictionaries.DictionaryAdditionService;
+import ru.taksebe.telegram.writeRead.api.dictionaries.DictionaryMaterialsAdditionService;
 import ru.taksebe.telegram.writeRead.api.dictionaries.DictionaryExcelService;
 import ru.taksebe.telegram.writeRead.constants.bot.BotMessageEnum;
 import ru.taksebe.telegram.writeRead.constants.bot.ButtonNameEnum;
@@ -36,6 +37,7 @@ public class MessageHandler {
     CallbackQueryHandler callbackQueryHandler;
 
     DictionaryAdditionService dictionaryAdditionService;
+    DictionaryMaterialsAdditionService dictionaryMaterialsAdditionService;
     DictionaryExcelService dictionaryExcelService;
 
     TelegramApiClient telegramApiClient;
@@ -47,7 +49,19 @@ public class MessageHandler {
         String chatId = message.getChatId().toString();
 
         if (message.hasDocument()) {
-            return addUserDictionary(chatId, message.getDocument().getFileId());
+
+            // Здесь обработка файла для шаблона Материалы
+            // проверка на имя пользователя и запись файла в папку
+            SendMessage myResult = addUserDictionaryMaterials(
+                    chatId,
+                    message.getDocument().getFileId(),
+                    message.getDocument().getFileName().toString(),
+                    message.getFrom().getUserName().toString()
+            );
+
+            // Здесь далее обработка файла эксель в начальном шаблоне
+            //SendMessage myResult = addUserDictionary(chatId, message.getDocument().getFileId());
+            return myResult;
         }
 
         String inputText = message.getText();
@@ -113,7 +127,30 @@ public class MessageHandler {
 
     private SendMessage addUserDictionary(String chatId, String fileId) {
         try {
+            // Для Эксель
             dictionaryAdditionService.addUserDictionary(chatId, telegramApiClient.getDocumentFile(fileId));
+            // Для pdf
+            //dictionaryMaterialsAdditionService.addUserDictionary(chatId, telegramApiClient.getDocumentFile(fileId));
+            return new SendMessage(chatId, BotMessageEnum.SUCCESS_UPLOAD_MESSAGE.getMessage());
+        } catch (TelegramFileNotFoundException e) {
+            return new SendMessage(chatId, BotMessageEnum.EXCEPTION_TELEGRAM_API_MESSAGE.getMessage());
+        } catch (DictionaryTooBigException e) {
+            return new SendMessage(chatId, BotMessageEnum.EXCEPTION_TOO_LARGE_DICTIONARY_MESSAGE.getMessage());
+        } catch (Exception e) {
+            return new SendMessage(chatId, BotMessageEnum.EXCEPTION_BAD_FILE_MESSAGE.getMessage());
+        }
+    }
+
+    // Для записи файлов, здесь определяется в какую папку записать файл и
+    // от какого пользователя можно записывать файлы (Добавить имя файла и Логин пользователя)
+    // message.document.fileName message.from.userName
+
+    private SendMessage addUserDictionaryMaterials(String chatId, String fileId, String fileName, String userName) {
+        try {
+            // Для Эксель
+            dictionaryAdditionService.addUserDictionary(chatId, telegramApiClient.getDocumentFile(fileId));
+            // Для pdf
+            //dictionaryMaterialsAdditionService.addUserDictionary(chatId, telegramApiClient.getDocumentFile(fileId));
             return new SendMessage(chatId, BotMessageEnum.SUCCESS_UPLOAD_MESSAGE.getMessage());
         } catch (TelegramFileNotFoundException e) {
             return new SendMessage(chatId, BotMessageEnum.EXCEPTION_TELEGRAM_API_MESSAGE.getMessage());

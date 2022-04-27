@@ -4,14 +4,14 @@ package ru.taksebe.telegram.writeRead.constants.bot;
  * Названия кнопок основной клавиатуры
  */
 public enum ButtonNameEnum {
-    //GET_TASKS_BUTTON("Создать файл с заданиями"),
-    GET_TASKS_BUTTON("Тест №1"),
+    GET_TASKS_BUTTON("Создать файл с заданиями"),
+    //GET_TASKS_BUTTON("Тест №1"),
 
-    //GET_DICTIONARY_BUTTON("Скачать словарь"),
-    GET_DICTIONARY_BUTTON("Тест №2"),
+    GET_DICTIONARY_BUTTON("Скачать словарь"),
+    //GET_DICTIONARY_BUTTON("Тест №2"),
 
-    //UPLOAD_DICTIONARY_BUTTON("Загрузить мой словарь"),
-    UPLOAD_DICTIONARY_BUTTON("Тест №3"),
+    UPLOAD_DICTIONARY_BUTTON("Загрузить мой словарь"),
+    //UPLOAD_DICTIONARY_BUTTON("Тест №3"),
 
     HELP_BUTTON("Помощь"),
 
