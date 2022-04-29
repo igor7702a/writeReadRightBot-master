@@ -22,7 +22,9 @@ public enum BotMessageEnum {
     NON_COMMAND_MESSAGE("Пожалуйста, воспользуйтесь клавиатурой\uD83D\uDC47"),
 
     //результаты загрузки словаря
-    SUCCESS_UPLOAD_MESSAGE("\uD83D\uDC4D Словарь успешно загружен"),
+    //SUCCESS_UPLOAD_MESSAGE("\uD83D\uDC4D Словарь успешно загружен"),
+    SUCCESS_UPLOAD_MESSAGE("\uD83D\uDC4D Файл успешно загружен"),
+
     EXCEPTION_TELEGRAM_API_MESSAGE("Ошибка при попытку получить файл из API Telegram"),
     EXCEPTION_TOO_LARGE_DICTIONARY_MESSAGE("В словаре больше 1 000 слов. Едва ли такой большой набор словарных " +
             "слов действительно нужен, ведь я работаю для обучения детей"),

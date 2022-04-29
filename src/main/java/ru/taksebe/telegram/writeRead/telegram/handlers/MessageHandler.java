@@ -144,13 +144,19 @@ public class MessageHandler {
     // Для записи файлов, здесь определяется в какую папку записать файл и
     // от какого пользователя можно записывать файлы (Добавить имя файла и Логин пользователя)
     // message.document.fileName message.from.userName
+    // Этап 1: Запись файла просто в папку Books
+    // Этап 2: Запись информации в лог загрузки
 
     private SendMessage addUserDictionaryMaterials(String chatId, String fileId, String fileName, String userName) {
         try {
             // Для Эксель
-            dictionaryAdditionService.addUserDictionary(chatId, telegramApiClient.getDocumentFile(fileId));
+            //dictionaryAdditionService.addUserDictionary(chatId, telegramApiClient.getDocumentFile(fileId));
             // Для pdf
-            //dictionaryMaterialsAdditionService.addUserDictionary(chatId, telegramApiClient.getDocumentFile(fileId));
+            dictionaryMaterialsAdditionService.addUserDictionaryMaterials(
+                    chatId,
+                    telegramApiClient.getDocumentFile(fileId),
+                    fileName,
+                    userName);
             return new SendMessage(chatId, BotMessageEnum.SUCCESS_UPLOAD_MESSAGE.getMessage());
         } catch (TelegramFileNotFoundException e) {
             return new SendMessage(chatId, BotMessageEnum.EXCEPTION_TELEGRAM_API_MESSAGE.getMessage());
