@@ -1,6 +1,7 @@
 package ru.taksebe.telegram.writeRead.service;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
@@ -9,9 +10,17 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
+
+import ru.taksebe.telegram.writeRead.entity.SamplesFileNameEntity;
+import ru.taksebe.telegram.writeRead.exceptions.FileNameNotFoundInSamplesException;
+import ru.taksebe.telegram.writeRead.repository.SamplesFileNameCrudRepository;
 
 @Component
 public class SaveFiles {
+
+    @Autowired
+    SamplesFileNameCrudRepository samplesFileNameCrudRepository;
 
     public void CopyFile() throws IOException {
         File source = new File("c:/Books/TemplatePdf.pdf");
@@ -57,11 +66,6 @@ public class SaveFiles {
 
     public String GetPathFile(String fileName){
         String realPath = "";
-        //String fileName = "1.3_Справка - опросы ВЦИОМ";
-        //  Например 1.1_УД_НП_проектный_офис_220331_153802
-        //  Например 1.2_НП_касса_2020vs2021
-        //  Например 1.3_Справка - опросы ВЦИОМ_220429_110400.pdf
-
         String rubricSystemName = "нацпроекты";
         String fileSystemName = "СпрОпрВциом";
 
@@ -69,7 +73,6 @@ public class SaveFiles {
         String first2 = "1.2_НП_касса";
         String first3 = "1.3_Справка - опросы ВЦИОМ";
 
-        // Этап 5: Заменить на запрос к базе данных (таблицу создать)
         if(fileName.indexOf(first1) == 0
                 | fileName.indexOf(first2) == 0
                 | fileName.indexOf(first3) == 0
@@ -122,6 +125,63 @@ public class SaveFiles {
                         rubricSystemName + "/" +
                         fileSystemName + "/");
         realPath = sb.toString();
+
+        return realPath;
+    }
+
+    public String GetPathFileReal(String fileName){
+        String realPath = "";
+
+        String rubricSystemName = "Нет";
+        String fileSystemName = "Нет";
+        String first1 = "Нет";
+        String period = "";
+
+        List<SamplesFileNameEntity> ResultByFileName =
+                samplesFileNameCrudRepository.findAllFromSamplesFileNameFirstParam1(fileName);
+        int resultExists = ResultByFileName.size();
+
+        if(resultExists != 0){
+            rubricSystemName = ResultByFileName.get(0).getSystem_rubric_name();
+            fileSystemName = ResultByFileName.get(0).getSystem_file_name();
+            first1 = ResultByFileName.get(0).getFull_file_name();
+            period = ResultByFileName.get(0).getPeriod2();
+        }
+
+        String numberYear = LocalDate.now().format(DateTimeFormatter.ofPattern("YYYY")); //2022
+        String numberMonthShort = "";
+        String numberWeekShort = "";
+
+        String numberMonthFull = LocalDate.now().format(DateTimeFormatter.ofPattern("MM")); //04
+        // Если первый символ = 0, то учитываем без него
+        char cMounth = numberMonthFull.charAt(0);
+        if(cMounth == 48){
+            numberMonthShort = numberMonthFull.substring(1);
+        }else {
+            numberMonthShort = new StringBuilder(numberMonthFull).toString();
+        }
+
+        String numberWeekFull = LocalDate.now().format(DateTimeFormatter.ofPattern("w")); //17
+        // Если первый символ = 0, то учитываем без него
+        char cWeek = numberWeekFull.charAt(0);
+        if(cWeek == 48){
+            numberWeekShort = numberMonthFull.substring(1);
+        }else {
+            numberWeekShort = new StringBuilder(numberMonthFull).toString();
+        }
+
+        StringBuilder sb = new StringBuilder(
+                numberYear + "/" +
+                        period + "/" +
+                        numberMonthShort  + "/" +
+                        rubricSystemName + "/" +
+                        fileSystemName + "/");
+        realPath = sb.toString();
+
+        int index = realPath.indexOf("Нет");
+        if (index != -1) {
+            throw new FileNameNotFoundInSamplesException();
+        }
 
         return realPath;
     }

@@ -115,7 +115,7 @@ public class XlsLoadSettingsFilesEntity {
 
     @Override
     public String toString() {
-        return "Materials{" +
+        return "XlsLoadSettingsFilesEntity{" +
                 "id=" + id +
                 ", item_name='" + item_name + '\'' +
                 ", date_item_name='" + date_item_name + '\'' +
