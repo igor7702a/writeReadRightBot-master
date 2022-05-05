@@ -37,21 +37,11 @@ public class DictionaryMaterialsAdditionService {
     private final DictionaryRepository repository;
 
     public void addUserDictionaryMaterials(String userId, File file, String fileName, String userName) throws IOException {
-        // Этап 1: Запись файла в папку Books
-        // Этап 1.2: Добавить пути Linux
-        // Этап 2: Запись информации в таблицу Лог в БД
-        // Этап 3: Оставить только необходимые названия файлов
-        //  Например 1.1_УД_НП_проектный_офис_220331_153802
-        //  Например 1.2_НП_касса_2020vs2021
-        //  Например 1.3_Справка - опросы ВЦИОМ_220429_110400.pdf
-        // Этап 4: Создать таблицу в БД для распознавания: sample_filename
 
         try (FileInputStream fileInputStream = new FileInputStream(file)) {
-            // Этап 1: Запись файла в папку Books
             String fileSourceName = fileName;
             String fileDestName = fileName;
-            //String pathFile = saveFiles.GetPathFile(fileName); // Для тестирования
-            String pathFile = saveFiles.GetPathFileReal(fileName); // Для реальной работы
+            String pathFile = saveFiles.GetPathFileReal(fileName);
             String fileNameExtension = saveFiles.getFileExtension(fileName);
             String fileNameWithoutExtension = fileName.replace(("." + fileNameExtension), "");
             String DateForFilename = saveFiles.GetStringDateForNameFile();
@@ -77,12 +67,12 @@ public class DictionaryMaterialsAdditionService {
             File  dest = new File(fullPathDest.toString());
             saveFiles.copyFileUsingApacheCommonsIO(source, dest);
 
-            // Этап 2: Запись информации в таблицу Лог в БД
+            // Запись информации в таблицу Лог в БД
             savedFilesCrudRepository.create_SavedFiles_All6(
                     fileNameWithoutExtension + "_" + DateForFilename + "." + fileNameExtension,
                     fullPathDest.toString(),
                     LocalDateTime.now(),
-                    "TarasovIY",
+                    userName,
                     "DescriptionFromTelegram",
                     "Good"
             );

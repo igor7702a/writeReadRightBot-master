@@ -116,3 +116,16 @@ public class SamplesFileNameEntity {
 //        period3 name VARCHAR(50),
 //        period4 name VARCHAR(50),
 //        responsible VARCHAR(100)
+
+//        rubric_book_number
+//        system_rubric_name
+//        system_file_name
+//        full_file_name
+//        mid_file_name
+//        short_file_name
+//        date_setting
+//        period1
+//        period2
+//        period3
+//        period4
+//        responsible

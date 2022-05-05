@@ -4,8 +4,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.taksebe.telegram.writeRead.repository.SamplesFileNameCrudRepository;
 import ru.taksebe.telegram.writeRead.service.XLSLoadSettingFilesService;
 import ru.taksebe.telegram.writeRead.service.XLSNewFormatLoadSettingFilesService;
+import ru.taksebe.telegram.writeRead.service.XLSLoadSamplesFilesService;
 
 import java.io.IOException;
 
@@ -16,6 +18,8 @@ public class XLSLoadTests {
     XLSLoadSettingFilesService xlsLoadSettingFilesService;
     @Autowired
     XLSNewFormatLoadSettingFilesService xlsNewFormatLoadSettingFilesService;
+    @Autowired
+    XLSLoadSamplesFilesService xlsLoadSamplesFilesService;
 
     @Test
     void xlsLoadFileOldFormat() throws IOException {
@@ -32,6 +36,12 @@ public class XLSLoadTests {
     @Test
     void receiveDateItemNameFromXLS() throws IOException {
         xlsLoadSettingFilesService.receiveDateItemNameFromXLS("20.12.2021");
+        Assertions.assertEquals(1, 1);
+    }
+
+    @Test // Для реальной загрузки Образцов
+    void xlsLoadSamplesFileNewFormat() throws IOException {
+        xlsLoadSamplesFilesService.xlsLoadSamplesFileNewFormat();
         Assertions.assertEquals(1, 1);
     }
 
