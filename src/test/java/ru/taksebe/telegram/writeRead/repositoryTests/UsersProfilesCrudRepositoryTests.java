@@ -5,12 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
-import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 import ru.taksebe.telegram.writeRead.entity.UsersProfilesEntity;
 import ru.taksebe.telegram.writeRead.repository.UsersProfilesCrudRepository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,7 +31,27 @@ public class UsersProfilesCrudRepositoryTests {
     // Get findAllFromXlsLoadSettingsFilesById
     @Test
     void findAllFromMaterialsById() {
-        List<UsersProfilesEntity> materials = usersProfilesCrudRepository.findAllFromUsersProfilesById(2L);
+        List<UsersProfilesEntity> materials = usersProfilesCrudRepository.findAllFromUsersProfilesById(4L);
+        materials.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
+    // Get findAllFromUsersProfilesBy4Test
+    @Test
+    void findAllFromUsersProfilesBy4Test() {
+        List<UsersProfilesEntity> materials = usersProfilesCrudRepository.findAllFromUsersProfilesBy4Test();
+        materials.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
+    // Get findAllFromUsersProfilesBy4Param
+    @Test
+    void findAllFromUsersProfilesBy4Param() {
+        List<UsersProfilesEntity> materials = usersProfilesCrudRepository.findAllFromUsersProfilesBy4Param(
+            "TarasovIY",
+            "наццели",
+            "СпрДостНЦР"
+        );
         materials.forEach(it -> System.out.println(it));
         Assertions.assertEquals(1, 1);
     }
@@ -40,7 +59,7 @@ public class UsersProfilesCrudRepositoryTests {
     // Delete
     @Test
     void deleteVoidWhereIdParametr() {
-        usersProfilesCrudRepository.deleteVoidWhereIdParametr(1L);
+        usersProfilesCrudRepository.deleteVoidWhereIdParametr(5L);
         Assertions.assertEquals(1, 1);
     }
 
@@ -54,7 +73,8 @@ public class UsersProfilesCrudRepositoryTests {
                 "LoadAndSave",
                 "TarasovIY",
                 LocalDateTime.now(),
-                "TarasovIY"
+                "TarasovIY",
+                "Тарасов Игорь Юрьевич"
         );
         Assertions.assertEquals(1, 1);
     }

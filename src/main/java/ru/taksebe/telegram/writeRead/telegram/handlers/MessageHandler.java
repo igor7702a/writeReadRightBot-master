@@ -17,6 +17,7 @@ import ru.taksebe.telegram.writeRead.constants.bot.ButtonNameEnum;
 import ru.taksebe.telegram.writeRead.constants.bot.CallbackDataPartsEnum;
 import ru.taksebe.telegram.writeRead.exceptions.DictionaryTooBigException;
 import ru.taksebe.telegram.writeRead.exceptions.FileNameNotFoundInSamplesException;
+import ru.taksebe.telegram.writeRead.exceptions.NotRightSaveFileException;
 import ru.taksebe.telegram.writeRead.exceptions.TelegramFileNotFoundException;
 import ru.taksebe.telegram.writeRead.telegram.TelegramApiClient;
 import ru.taksebe.telegram.writeRead.telegram.keyboards.InlineKeyboardMaker;
@@ -165,6 +166,8 @@ public class MessageHandler {
             return new SendMessage(chatId, BotMessageEnum.EXCEPTION_TOO_LARGE_DICTIONARY_MESSAGE.getMessage());
         } catch (FileNameNotFoundInSamplesException e) {
             return new SendMessage(chatId, BotMessageEnum.EXCEPTION_FILE_NOT_FOUND_IN_SAMPLE.getMessage());
+        } catch (NotRightSaveFileException e) {
+            return new SendMessage(chatId, BotMessageEnum.EXCEPTION_NOT_RIGHTS_SAVE_FILE.getMessage());
         } catch (Exception e) {
             return new SendMessage(chatId, BotMessageEnum.EXCEPTION_BAD_FILE_MESSAGE.getMessage());
         }

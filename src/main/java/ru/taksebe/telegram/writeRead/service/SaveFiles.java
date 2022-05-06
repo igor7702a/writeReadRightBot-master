@@ -13,14 +13,20 @@ import java.util.Date;
 import java.util.List;
 
 import ru.taksebe.telegram.writeRead.entity.SamplesFileNameEntity;
+import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
 import ru.taksebe.telegram.writeRead.exceptions.FileNameNotFoundInSamplesException;
+import ru.taksebe.telegram.writeRead.exceptions.NotRightSaveFileException;
 import ru.taksebe.telegram.writeRead.repository.SamplesFileNameCrudRepository;
+import ru.taksebe.telegram.writeRead.entity.UsersProfilesEntity;
+import ru.taksebe.telegram.writeRead.repository.UsersProfilesCrudRepository;
 
 @Component
 public class SaveFiles {
 
     @Autowired
     SamplesFileNameCrudRepository samplesFileNameCrudRepository;
+    @Autowired
+    UsersProfilesCrudRepository usersProfilesCrudRepository;
 
     public void CopyFile() throws IOException {
         File source = new File("c:/Books/TemplatePdf.pdf");
@@ -129,7 +135,7 @@ public class SaveFiles {
         return realPath;
     }
 
-    public String GetPathFileReal(String fileName){
+    public String GetPathFileReal(String fileName, String userName){
         String realPath = "";
 
         String rubricSystemName = "Нет";
@@ -181,6 +187,16 @@ public class SaveFiles {
         int index = realPath.indexOf("Нет");
         if (index != -1) {
             throw new FileNameNotFoundInSamplesException();
+        }
+
+        // Проверить есть ли у пользователя права на запись файла, иначе выдать исключение
+        List<UsersProfilesEntity> resultUsersProfiles = usersProfilesCrudRepository.findAllFromUsersProfilesBy4Param(
+                userName, rubricSystemName, fileSystemName);
+        resultUsersProfiles.forEach(it3-> System.out.println(it3));
+        System.out.println("result.size = " + resultUsersProfiles.size());
+        int resultUsersProfilesExists = resultUsersProfiles.size();
+        if(resultUsersProfilesExists == 0){
+            throw new NotRightSaveFileException();
         }
 
         return realPath;

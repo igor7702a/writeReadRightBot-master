@@ -23,7 +23,7 @@ public enum BotMessageEnum {
 
     //результаты загрузки словаря
     //SUCCESS_UPLOAD_MESSAGE("\uD83D\uDC4D Словарь успешно загружен"),
-    SUCCESS_UPLOAD_MESSAGE("\uD83D\uDC4D Файл успешно загружен"),
+    SUCCESS_UPLOAD_MESSAGE("\uD83D\uDC4D Файл успешно загружен"), // эмодзи код Большой палец вверх
 
     EXCEPTION_TELEGRAM_API_MESSAGE("Ошибка при попытку получить файл из API Telegram"),
     EXCEPTION_TOO_LARGE_DICTIONARY_MESSAGE("В словаре больше 1 000 слов. Едва ли такой большой набор словарных " +
@@ -31,7 +31,8 @@ public enum BotMessageEnum {
     EXCEPTION_BAD_FILE_MESSAGE("Файл не может быть обработан. Вы шлёте мне что-то не то, балуетесь, наверное"),
 
     //ошибки загрузки файлов
-    EXCEPTION_FILE_NOT_FOUND_IN_SAMPLE("Файл не загружен! Имя загружаемого файла не найдено в образцах."),
+    EXCEPTION_FILE_NOT_FOUND_IN_SAMPLE("\uD83D\uDED1 Файл не загружен! Имя загружаемого файла не найдено в образцах."), // эмодзи код знак стоп
+    EXCEPTION_NOT_RIGHTS_SAVE_FILE("\uD83D\uDED1 У вас нет права на запись этого файла! Обратитесь к администратору."), // эмодзи код знак стоп
 
     //ошибки при обработке callback-ов
     EXCEPTION_BAD_BUTTON_NAME_MESSAGE("Неверное значение кнопки. Крайне странно. Попробуйте позже"),

@@ -55,6 +55,11 @@ public class UsersProfilesEntity {
     @Setter
     private String responsible;
 
+    @Column
+    @Getter
+    @Setter
+    private String user_fio;
+
     public Long getId() {
         return id;
     }
@@ -74,6 +79,7 @@ public class UsersProfilesEntity {
                 ", tg_user='" + tg_user + '\'' +
                 ", date_setting='" + date_setting + '\'' +
                 ", responsible='" + responsible + '\'' +
+                ", user_fio='" + user_fio + '\'' +
                 '}';
     }
 
@@ -87,4 +93,4 @@ public class UsersProfilesEntity {
 // tg_user VARCHAR(150),
 // date_setting timestamp,
 // responsible VARCHAR(100)
-
+// user_fio VARCHAR(150)

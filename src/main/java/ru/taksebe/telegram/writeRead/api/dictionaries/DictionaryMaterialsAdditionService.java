@@ -41,7 +41,7 @@ public class DictionaryMaterialsAdditionService {
         try (FileInputStream fileInputStream = new FileInputStream(file)) {
             String fileSourceName = fileName;
             String fileDestName = fileName;
-            String pathFile = saveFiles.GetPathFileReal(fileName);
+            String pathFile = saveFiles.GetPathFileReal(fileName, userName);
             String fileNameExtension = saveFiles.getFileExtension(fileName);
             String fileNameWithoutExtension = fileName.replace(("." + fileNameExtension), "");
             String DateForFilename = saveFiles.GetStringDateForNameFile();

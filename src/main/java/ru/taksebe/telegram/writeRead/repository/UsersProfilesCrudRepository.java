@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.taksebe.telegram.writeRead.entity.UsersProfilesEntity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,6 +21,43 @@ public interface UsersProfilesCrudRepository extends JpaRepository<UsersProfiles
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM users_profiles WHERE id=:id", nativeQuery = true)
     List<UsersProfilesEntity> findAllFromUsersProfilesById(long id);
+
+    //Get findAllFromUsersProfilesBy4Test
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT * FROM users_profiles " +
+            "WHERE (" +
+            "access_type = 'LoadAndSave'" +
+            "and tg_user = 'TarasovIY'" +
+            "and system_rubric_name = 'наццели'" +
+            "and system_file_name = 'СпрДостНЦР'" +
+            ") " +
+            "ORDER BY date_setting DESC " +
+            "LIMIT 1",
+            nativeQuery = true)
+    List<UsersProfilesEntity> findAllFromUsersProfilesBy4Test();
+
+    //Get findAllFromUsersProfilesBy4Param
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT * FROM users_profiles " +
+            "WHERE (" +
+            "access_type = 'LoadAndSave' " +
+            "and tg_user = :tgUser " +
+            "and system_rubric_name = :systemRubricName " +
+            "and system_file_name = :systemFilename " +
+            ") " +
+            "ORDER BY date_setting DESC " +
+            "LIMIT 1",
+            nativeQuery = true)
+    List<UsersProfilesEntity> findAllFromUsersProfilesBy4Param(String tgUser, String systemRubricName, String systemFilename);
+//    SELECT * FROM users_profiles
+//    WHERE
+//            (access_type = 'LoadAndSave'
+//                    and tg_user = 'TarasovIY'
+//                    and system_rubric_name = 'наццели'
+//                    and system_file_name = 'СпрДостНЦР'
+//            )
+//    ORDER BY date_setting DESC
+//    LIMIT 1
 
     //Delete
     @Modifying
@@ -40,7 +76,8 @@ public interface UsersProfilesCrudRepository extends JpaRepository<UsersProfiles
             "access_type," +
             "tg_user," +
             "date_setting," +
-            "responsible" +
+            "responsible," +
+            "user_fio" +
             ") " +
             "VALUES (" +
             ":rubricBookNumber," +
@@ -50,7 +87,8 @@ public interface UsersProfilesCrudRepository extends JpaRepository<UsersProfiles
             ":accessType," +
             ":tgUser," +
             ":dateSetting," +
-            ":responsible" +
+            ":responsible," +
+            ":userFio" +
             ")"
     )
     void create_UserProfiles_All8(
@@ -61,7 +99,8 @@ public interface UsersProfilesCrudRepository extends JpaRepository<UsersProfiles
             String accessType,
             String tgUser,
             LocalDateTime dateSetting,
-            String responsible
+            String responsible,
+            String userFio
     );
 
     //Update
@@ -75,3 +114,4 @@ public interface UsersProfilesCrudRepository extends JpaRepository<UsersProfiles
 // tg_user VARCHAR(150),
 // date_setting timestamp,
 // responsible VARCHAR(100)
+// user_fio VARCHAR(150)
