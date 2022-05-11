@@ -44,13 +44,37 @@ public class UsersProfilesCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Get findAllFromUsersProfilesBy4Param
+    // Get findAllFromUsersProfilesBy4Param - only 3
     @Test
-    void findAllFromUsersProfilesBy4Param() {
+    void findAllFromUsersProfilesBy3Param() {
         List<UsersProfilesEntity> materials = usersProfilesCrudRepository.findAllFromUsersProfilesBy4Param(
             "TarasovIY",
             "наццели",
             "СпрДостНЦР"
+        );
+        materials.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
+    // Get findAllFromUsersProfilesBy4Param - all 4
+    @Test
+    void findAllFromUsersProfilesBy4Param() {
+        List<UsersProfilesEntity> materials = usersProfilesCrudRepository.findAllFromUsersProfilesBy4Param(
+                "PressMainButtonUPLOAD_MATERIALS_BUTTON",
+                "TarasovIY",
+                "Нет",
+                "Нет"
+        );
+        materials.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
+    // Get findAllFromUsersProfilesBy2Param
+    @Test
+    void findAllFromUsersProfilesBy2Param() {
+        List<UsersProfilesEntity> materials = usersProfilesCrudRepository.findAllFromUsersProfilesBy2Param(
+                "PressMainButtonUPLOAD_MATERIALS_BUTTON",
+                "TarasovIY"
         );
         materials.forEach(it -> System.out.println(it));
         Assertions.assertEquals(1, 1);

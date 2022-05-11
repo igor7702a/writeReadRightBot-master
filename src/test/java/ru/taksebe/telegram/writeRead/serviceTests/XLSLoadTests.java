@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.taksebe.telegram.writeRead.repository.SamplesFileNameCrudRepository;
 import ru.taksebe.telegram.writeRead.service.XLSLoadSettingFilesService;
 import ru.taksebe.telegram.writeRead.service.XLSNewFormatLoadSettingFilesService;
 import ru.taksebe.telegram.writeRead.service.XLSLoadSamplesFilesService;
+import ru.taksebe.telegram.writeRead.service.XLSLoadUsersProfilesService;
 
 import java.io.IOException;
 
@@ -20,6 +20,8 @@ public class XLSLoadTests {
     XLSNewFormatLoadSettingFilesService xlsNewFormatLoadSettingFilesService;
     @Autowired
     XLSLoadSamplesFilesService xlsLoadSamplesFilesService;
+    @Autowired
+    XLSLoadUsersProfilesService xlsLoadUsersProfilesService;
 
     @Test
     void xlsLoadFileOldFormat() throws IOException {
@@ -42,6 +44,12 @@ public class XLSLoadTests {
     @Test // Для реальной загрузки Образцов
     void xlsLoadSamplesFileNewFormat() throws IOException {
         xlsLoadSamplesFilesService.xlsLoadSamplesFileNewFormat();
+        Assertions.assertEquals(1, 1);
+    }
+
+    @Test // Для реальной загрузки профилей пользователей
+    void xlsLoadUsersProfilesNewFormat() throws IOException {
+        xlsLoadUsersProfilesService.xlsLoadUsersProfilesNewFormat();
         Assertions.assertEquals(1, 1);
     }
 

@@ -36,7 +36,7 @@ public interface UsersProfilesCrudRepository extends JpaRepository<UsersProfiles
             nativeQuery = true)
     List<UsersProfilesEntity> findAllFromUsersProfilesBy4Test();
 
-    //Get findAllFromUsersProfilesBy4Param
+    //Get findAllFromUsersProfilesBy4Param - only 3
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM users_profiles " +
             "WHERE (" +
@@ -58,6 +58,32 @@ public interface UsersProfilesCrudRepository extends JpaRepository<UsersProfiles
 //            )
 //    ORDER BY date_setting DESC
 //    LIMIT 1
+
+    //Get findAllFromUsersProfilesBy4Param - all 4
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT * FROM users_profiles " +
+            "WHERE (" +
+            "access_type = :accessType  " +
+            "and tg_user = :tgUser " +
+            "and system_rubric_name = :systemRubricName " +
+            "and system_file_name = :systemFilename " +
+            ") " +
+            "ORDER BY date_setting DESC " +
+            "LIMIT 1",
+            nativeQuery = true)
+    List<UsersProfilesEntity> findAllFromUsersProfilesBy4Param(String accessType, String tgUser, String systemRubricName, String systemFilename);
+
+    //Get findAllFromUsersProfilesBy2Param
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT * FROM users_profiles " +
+            "WHERE (" +
+            "access_type = :accessType  " +
+            "and tg_user = :tgUser " +
+            ") " +
+            "ORDER BY date_setting DESC " +
+            "LIMIT 1",
+            nativeQuery = true)
+    List<UsersProfilesEntity> findAllFromUsersProfilesBy2Param(String accessType, String tgUser);
 
     //Delete
     @Modifying

@@ -15,19 +15,19 @@ import ru.taksebe.telegram.writeRead.api.dictionaries.DictionaryExcelService;
 import ru.taksebe.telegram.writeRead.constants.bot.BotMessageEnum;
 import ru.taksebe.telegram.writeRead.constants.bot.ButtonNameEnum;
 import ru.taksebe.telegram.writeRead.constants.bot.CallbackDataPartsEnum;
-import ru.taksebe.telegram.writeRead.exceptions.DictionaryTooBigException;
-import ru.taksebe.telegram.writeRead.exceptions.FileNameNotFoundInSamplesException;
-import ru.taksebe.telegram.writeRead.exceptions.NotRightSaveFileException;
-import ru.taksebe.telegram.writeRead.exceptions.TelegramFileNotFoundException;
+import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
+import ru.taksebe.telegram.writeRead.exceptions.*;
 import ru.taksebe.telegram.writeRead.telegram.TelegramApiClient;
 import ru.taksebe.telegram.writeRead.telegram.keyboards.InlineKeyboardMaker;
 import ru.taksebe.telegram.writeRead.telegram.keyboards.InlineKeyboardMakerPdf;
 import ru.taksebe.telegram.writeRead.telegram.keyboards.ReplyKeyboardMaker;
 import ru.taksebe.telegram.writeRead.telegram.handlers.CallbackQueryHandler;
-
 import ru.taksebe.telegram.writeRead.service.TelegramDownloadLetterService;
-
 import java.io.IOException;
+import java.util.List;
+
+import ru.taksebe.telegram.writeRead.entity.UsersProfilesEntity;
+import ru.taksebe.telegram.writeRead.repository.UsersProfilesCrudRepository;
 
 @Component
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -37,6 +37,8 @@ public class MessageHandler {
     TelegramDownloadLetterService telegramDownloadLetterService;
     @Autowired
     CallbackQueryHandler callbackQueryHandler;
+    @Autowired
+    UsersProfilesCrudRepository usersProfilesCrudRepository;
 
     DictionaryAdditionService dictionaryAdditionService;
     DictionaryMaterialsAdditionService dictionaryMaterialsAdditionService;
@@ -67,6 +69,7 @@ public class MessageHandler {
         }
 
         String inputText = message.getText();
+        String tgUser = message.getFrom().getUserName().toString();
 
         if (inputText == null) {
             throw new IllegalArgumentException();
@@ -76,15 +79,40 @@ public class MessageHandler {
 
             // new buttons for materials
         } else if (inputText.equals(ButtonNameEnum.UPLOAD_MATERIALS_BUTTON.getButtonName())) {
+
+            List<UsersProfilesEntity> result = usersProfilesCrudRepository.findAllFromUsersProfilesBy2Param(
+                    "UPLOAD_MATERIALS_BUTTON",tgUser);
+            result.forEach(it3-> System.out.println(it3));
+            System.out.println("result.size = " + result.size());
+            int resultExists = result.size();
+            if(resultExists == 0){
+                throw new NoRightUploadMaterialsButton();
+            }
             System.out.println("Это работает новая кнопка!");
             return getStartMessageMaterials(chatId);
 
         } else if (inputText.equals(ButtonNameEnum.UPLOAD_MATERIALS_WITH_FILES_BUTTON.getButtonName())) {
+            List<UsersProfilesEntity> result = usersProfilesCrudRepository.findAllFromUsersProfilesBy2Param(
+                    "UPLOAD_MATERIALS_WITH_FILES_BUTTON",tgUser);
+            result.forEach(it3-> System.out.println(it3));
+            System.out.println("result.size = " + result.size());
+            int resultExists = result.size();
+            if(resultExists == 0){
+                throw new NoRightUploadMaterialsWithFilesButton();
+            }
             System.out.println("Это работает новая кнопка рассылки материалов с файлами!");
             SendMessage sendResult = getStartMessageMaterialsWithFiles(chatId);
             return sendResult;
 
         } else if (inputText.equals(ButtonNameEnum.UPLOAD_FILES_BUTTON.getButtonName())) {
+            List<UsersProfilesEntity> result = usersProfilesCrudRepository.findAllFromUsersProfilesBy2Param(
+                    "UPLOAD_FILES_BUTTON",tgUser);
+            result.forEach(it3-> System.out.println(it3));
+            System.out.println("result.size = " + result.size());
+            int resultExists = result.size();
+            if(resultExists == 0){
+                throw new NoRightUploadFilesButton();
+            }
             System.out.println("Это работает новая кнопка Тест пересылки файлов!");
             return getDictionaryMessageFiles(chatId);
         } else if (inputText.equals(ButtonNameEnum.GET_TASKS_BUTTON.getButtonName())) {
