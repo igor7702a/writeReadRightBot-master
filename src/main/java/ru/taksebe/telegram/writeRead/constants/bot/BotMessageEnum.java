@@ -33,9 +33,14 @@ public enum BotMessageEnum {
     //ошибки загрузки файлов
     EXCEPTION_FILE_NOT_FOUND_IN_SAMPLE("\uD83D\uDED1 Файл не загружен! Имя загружаемого файла не найдено в образцах."), // эмодзи код знак стоп
     EXCEPTION_NOT_RIGHTS_SAVE_FILE("\uD83D\uDED1 У вас нет права на запись этого файла! Обратитесь к администратору."), // эмодзи код знак стоп
+
+    // ошибки доступа к главной клавиатуре
     EXCEPTION_NOT_RIGHTS_UPLOAD_MATERIALS_BUTTON("\uD83D\uDED1 У вас нет права на нажатие этой кнопки UPLOAD_MATERIALS_BUTTON! Обратитесь к администратору."), // эмодзи код знак стоп
     EXCEPTION_NOT_RIGHTS_UPLOAD_MATERIALS_WITH_FILES_BUTTON("\uD83D\uDED1 У вас нет права на нажатие этой кнопки UPLOAD_MATERIALS_WITH_FILES! Обратитесь к администратору."), // эмодзи код знак стоп
     EXCEPTION_NOT_RIGHTS_UPLOAD_FILES_BUTTON("\uD83D\uDED1 У вас нет права на нажатие этой кнопки UPLOAD_FILES_BUTTON! Обратитесь к администратору."), // эмодзи код знак стоп
+
+    //ошибки доступа к инлайн клавиатуре
+    EXCEPTION_NOT_RIGHTS_TEMPLATE_NEW_BUTTON("\uD83D\uDED1 У вас нет права на нажатие этой кнопки TEMPLATE_NEW! Обратитесь к администратору."), // эмодзи код знак стоп
 
     //ошибки при обработке callback-ов
     EXCEPTION_BAD_BUTTON_NAME_MESSAGE("Неверное значение кнопки. Крайне странно. Попробуйте позже"),

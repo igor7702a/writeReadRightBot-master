@@ -3,6 +3,7 @@ package ru.taksebe.telegram.writeRead.telegram.handlers;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -15,8 +16,13 @@ import ru.taksebe.telegram.writeRead.api.tasks.TaskService;
 import ru.taksebe.telegram.writeRead.constants.bot.BotMessageEnum;
 import ru.taksebe.telegram.writeRead.constants.bot.CallbackDataPartsEnum;
 import ru.taksebe.telegram.writeRead.constants.resources.DictionaryResourcePathEnum;
+import ru.taksebe.telegram.writeRead.entity.UsersProfilesEntity;
+import ru.taksebe.telegram.writeRead.exceptions.NoRightTemplateNewButton;
+import ru.taksebe.telegram.writeRead.exceptions.NoRightUploadMaterialsWithFilesButton;
 import ru.taksebe.telegram.writeRead.exceptions.UserDictionaryNotFoundException;
 import ru.taksebe.telegram.writeRead.telegram.TelegramApiClient;
+import ru.taksebe.telegram.writeRead.repository.UsersProfilesCrudRepository;
+import ru.taksebe.telegram.writeRead.entity.UsersProfilesEntity;
 
 // Для работы с pdf
 import java.io.File;
@@ -24,11 +30,15 @@ import java.io.FileInputStream;
 import java.io.ByteArrayOutputStream;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 public class CallbackQueryHandler {
+    @Autowired
+    UsersProfilesCrudRepository usersProfilesCrudRepository;
+
     TelegramApiClient telegramApiClient;
     TaskService taskService;
     DictionaryExcelService dictionaryExcelService;
@@ -36,6 +46,7 @@ public class CallbackQueryHandler {
 
     public BotApiMethod<?> processCallbackQuery(CallbackQuery buttonQuery) throws IOException {
         final String chatId = buttonQuery.getMessage().getChatId().toString();
+        final String tgUser = buttonQuery.getFrom().getUserName();
 
         String data = buttonQuery.getData();
 
@@ -59,7 +70,16 @@ public class CallbackQueryHandler {
             return getAllDefaultDictionariesPdf(chatId);
         // Одиночного pdf файла
         }else if (data.equals(CallbackDataPartsEnum.DICTIONARY_.name() + CallbackDataPartsEnum.TEMPLATE_NEW.name())) {
-            System.out.println("Это работает кнопка - " + "CallbackDataPartsEnum.TEMPLATE_NEW");
+            // Здесь проверить право на нажатие этой кнопки
+            List<UsersProfilesEntity> result = usersProfilesCrudRepository.findAllFromUsersProfilesBy2Param(
+                    "TEMPLATE_NEW",tgUser);
+            result.forEach(it3-> System.out.println(it3));
+            System.out.println("result.size = " + result.size());
+            int resultExists = result.size();
+            if(resultExists == 0){
+                throw new NoRightTemplateNewButton();
+            }
+
             System.out.println("Это работает кнопка - " + CallbackDataPartsEnum.TEMPLATE_NEW.name());
             SendMessage myResult = getTemplateNew(chatId);
             return myResult;
