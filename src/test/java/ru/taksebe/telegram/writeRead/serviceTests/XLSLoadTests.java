@@ -8,6 +8,7 @@ import ru.taksebe.telegram.writeRead.service.XLSLoadSettingFilesService;
 import ru.taksebe.telegram.writeRead.service.XLSNewFormatLoadSettingFilesService;
 import ru.taksebe.telegram.writeRead.service.XLSLoadSamplesFilesService;
 import ru.taksebe.telegram.writeRead.service.XLSLoadUsersProfilesService;
+import ru.taksebe.telegram.writeRead.service.XLSLoadAddressService;
 
 import java.io.IOException;
 
@@ -22,6 +23,8 @@ public class XLSLoadTests {
     XLSLoadSamplesFilesService xlsLoadSamplesFilesService;
     @Autowired
     XLSLoadUsersProfilesService xlsLoadUsersProfilesService;
+    @Autowired
+    XLSLoadAddressService xlsLoadAddressService;
 
     @Test
     void xlsLoadFileOldFormat() throws IOException {
@@ -53,20 +56,10 @@ public class XLSLoadTests {
         Assertions.assertEquals(1, 1);
     }
 
-//    public LocalDate receivedateItemNameFromXLS(String dateItemNameFromXLS){
-//        // Пример "20.12.2021"
-//        dateItemNameFromXLS = "20.12.2021";
-//        StringBuilder sbDate = new StringBuilder(dateItemNameFromXLS.substring(1,2));
-//        StringBuilder sbMonth = new StringBuilder(dateItemNameFromXLS.substring(3,4));
-//        StringBuilder sbYear = new StringBuilder(dateItemNameFromXLS.substring(6,9));
-//        StringBuilder sbDateForConvert = new StringBuilder(sbYear + "-" + sbMonth + sbDate);
-//
-//        String sbDateStringForConvert = sbDateForConvert.toString();
-//
-//        LocalDate ld = LocalDate.parse(sbDateStringForConvert);
-//        System.out.println("dateItemNameFromXLS - " + dateItemNameFromXLS);
-//        System.out.println("ld - " + ld);
-//        return ld;
-//    };
+    @Test // Для реальной загрузки списка адресов для рассылки
+    void xlsLoadAddressNewFormat() throws IOException {
+        xlsLoadAddressService.xlsLoadAddressNewFormat();
+        Assertions.assertEquals(1, 1);
+    }
 
 }

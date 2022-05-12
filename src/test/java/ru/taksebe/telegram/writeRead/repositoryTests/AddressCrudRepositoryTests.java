@@ -8,8 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
-import ru.taksebe.telegram.writeRead.entity.MaterialsEntity;
-import ru.taksebe.telegram.writeRead.repository.MaterialsCrudRepository;
 import ru.taksebe.telegram.writeRead.entity.AddressEntity;
 import ru.taksebe.telegram.writeRead.repository.AddressCrudRepository;
 
@@ -22,8 +20,6 @@ import java.util.List;
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 public class AddressCrudRepositoryTests {
 
-    @Autowired
-    MaterialsCrudRepository materialsCrudRepository;
     @Autowired
     AddressCrudRepository addressCrudRepository;
 
@@ -43,10 +39,21 @@ public class AddressCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
+    // Get findAllFromAddressBy3Param
+    @Test
+    void findAllFromAddressBy3Param() {
+        List<AddressEntity> address = addressCrudRepository.findAllFromAddressBy3Param(
+                "bot telegram",
+                "@igor7702testbot",
+                "5276533294");
+        address.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
     // Delete
     @Test
     void deleteVoidWhereIdParametr() {
-        addressCrudRepository.deleteVoidWhereIdParametr(2L);
+        addressCrudRepository.deleteVoidWhereIdParametr(4L);
         Assertions.assertEquals(1, 1);
     }
 

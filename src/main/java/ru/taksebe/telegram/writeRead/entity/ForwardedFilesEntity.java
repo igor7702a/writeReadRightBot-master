@@ -16,9 +16,9 @@ public class ForwardedFilesEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
-    private AddressEntity addressEntity;
+//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "address_id")
+//    private AddressEntity addressEntity;
 
     @Column
     @Getter
@@ -101,7 +101,6 @@ public class ForwardedFilesEntity {
     public String toString() {
         return "forwarded_files{" +
                 "id=" + id +
-                ", address_id='" + addressEntity + '\'' +
                 ", rubric_book_number='" + rubric_book_number + '\'' +
                 ", system_rubric_name='" + system_rubric_name + '\'' +
                 ", system_file_name='" + system_file_name + '\'' +
