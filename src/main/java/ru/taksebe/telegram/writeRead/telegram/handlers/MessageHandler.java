@@ -101,7 +101,7 @@ public class MessageHandler {
                 throw new NoRightUploadMaterialsWithFilesButton();
             }
             System.out.println("Это работает новая кнопка рассылки материалов с файлами!");
-            SendMessage sendResult = getStartMessageMaterialsWithFiles(chatId);
+            SendMessage sendResult = getStartMessageMaterialsWithFiles(chatId, tgUser);
             return sendResult;
 
         } else if (inputText.equals(ButtonNameEnum.UPLOAD_FILES_BUTTON.getButtonName())) {
@@ -215,13 +215,13 @@ public class MessageHandler {
     }
 
     // Получаем текстовое письмо + пересылкa файлов - на новой кнопке
-    private SendMessage getStartMessageMaterialsWithFiles(String chatId) throws IOException {
+    private SendMessage getStartMessageMaterialsWithFiles(String chatId, String tgUser) throws IOException {
         // Цикл по пунктам 1-3, получить запросом количество пунктов, организовать цикл по пуктам
         // В цикле получить сообщение и список файлов и отправить.
         // Получаем текст первой части сообщения
         // Пересылка сообщения в телеграм
 
-        String myResult = telegramDownloadLetterService.docxDownLoadRealLetterWithFiles();
+        String myResult = telegramDownloadLetterService.docxDownLoadRealLetterWithFiles(chatId, tgUser);
         SendMessage sendMessage = new SendMessage(chatId, myResult);
         System.out.println("chatId - " + chatId);
         sendMessage.setParseMode("HTML");

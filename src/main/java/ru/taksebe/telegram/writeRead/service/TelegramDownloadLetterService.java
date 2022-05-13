@@ -9,8 +9,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
 import ru.taksebe.telegram.writeRead.model.DateFile;
 import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
+import ru.taksebe.telegram.writeRead.repository.ForwardedFilesCrudRepository;
 import ru.taksebe.telegram.writeRead.telegram.handlers.CallbackQueryHandler;
 import ru.taksebe.telegram.writeRead.service.OSValidator;
+
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,6 +23,7 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -32,6 +35,8 @@ public class TelegramDownloadLetterService {
 
     @Autowired
     private XlsLoadSettingsFilesCrudRepository xlsLoadSettingsFilesCrudRepository;
+    @Autowired
+    private ForwardedFilesCrudRepository forwardedFilesCrudRepository;
     @Autowired
     private CallbackQueryHandler callbackQueryHandler;
     @Autowired
@@ -379,7 +384,7 @@ public class TelegramDownloadLetterService {
         return letterForTelegramString;
     }
 
-    public String docxDownLoadRealLetterWithFiles() throws IOException {
+    public String docxDownLoadRealLetterWithFiles(String chatId, String tgUser) throws IOException {
 
         // Data
         // For OS +
@@ -512,7 +517,7 @@ public class TelegramDownloadLetterService {
                         System.out.println(myFile);
 
                         // Отправить файлы в этот канал
-                        String chatId = "5297506090";
+                        //String chatId = "5297506090"; - // Определено в параметрах метода
                         String token = "5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4";
 
                         String upPath = sbPath.toString();
@@ -530,7 +535,23 @@ public class TelegramDownloadLetterService {
                                 file_suffix,
                                 file_id
                         );
-
+                    // Записать информацию об отправленном файле в лог - таблица forwarded_files
+                    forwardedFilesCrudRepository.create_ForwardedFiles_All16(
+                            "None",
+                            nameRubric,
+                            nameBook,
+                            myFile,
+                            String.valueOf(numberYear),
+                            timetablePeriod,
+                            String.valueOf(numberMonth),
+                            LocalDateTime.now(),
+                            "Good",
+                            "bot_telegram",
+                            "None", // требуется переопределение как параметра, по chatId получить из таблицы address
+                            chatId,
+                            LocalDateTime.now(),
+                            tgUser
+                    );
                     }
 
                 }
