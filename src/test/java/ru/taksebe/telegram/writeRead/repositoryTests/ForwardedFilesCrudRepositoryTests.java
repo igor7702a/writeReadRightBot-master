@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
 import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
 import ru.taksebe.telegram.writeRead.entity.ForwardedFilesEntity;
@@ -38,10 +40,48 @@ public class ForwardedFilesCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
+    // Get findAllFromForwardedFilesById
+    @Test
+    void findAllFromForwardedAlreadySended() {
+        List<ForwardedFilesEntity> note = forwardedFilesCrudRepository.findAllFromForwardedAlreadySended(
+                "нацпроекты",
+                "СпрОпрВциом",
+                "2021",
+                "months",
+                "11",
+                "Good",
+                "bot_telegram",
+                "5297506090");
+        note.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
+    // Get findAllFromForwardedFiles2
+    @Test
+    void findAllFromForwardedAlreadySended2() {
+        List<ForwardedFilesEntity> note = forwardedFilesCrudRepository.findAllFromForwardedAlreadySended(
+                "нацпроекты",
+                "СпрОпрВциом");
+        note.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
+    // Get findAllFromForwardedFiles4
+    @Test
+    void findAllFromForwardedAlreadySended4() {
+        List<ForwardedFilesEntity> note = forwardedFilesCrudRepository.findAllFromForwardedAlreadySended(
+                "нацпроекты",
+                "СпрОпрВциом",
+                "2021",
+                "months");
+        note.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
     // Delete
     @Test
     void deleteVoidWhereIdParametr() {
-        forwardedFilesCrudRepository.deleteVoidWhereIdParametr(15L);
+        forwardedFilesCrudRepository.deleteVoidWhereIdParametr(14L);
         Assertions.assertEquals(1, 1);
     }
 
@@ -65,5 +105,26 @@ public class ForwardedFilesCrudRepositoryTests {
         );
         Assertions.assertEquals(1, 1);
     }
+
+//    //Get findAllFromForwardedAlreadySended
+//    @Transactional(readOnly = true)
+//    @Query(value = "SELECT * FROM forwarded_files WHERE (" +
+//            "system_rubric_name=:systemRubricName " +
+//            "and system_file_name = :systemFileName " +
+//            "and st_year = :stYear " +
+//            "and st_period = :stPeriod " +
+//            "and number_period = :numberPeriod " +
+//            "and harvest = :harvest " +
+//            "and type_address = :typeAddress " +
+//            ")"
+//            , nativeQuery = true)
+//    List<ForwardedFilesEntity> findAllFromForwardedAlreadySended(
+//            String systemRubricName,
+//            String systemFileName,
+//            String stYear,
+//            String stPeriod,
+//            String numberPeriod,
+//            String harvest,
+//            String typeAddress);
 
 }

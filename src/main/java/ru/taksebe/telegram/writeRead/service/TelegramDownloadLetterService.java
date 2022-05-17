@@ -6,6 +6,7 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import ru.taksebe.telegram.writeRead.entity.ForwardedFilesEntity;
 import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
 import ru.taksebe.telegram.writeRead.model.DateFile;
 import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
@@ -526,32 +527,73 @@ public class TelegramDownloadLetterService {
                         String file_suffix = "pdf";
                         String file_id = "AAMCBAADGQMAAgHiYk6ZEvv6ciQtEMp90nF16o_j-owAAhcDAAKuGnVSxKpibmP79SABAAdtAAMjBA";
 
-                        callbackQueryHandler.getTemplateOnlyPDF(
-                                chatId,
-                                token,
-                                upPath,
-                                fullPath,
-                                file_name,
-                                file_suffix,
-                                file_id
-                        );
-                    // Записать информацию об отправленном файле в лог - таблица forwarded_files
-                    forwardedFilesCrudRepository.create_ForwardedFiles_All16(
-                            "None",
-                            nameRubric,
-                            nameBook,
-                            myFile,
-                            String.valueOf(numberYear),
-                            timetablePeriod,
-                            String.valueOf(numberMonth),
-                            LocalDateTime.now(),
-                            "Good",
-                            "bot_telegram",
-                            "None", // требуется переопределение как параметра, по chatId получить из таблицы address
-                            chatId,
-                            LocalDateTime.now(),
-                            tgUser
-                    );
+                        // Проверить - может файл уже пересылали раньше
+                        // Если не пересылали переслать, если пересылали - не пересылать,
+                        // но записать в лог файл, что переслка не удалась и указать причину.
+                        List<ForwardedFilesEntity> resultAlreadySended = forwardedFilesCrudRepository.findAllFromForwardedAlreadySended(
+                                nameRubric,
+                                nameBook,
+                                String.valueOf(numberYear),
+                                timetablePeriod,
+                                String.valueOf(numberMonth),
+                                "Good",
+                                "bot_telegram",
+                                chatId);
+
+                        resultAlreadySended.forEach(it8-> System.out.println(it8));
+                        System.out.println("resultAlreadySended.size = " + resultAlreadySended.size());
+                        int resultAlreadySendedExists = resultAlreadySended.size();
+
+                        if(resultAlreadySendedExists != 0){
+                            // Записать информацию об ошибке отправления - файл уже был отправлен в лог - таблица forwarded_files
+                            forwardedFilesCrudRepository.create_ForwardedFiles_All16(
+                                    "None",
+                                    nameRubric,
+                                    nameBook,
+                                    myFile,
+                                    String.valueOf(numberYear),
+                                    timetablePeriod,
+                                    String.valueOf(numberMonth),
+                                    resultAlreadySended.get(0).getDelivery_date(),
+                                    "Bad", // Attention!
+                                    "bot_telegram",
+                                    "None", // требуется переопределение как параметра, по chatId получить из таблицы address
+                                    chatId,
+                                    LocalDateTime.now(),
+                                    tgUser);
+                            // добавить: comment file already sended deleivery_date
+
+                            // Рассмотреть сообщение пользователю - о том, что файл уже отправлен
+                        } else {
+                            callbackQueryHandler.getTemplateOnlyPDF(
+                                    chatId,
+                                    token,
+                                    upPath,
+                                    fullPath,
+                                    file_name,
+                                    file_suffix,
+                                    file_id
+                            );
+                            // Записать информацию об отправленном файле в лог - таблица forwarded_files
+                            forwardedFilesCrudRepository.create_ForwardedFiles_All16(
+                                    "None",
+                                    nameRubric,
+                                    nameBook,
+                                    myFile,
+                                    String.valueOf(numberYear),
+                                    timetablePeriod,
+                                    String.valueOf(numberMonth),
+                                    LocalDateTime.now(),
+                                    "Good",
+                                    "bot_telegram",
+                                    "None", // требуется переопределение как параметра, по chatId получить из таблицы address
+                                    chatId,
+                                    LocalDateTime.now(),
+                                    tgUser
+                            );
+
+                        }
+
                     }
 
                 }

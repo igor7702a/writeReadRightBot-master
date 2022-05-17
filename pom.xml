@@ -16,8 +16,8 @@
     <name>write-read</name>
     <description>Пиши-читай</description>
     <!--For war-->
-    <!--<packaging>jar</packaging>-->
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
+<!--    <packaging>war</packaging>-->
     <!--For war-->
 
 <!--    <properties>-->

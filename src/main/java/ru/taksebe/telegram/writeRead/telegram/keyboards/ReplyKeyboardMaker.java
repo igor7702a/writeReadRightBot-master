@@ -25,9 +25,9 @@ public class ReplyKeyboardMaker {
         row2.add(new KeyboardButton(ButtonNameEnum.HELP_BUTTON.getButtonName()));
 
         KeyboardRow row3 = new KeyboardRow();
-        row3.add(new KeyboardButton(ButtonNameEnum.UPLOAD_MATERIALS_BUTTON.getButtonName()));
+        //row3.add(new KeyboardButton(ButtonNameEnum.UPLOAD_MATERIALS_BUTTON.getButtonName()));
         row3.add(new KeyboardButton(ButtonNameEnum.UPLOAD_MATERIALS_WITH_FILES_BUTTON.getButtonName()));
-        row3.add(new KeyboardButton(ButtonNameEnum.UPLOAD_FILES_BUTTON.getButtonName()));
+        //row3.add(new KeyboardButton(ButtonNameEnum.UPLOAD_FILES_BUTTON.getButtonName()));
 
         List<KeyboardRow> keyboard = new ArrayList<>();
         keyboard.add(row1);

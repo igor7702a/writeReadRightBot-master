@@ -24,6 +24,60 @@ public interface ForwardedFilesCrudRepository extends JpaRepository<ForwardedFil
     @Query(value = "SELECT * FROM forwarded_files WHERE id=:id", nativeQuery = true)
     List<ForwardedFilesEntity> findAllFromForwardedFilesById(long id);
 
+    //Get findAllFromForwardedAlreadySended
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT * FROM forwarded_files WHERE (" +
+            "system_rubric_name=:systemRubricName " +
+            "and system_file_name = :systemFileName " +
+            "and st_year = :stYear " +
+            "and st_period = :stPeriod " +
+            "and number_period = :numberPeriod " +
+            "and harvest = :harvest " +
+            "and type_address = :typeAddress " +
+            "and description_address = :descriptionAddress" +
+            ")" +
+            "ORDER BY datetime_upload DESC " +
+            "LIMIT 1"
+            , nativeQuery = true)
+    List<ForwardedFilesEntity> findAllFromForwardedAlreadySended(
+            String systemRubricName,
+            String systemFileName,
+            String stYear,
+            String stPeriod,
+            String numberPeriod,
+            String harvest,
+            String typeAddress,
+            String descriptionAddress);
+
+    //Get findAllFromForwardedAlreadySended2
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT * FROM forwarded_files WHERE (" +
+            "system_rubric_name=:systemRubricName " +
+            "and system_file_name = :systemFileName " +
+            ")"
+            , nativeQuery = true)
+    List<ForwardedFilesEntity> findAllFromForwardedAlreadySended(
+            String systemRubricName,
+            String systemFileName
+           );
+
+    //Get findAllFromForwardedAlreadySended4
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT * FROM forwarded_files WHERE (" +
+            "system_rubric_name=:systemRubricName " +
+            "and system_file_name = :systemFileName " +
+            "and st_year = :stYear " +
+            "and st_period = :stPeriod " +
+            ") " +
+            "ORDER BY datetime_upload DESC " +
+            "LIMIT 1"
+            , nativeQuery = true)
+    List<ForwardedFilesEntity> findAllFromForwardedAlreadySended(
+            String systemRubricName,
+            String systemFileName,
+            String stYear,
+            String stPeriod);
+
     //Delete
     @Modifying
     @Transactional
