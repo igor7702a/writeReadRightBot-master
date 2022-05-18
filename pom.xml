@@ -130,6 +130,13 @@
             <artifactId>telegrambotsextensions</artifactId>
             <version>5.7.0</version>
         </dependency>
+
+<!--    for PEM certificat-->
+        <dependency>
+            <groupId>de.dentrassi.crypto</groupId>
+            <artifactId>pem-keystore</artifactId>
+            <version>2.2.1</version>
+        </dependency>
     </dependencies>
 
 <!--    <build>-->
