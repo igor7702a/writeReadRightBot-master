@@ -27,8 +27,8 @@ public class TelegramApiClient {
 
     private final RestTemplate restTemplate;
 
-    public TelegramApiClient(@Value("${telegram.api-url}") String URL,
-                             @Value("${telegram.bot-token}") String botToken) {
+    public TelegramApiClient(@Value("https://api.telegram.org/") String URL,
+                             @Value("5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4") String botToken) {
         this.URL = URL;
         this.botToken = botToken;
         this.restTemplate = new RestTemplate();

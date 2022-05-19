@@ -90,6 +90,11 @@ public class ForwardedFilesEntity {
     @Setter
     private String responsible;
 
+    @Column
+    @Getter
+    @Setter
+    private String comment;
+
     public Long getId() {
         return id;
     }
@@ -115,6 +120,7 @@ public class ForwardedFilesEntity {
                 ", description_address='" + description_address + '\'' +
                 ", datetime_upload='" + datetime_upload + '\'' +
                 ", responsible='" + responsible + '\'' +
+                ", comment='" + comment + '\'' +
                 '}';
     }
 
@@ -135,4 +141,5 @@ public class ForwardedFilesEntity {
 //    description_address VARCHAR(150);
 //    datetime_upload timestamp;
 //    responsible VARCHAR(100)
+//    comment VARCHAR(100)
 

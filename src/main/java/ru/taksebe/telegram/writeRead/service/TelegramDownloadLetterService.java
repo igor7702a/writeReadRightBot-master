@@ -25,6 +25,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -401,7 +402,8 @@ public class TelegramDownloadLetterService {
         else {
         }
         StringBuilder sbPath = new StringBuilder(pathOS);
-        // -
+
+        // Получить запросом из таблицы XlsLoadSettingsFiles
 
         StringBuilder sb = new StringBuilder(sbPath.toString() + "files/");
         String initialPath = sb.toString();
@@ -411,6 +413,8 @@ public class TelegramDownloadLetterService {
         int numberMonth = 11;
         String timetable = "Ежемесячно";
         int numberRubric = 2;
+        String chatIdAim = "5276533294";
+        String chatIdAimFile = "5297506090";
         StringBuilder letterForTelegram = new StringBuilder("");
 
         List<Integer> quantityRubrics = receiveQuantityRubrics(numberYear, numberMonth, timetable);
@@ -478,25 +482,54 @@ public class TelegramDownloadLetterService {
                     );
 
                     // Перечень подпунктов в Цели:
-                    for (XlsLoadSettingsFilesEntity element : result) {
-                        //  3.1 Справка достижение НЦР
-                        letterForTelegram.append(
-                                "\u25FD" +  // маленький белый квадрат
-                                        "<u>" + element.getBook_name() + "</u>" +
-                                        "\n"
-                        );
 
+                    for (XlsLoadSettingsFilesEntity element : result) {
+                        // Создать метод определяющий, что файл уже переслан, получить результат = 1
+                        // Если файл уже переслан, строку с сообщением не выводить, а выводить строку, что этот файл уже переслали
+                        String timetablePeriod = "months";
                         String nameRubric = element.getSystem_rubric_name();
                         String nameBook = element.getSystem_file_name();
-                        String timetablePeriod = "months";
-                        String myFile = receiveEndFileParam(
-                                initialPath, //c:/Books/files/
-                                numberYear,
-                                timetablePeriod,
-                                numberMonth,
+
+                        List<ForwardedFilesEntity> resultAlreadySended9 = forwardedFilesCrudRepository.findAllFromForwardedAlreadySended(
                                 nameRubric,
-                                nameBook
-                        );
+                                nameBook,
+                                String.valueOf(numberYear),
+                                timetablePeriod,
+                                String.valueOf(numberMonth),
+                                "Good",
+                                "bot_telegram",
+                                chatIdAim);
+
+                        resultAlreadySended9.forEach(it9-> System.out.println(it9));
+                        System.out.println("resultAlreadySended9.size = " + resultAlreadySended9.size());
+                        int resultAlreadySendedExists9 = resultAlreadySended9.size();
+
+                        if(resultAlreadySendedExists9 != 0){
+                            // Пересылаем сообщение, что этот файл уже переслали
+                            letterForTelegram.append(
+                                    "\u25FD" +  // маленький белый квадрат
+                                            "<u>" + element.getBook_name() + " - файл уже переслали " +
+                                            resultAlreadySended9.get(0).getDelivery_date().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "</u>" +
+                                            "\n"
+                            );
+                        }else {
+                            // Пересылаем требуемое сообщение
+                            //  3.1 Справка достижение НЦР
+                            letterForTelegram.append(
+                                    "\u25FD" +  // маленький белый квадрат
+                                            "<u>" + element.getBook_name() + "</u>" +
+                                            "\n"
+                            );
+
+                            String myFile = receiveEndFileParam(
+                                    initialPath, //c:/Books/files/
+                                    numberYear,
+                                    timetablePeriod,
+                                    numberMonth,
+                                    nameRubric,
+                                    nameBook
+                            );
+                        }
 
                     }
 
@@ -526,6 +559,7 @@ public class TelegramDownloadLetterService {
                         String file_name = element.getBook_name();// "TemplatePdf.pdf";
                         String file_suffix = "pdf";
                         String file_id = "AAMCBAADGQMAAgHiYk6ZEvv6ciQtEMp90nF16o_j-owAAhcDAAKuGnVSxKpibmP79SABAAdtAAMjBA";
+                        String comment = "";
 
                         // Проверить - может файл уже пересылали раньше
                         // Если не пересылали переслать, если пересылали - не пересылать,
@@ -538,7 +572,7 @@ public class TelegramDownloadLetterService {
                                 String.valueOf(numberMonth),
                                 "Good",
                                 "bot_telegram",
-                                chatId);
+                                chatIdAim);
 
                         resultAlreadySended.forEach(it8-> System.out.println(it8));
                         System.out.println("resultAlreadySended.size = " + resultAlreadySended.size());
@@ -546,6 +580,7 @@ public class TelegramDownloadLetterService {
 
                         if(resultAlreadySendedExists != 0){
                             // Записать информацию об ошибке отправления - файл уже был отправлен в лог - таблица forwarded_files
+                            comment = "This file is already sended " + resultAlreadySended.get(0).getDelivery_date();
                             forwardedFilesCrudRepository.create_ForwardedFiles_All16(
                                     "None",
                                     nameRubric,
@@ -558,15 +593,13 @@ public class TelegramDownloadLetterService {
                                     "Bad", // Attention!
                                     "bot_telegram",
                                     "None", // требуется переопределение как параметра, по chatId получить из таблицы address
-                                    chatId,
+                                    chatIdAim,
                                     LocalDateTime.now(),
-                                    tgUser);
-                            // добавить: comment file already sended deleivery_date
-
-                            // Рассмотреть сообщение пользователю - о том, что файл уже отправлен
+                                    tgUser,
+                                    comment);
                         } else {
                             callbackQueryHandler.getTemplateOnlyPDF(
-                                    chatId,
+                                    chatIdAimFile,
                                     token,
                                     upPath,
                                     fullPath,
@@ -587,9 +620,10 @@ public class TelegramDownloadLetterService {
                                     "Good",
                                     "bot_telegram",
                                     "None", // требуется переопределение как параметра, по chatId получить из таблицы address
-                                    chatId,
+                                    chatIdAim,
                                     LocalDateTime.now(),
-                                    tgUser
+                                    tgUser,
+                                    ""
                             );
 
                         }

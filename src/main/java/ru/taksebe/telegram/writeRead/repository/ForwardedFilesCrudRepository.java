@@ -84,7 +84,7 @@ public interface ForwardedFilesCrudRepository extends JpaRepository<ForwardedFil
     @Query(nativeQuery = true, value = "delete from forwarded_files where id=:id")
     void deleteVoidWhereIdParametr(long id);
 
-    //Create create_XlsLoadSettingsFiles_All18
+    //Create create_XlsLoadSettingsFiles_All
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "insert into forwarded_files (" +
@@ -101,7 +101,8 @@ public interface ForwardedFilesCrudRepository extends JpaRepository<ForwardedFil
             "matter_address," +
             "description_address," +
             "datetime_upload," +
-            "responsible" +
+            "responsible," +
+            "comment" +
             ") " +
             "VALUES (" +
             ":rubricBookNumber," +
@@ -117,7 +118,8 @@ public interface ForwardedFilesCrudRepository extends JpaRepository<ForwardedFil
             ":matterAddress," +
             ":descriptionAddress," +
             ":datetimeUpload," +
-            ":responsible" +
+            ":responsible," +
+            ":comment" +
             ")"
     )
     void create_ForwardedFiles_All16(
@@ -134,7 +136,8 @@ public interface ForwardedFilesCrudRepository extends JpaRepository<ForwardedFil
             String matterAddress,
             String descriptionAddress,
             LocalDateTime datetimeUpload,
-            String responsible
+            String responsible,
+            String comment
     );
 
     //Update

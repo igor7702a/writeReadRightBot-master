@@ -228,6 +228,7 @@ public class MessageHandler {
         sendMessage.setReplyMarkup(replyKeyboardMaker.getMainMenuKeyboard());
         String myParseMode = sendMessage.getParseMode();
 
+        // Рассмотреть здесь возможность отправить файлы
         return sendMessage;
     }
 

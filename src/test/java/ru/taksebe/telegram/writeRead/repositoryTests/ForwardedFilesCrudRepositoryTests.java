@@ -81,7 +81,7 @@ public class ForwardedFilesCrudRepositoryTests {
     // Delete
     @Test
     void deleteVoidWhereIdParametr() {
-        forwardedFilesCrudRepository.deleteVoidWhereIdParametr(14L);
+        forwardedFilesCrudRepository.deleteVoidWhereIdParametr(94L);
         Assertions.assertEquals(1, 1);
     }
 
@@ -101,7 +101,8 @@ public class ForwardedFilesCrudRepositoryTests {
                 "@igor7702testbot",
                 "5276533294",
                 LocalDateTime.now(),
-                "TarasovIY"
+                "TarasovIY",
+                "This is test!"
         );
         Assertions.assertEquals(1, 1);
     }
