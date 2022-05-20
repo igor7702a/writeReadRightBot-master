@@ -73,9 +73,25 @@ public class MessageHandler {
 
         if (inputText == null) {
             throw new IllegalArgumentException();
-        } else if (inputText.equals("/start")) {
+        } else if (inputText.equals("/startbot")) {
+            // Проверить, чтобы отвечал только в test_bot
             SendMessage myResult = getStartMessage(chatId);
-        return myResult;
+            SendMessage myResultEmpty = getStartMessageEmpty(chatId);
+            if(chatId.equals("5297506090")){
+            }else{
+                myResult = myResultEmpty;
+            }
+            return myResult;
+        }else if (inputText.equals("/start")) {
+            // Проверить, чтобы отвечал только в test_bot
+            SendMessage myResult = getStartMessage(chatId);
+            SendMessage myResultEmpty = getStartMessageEmpty(chatId);
+            if(chatId.equals("5297506090")){
+            }else{
+                myResult = myResultEmpty;
+            }
+
+            return myResult;
 
             // new buttons for materials
         } else if (inputText.equals(ButtonNameEnum.UPLOAD_MATERIALS_BUTTON.getButtonName())) {
@@ -101,7 +117,34 @@ public class MessageHandler {
                 throw new NoRightUploadMaterialsWithFilesButton();
             }
             System.out.println("Это работает новая кнопка рассылки материалов с файлами!");
-            SendMessage sendResult = getStartMessageMaterialsWithFiles(chatId, tgUser);
+            String systemRubricName = "нацпроекты";
+            SendMessage sendResult = getStartMessageMaterialsWithFiles(chatId, tgUser, systemRubricName);
+            return sendResult;
+
+        } else if (inputText.equals(ButtonNameEnum.UPLOAD_MATERIALS_WITH_FILES_RISKS.getButtonName())) {
+            List<UsersProfilesEntity> result = usersProfilesCrudRepository.findAllFromUsersProfilesBy2Param(
+                    "UPLOAD_MATERIALS_WITH_FILES_RISKS",tgUser);
+            result.forEach(it3-> System.out.println(it3));
+            System.out.println("result.size = " + result.size());
+            int resultExists = result.size();
+            if(resultExists == 0){
+                throw new NoRightUploadMaterialsWithFilesButton();
+            }
+            String systemRubricName = "риски";
+            SendMessage sendResult = getStartMessageMaterialsWithFiles(chatId, tgUser, systemRubricName);
+            return sendResult;
+
+        } else if (inputText.equals(ButtonNameEnum.UPLOAD_MATERIALS_WITH_FILES_NATTIONAL_GOALS.getButtonName())) {
+            List<UsersProfilesEntity> result = usersProfilesCrudRepository.findAllFromUsersProfilesBy2Param(
+                    "UPLOAD_MATERIALS_WITH_FILES_NATTIONAL_GOALS",tgUser);
+            result.forEach(it3-> System.out.println(it3));
+            System.out.println("result.size = " + result.size());
+            int resultExists = result.size();
+            if(resultExists == 0){
+                throw new NoRightUploadMaterialsWithFilesButton();
+            }
+            String systemRubricName = "наццели";
+            SendMessage sendResult = getStartMessageMaterialsWithFiles(chatId, tgUser, systemRubricName);
             return sendResult;
 
         } else if (inputText.equals(ButtonNameEnum.UPLOAD_FILES_BUTTON.getButtonName())) {
@@ -115,6 +158,7 @@ public class MessageHandler {
             }
             System.out.println("Это работает новая кнопка Тест пересылки файлов!");
             return getDictionaryMessageFiles(chatId);
+
         } else if (inputText.equals(ButtonNameEnum.GET_TASKS_BUTTON.getButtonName())) {
             return getTasksMessage(chatId);
         } else if (inputText.equals(ButtonNameEnum.GET_DICTIONARY_BUTTON.getButtonName())) {
@@ -134,6 +178,11 @@ public class MessageHandler {
         SendMessage sendMessage = new SendMessage(chatId, BotMessageEnum.HELP_MESSAGE.getMessage());
         sendMessage.enableMarkdown(true);
         sendMessage.setReplyMarkup(replyKeyboardMaker.getMainMenuKeyboard());
+        return sendMessage;
+    }
+
+    private SendMessage getStartMessageEmpty(String chatId) {
+        SendMessage sendMessage = new SendMessage(chatId, BotMessageEnum.HELP_MESSAGE_EMPTY.getMessage());
         return sendMessage;
     }
 
@@ -215,18 +264,46 @@ public class MessageHandler {
     }
 
     // Получаем текстовое письмо + пересылкa файлов - на новой кнопке
+    private SendMessage getStartMessageMaterialsWithFiles(String chatId, String tgUser, String systemRubricName) throws IOException {
+        // Цикл по пунктам 1-3, получить запросом количество пунктов, организовать цикл по пуктам
+        // В цикле получить сообщение и список файлов и отправить.
+        // Получаем текст первой части сообщения
+        // Пересылка сообщения в телеграм
+
+        // Добавить параметр номер рубрики и название, например 1. Нацпроекты
+        String myResult = telegramDownloadLetterService.docxDownLoadRealLetterWithFiles(chatId, tgUser, systemRubricName);
+
+        // Здесь надо получить запросом, куда отправлять, Пока привяжем к конкретной кнопке значения Рубрика 1, 1.1, 1.2, 1.3
+        // Отправляем сообщения в группу 01. ДПД. Оперативка (+ надо отправить в сам бот, чтобы пользователь видел, что отправилось)
+        chatId = "-684336344";
+
+        SendMessage sendMessage = new SendMessage(chatId, myResult);
+        System.out.println("chatId - " + chatId);
+        sendMessage.setParseMode("HTML");
+        sendMessage.setReplyMarkup(replyKeyboardMaker.getMainMenuKeyboard());
+
+        // Рассмотреть здесь возможность отправить файлы
+        return sendMessage;
+    }
+
+    // Получаем текстовое письмо + пересылкa файлов - на новой кнопке
     private SendMessage getStartMessageMaterialsWithFiles(String chatId, String tgUser) throws IOException {
         // Цикл по пунктам 1-3, получить запросом количество пунктов, организовать цикл по пуктам
         // В цикле получить сообщение и список файлов и отправить.
         // Получаем текст первой части сообщения
         // Пересылка сообщения в телеграм
 
+        // Добавить параметр номер рубрики и название, например 1. Нацпроекты
         String myResult = telegramDownloadLetterService.docxDownLoadRealLetterWithFiles(chatId, tgUser);
+
+        // Здесь надо получить запросом, куда отправлять, Пока привяжем к конкретной кнопке значения Рубрика 1, 1.1, 1.2, 1.3
+        // Отправляем сообщения в группу 01. ДПД. Оперативка (+ надо отправить в сам бот, чтобы пользователь видел, что отправилось)
+        chatId = "-684336344";
+
         SendMessage sendMessage = new SendMessage(chatId, myResult);
         System.out.println("chatId - " + chatId);
         sendMessage.setParseMode("HTML");
         sendMessage.setReplyMarkup(replyKeyboardMaker.getMainMenuKeyboard());
-        String myParseMode = sendMessage.getParseMode();
 
         // Рассмотреть здесь возможность отправить файлы
         return sendMessage;

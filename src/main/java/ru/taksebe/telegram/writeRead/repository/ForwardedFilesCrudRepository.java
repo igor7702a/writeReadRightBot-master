@@ -78,11 +78,17 @@ public interface ForwardedFilesCrudRepository extends JpaRepository<ForwardedFil
             String stYear,
             String stPeriod);
 
-    //Delete
+    //Delete deleteVoidWhereIdParametr
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "delete from forwarded_files where id=:id")
     void deleteVoidWhereIdParametr(long id);
+
+    //Delete deleteCleanAllForwardedFiles
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "delete from forwarded_files where id>0")
+    void deleteCleanAllForwardedFiles();
 
     //Create create_XlsLoadSettingsFiles_All
     @Modifying

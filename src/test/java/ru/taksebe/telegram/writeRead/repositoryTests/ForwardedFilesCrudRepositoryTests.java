@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
@@ -78,10 +79,17 @@ public class ForwardedFilesCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Delete
+    // Delete deleteVoidWhereIdParametr
     @Test
     void deleteVoidWhereIdParametr() {
-        forwardedFilesCrudRepository.deleteVoidWhereIdParametr(94L);
+        forwardedFilesCrudRepository.deleteVoidWhereIdParametr(109L);
+        Assertions.assertEquals(1, 1);
+    }
+
+    // Delete deleteCleanAllForwardedFiles
+    @Test
+    void deleteCleanAllForwardedFiles() {
+        forwardedFilesCrudRepository.deleteCleanAllForwardedFiles();
         Assertions.assertEquals(1, 1);
     }
 
@@ -106,26 +114,5 @@ public class ForwardedFilesCrudRepositoryTests {
         );
         Assertions.assertEquals(1, 1);
     }
-
-//    //Get findAllFromForwardedAlreadySended
-//    @Transactional(readOnly = true)
-//    @Query(value = "SELECT * FROM forwarded_files WHERE (" +
-//            "system_rubric_name=:systemRubricName " +
-//            "and system_file_name = :systemFileName " +
-//            "and st_year = :stYear " +
-//            "and st_period = :stPeriod " +
-//            "and number_period = :numberPeriod " +
-//            "and harvest = :harvest " +
-//            "and type_address = :typeAddress " +
-//            ")"
-//            , nativeQuery = true)
-//    List<ForwardedFilesEntity> findAllFromForwardedAlreadySended(
-//            String systemRubricName,
-//            String systemFileName,
-//            String stYear,
-//            String stPeriod,
-//            String numberPeriod,
-//            String harvest,
-//            String typeAddress);
 
 }

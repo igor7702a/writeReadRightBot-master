@@ -16,6 +16,7 @@ public enum BotMessageEnum {
             "По всем вопросам разработки этого бота обращайтесь к моему создателю @tarasovIY\n\n" +
             "Удачи!\n\n" +
             "Воспользуйтесь клавиатурой, чтобы начать работу\uD83D\uDC47"),
+    HELP_MESSAGE_EMPTY(""),
     CHOOSE_DICTIONARY_MESSAGE("Выберите словарь\uD83D\uDC47 "),
 
     UPLOAD_DICTIONARY_MESSAGE("Добавьте файл, соответствующий шаблону. Вы можете сделать это в любой момент"),
@@ -36,7 +37,7 @@ public enum BotMessageEnum {
 
     // ошибки доступа к главной клавиатуре
     EXCEPTION_NOT_RIGHTS_UPLOAD_MATERIALS_BUTTON("\uD83D\uDED1 У вас нет права на нажатие этой кнопки UPLOAD_MATERIALS_BUTTON! Обратитесь к администратору."), // эмодзи код знак стоп
-    EXCEPTION_NOT_RIGHTS_UPLOAD_MATERIALS_WITH_FILES_BUTTON("\uD83D\uDED1 У вас нет права на нажатие этой кнопки UPLOAD_MATERIALS_WITH_FILES! Обратитесь к администратору."), // эмодзи код знак стоп
+    EXCEPTION_NOT_RIGHTS_UPLOAD_MATERIALS_WITH_FILES_BUTTON("\uD83D\uDED1 У вас нет права на выполнение функционала этой кнопки! Обратитесь к администратору."), // эмодзи код знак стоп
     EXCEPTION_NOT_RIGHTS_UPLOAD_FILES_BUTTON("\uD83D\uDED1 У вас нет права на нажатие этой кнопки UPLOAD_FILES_BUTTON! Обратитесь к администратору."), // эмодзи код знак стоп
 
     //ошибки доступа к инлайн клавиатуре

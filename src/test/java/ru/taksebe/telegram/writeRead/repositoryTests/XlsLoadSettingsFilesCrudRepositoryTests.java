@@ -38,6 +38,22 @@ public class XlsLoadSettingsFilesCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
+    // Get findAllFromXlsLoadSettingsFilesBySystemRubricName
+    @Test
+    void findAllFromXlsLoadSettingsFilesBySystemRubricName() {
+        List<XlsLoadSettingsFilesEntity> materials = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFilesBySystemRubricName("нацпроекты");
+        materials.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
+    // Get find1FromXlsLoadSettingsFilesBySystemRubricName
+    @Test
+    void find1FromXlsLoadSettingsFilesBySystemRubricName() {
+        List<XlsLoadSettingsFilesEntity> materials = xlsLoadSettingsFilesCrudRepository.find1FromXlsLoadSettingsFilesBySystemRubricName("нацпроекты");
+        materials.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
     // Get findAllFromxlsLoadSettingsFilesByMonth
     @Test
     void findAllFromxlsLoadSettingsFilesByMonth() {
@@ -75,6 +91,28 @@ public class XlsLoadSettingsFilesCrudRepositoryTests {
         int monthNumber = 11;
         String timetableParam = "Ежемесячно";
         List<XlsLoadSettingsFilesEntity> notes = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFiles4Param(ldFirst, ldEnd, monthNumber, timetableParam);
+        notes.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
+    // Get findAllFromXlsLoadSettingsFilesBy5Param
+    @Test
+    void findAllFromXlsLoadSettingsFilesOneRubric() {
+        LocalDate ldFirst = LocalDate.ofYearDay(2021,1);
+        LocalDate ldEnd = LocalDate.ofYearDay(2021,365);
+        int monthNumber = 11;
+        String timetableParam = "Ежемесячно";
+        int rubricNumber = 2;
+        String systemRubricName = "Риски";
+
+        List<XlsLoadSettingsFilesEntity> notes = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFilesOneRubric(
+                ldFirst,
+                ldEnd,
+                monthNumber,
+                timetableParam,
+                rubricNumber,
+                systemRubricName
+        );
         notes.forEach(it -> System.out.println(it));
         Assertions.assertEquals(1, 1);
     }
