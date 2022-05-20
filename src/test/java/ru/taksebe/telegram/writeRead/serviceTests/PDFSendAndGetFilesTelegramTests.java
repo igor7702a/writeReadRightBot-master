@@ -15,9 +15,10 @@ public class PDFSendAndGetFilesTelegramTests {
     CallbackQueryHandler callbackQueryHandler;
 
     @Test
+    // test_bot "5297506090", test_group "-684336344"
     void sendPDFDocument() throws IOException {
         callbackQueryHandler.getTemplateOnlyPDF(
-    "5297506090",
+    "-684336344",
     "5276533294:AAFwk5tSnqX3pZ4Ttp-u2oA6WRjHvPQI_F4",
     "c:/books/",
     "c:/books/MyFile.pdf",

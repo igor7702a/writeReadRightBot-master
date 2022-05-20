@@ -548,7 +548,7 @@ public class TelegramDownloadLetterService {
                                 String.valueOf(numberMonth),
                                 "Good",
                                 "bot_telegram",
-                                chatIdAim);
+                                chatIdAimFile);
 
                         resultAlreadySended9.forEach(it9-> System.out.println(it9));
                         System.out.println("resultAlreadySended9.size = " + resultAlreadySended9.size());
@@ -622,7 +622,7 @@ public class TelegramDownloadLetterService {
                                 String.valueOf(numberMonth),
                                 "Good",
                                 "bot_telegram",
-                                chatIdAim);
+                                chatIdAimFile);
 
                         resultAlreadySended.forEach(it8-> System.out.println(it8));
                         System.out.println("resultAlreadySended.size = " + resultAlreadySended.size());
@@ -643,7 +643,7 @@ public class TelegramDownloadLetterService {
                                     "Bad", // Attention!
                                     "bot_telegram",
                                     "None", // требуется переопределение как параметра, по chatId получить из таблицы address
-                                    chatIdAim,
+                                    chatIdAimFile,
                                     LocalDateTime.now(),
                                     tgUser,
                                     comment);
@@ -670,7 +670,7 @@ public class TelegramDownloadLetterService {
                                     "Good",
                                     "bot_telegram",
                                     "None", // требуется переопределение как параметра, по chatId получить из таблицы address
-                                    chatIdAim,
+                                    chatIdAimFile,
                                     LocalDateTime.now(),
                                     tgUser,
                                     ""

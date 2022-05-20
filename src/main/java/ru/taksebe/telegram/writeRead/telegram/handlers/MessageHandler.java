@@ -28,6 +28,8 @@ import java.util.List;
 
 import ru.taksebe.telegram.writeRead.entity.UsersProfilesEntity;
 import ru.taksebe.telegram.writeRead.repository.UsersProfilesCrudRepository;
+import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
+import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
 
 @Component
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -39,6 +41,8 @@ public class MessageHandler {
     CallbackQueryHandler callbackQueryHandler;
     @Autowired
     UsersProfilesCrudRepository usersProfilesCrudRepository;
+    @Autowired
+    XlsLoadSettingsFilesCrudRepository xlsLoadSettingsFilesCrudRepository;
 
     DictionaryAdditionService dictionaryAdditionService;
     DictionaryMaterialsAdditionService dictionaryMaterialsAdditionService;
@@ -281,16 +285,22 @@ public class MessageHandler {
         // Добавить параметр номер рубрики и название, например 1. Нацпроекты
         String myResult = telegramDownloadLetterService.docxDownLoadRealLetterWithFiles(chatId, tgUser, systemRubricName);
 
-        // Здесь надо получить запросом, куда отправлять, Пока привяжем к конкретной кнопке значения Рубрика 1, 1.1, 1.2, 1.3
-        // Отправляем сообщения в группу 01. ДПД. Оперативка (+ надо отправить в сам бот, чтобы пользователь видел, что отправилось)
         chatId = "-684336344";
+
+        List<XlsLoadSettingsFilesEntity> result11 = xlsLoadSettingsFilesCrudRepository.
+                find1FromXlsLoadSettingsFilesBySystemRubricName(systemRubricName);
+        result11.forEach(it11-> System.out.println(it11));
+        System.out.println("result11.size = " + result11.size());
+        int resultExists11 = result11.size();
+        if(resultExists11 != 0){
+            chatId = result11.get(0).getName_recipient();
+        }
 
         SendMessage sendMessage = new SendMessage(chatId, myResult);
         System.out.println("chatId - " + chatId);
         sendMessage.setParseMode("HTML");
         sendMessage.setReplyMarkup(replyKeyboardMaker.getMainMenuKeyboard());
 
-        // Рассмотреть здесь возможность отправить файлы
         return sendMessage;
     }
 
