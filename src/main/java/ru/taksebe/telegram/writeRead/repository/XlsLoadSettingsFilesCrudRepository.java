@@ -79,6 +79,19 @@ public interface XlsLoadSettingsFilesCrudRepository extends JpaRepository<XlsLoa
     List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFilesOneRubric(
             LocalDate dateFirst, LocalDate dateEnd, int monthNumber, String timetableParam, int rubricNumber, String systemRubricName);
 
+    //Get findAllFromXlsLoadSettingsFiles5Param String systemRubricName
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT * FROM XlsLoadSettingsFiles " +
+            "WHERE (" +
+            "date_item_name>=:dateFirst " +
+            "and date_item_name<=:dateEnd " +
+            "and month_number=:monthNumber " +
+            "and timetable=:timetableParam " +
+            "and system_rubric_name=:systemRubricName" +
+            ")", nativeQuery = true)
+    List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFiles5Param(
+            LocalDate dateFirst, LocalDate dateEnd, int monthNumber, String timetableParam, String systemRubricName);
+
     //Get findAllFromXlsLoadSettingsFiles5Param
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles " +

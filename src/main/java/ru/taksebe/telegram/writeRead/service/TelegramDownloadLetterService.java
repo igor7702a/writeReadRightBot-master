@@ -217,8 +217,8 @@ public class TelegramDownloadLetterService {
         LocalDate YearFirst = LocalDate.ofYearDay(yearNumber,1);
         LocalDate YearEnd =LocalDate.ofYearDay(yearNumber,365);
 
-        List<XlsLoadSettingsFilesEntity> result = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFiles4Param(
-                YearFirst, YearEnd, monthNumber, timetable);
+        List<XlsLoadSettingsFilesEntity> result = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFiles5Param(
+                YearFirst, YearEnd, monthNumber, timetable, systemRubricName);
 
         result.forEach(it3-> System.out.println(it3));
         System.out.println("result.size = " + result.size());
@@ -487,7 +487,7 @@ public class TelegramDownloadLetterService {
                 System.out.println("result.size = " + result.size());
                 int resultExists = result.size();
 
-                if(resultExists != 0 && result.get(0).getRubric_number() == 1){
+                if(resultExists != 0){
 
                     if(itemNameIndex == 1){
                         // Материалы к оперативному совещанию 20.12.2021

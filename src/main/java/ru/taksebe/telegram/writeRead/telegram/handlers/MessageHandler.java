@@ -117,6 +117,18 @@ public class MessageHandler {
                 throw new NoRightUploadMaterialsWithFilesButton();
             }
             System.out.println("Это работает новая кнопка рассылки материалов с файлами!");
+            SendMessage sendResult = getStartMessageMaterialsWithFiles(chatId, tgUser);
+            return sendResult;
+
+        } else if (inputText.equals(ButtonNameEnum.UPLOAD_MATERIALS_WITH_FILES_NATIONAL_PROJECTS.getButtonName())) {
+            List<UsersProfilesEntity> result = usersProfilesCrudRepository.findAllFromUsersProfilesBy2Param(
+                    "UPLOAD_MATERIALS_WITH_FILES_NATIONAL_PROJECTS",tgUser);
+            result.forEach(it3-> System.out.println(it3));
+            System.out.println("result.size = " + result.size());
+            int resultExists = result.size();
+            if(resultExists == 0){
+                throw new NoRightUploadMaterialsWithFilesButton();
+            }
             String systemRubricName = "нацпроекты";
             SendMessage sendResult = getStartMessageMaterialsWithFiles(chatId, tgUser, systemRubricName);
             return sendResult;
@@ -134,9 +146,9 @@ public class MessageHandler {
             SendMessage sendResult = getStartMessageMaterialsWithFiles(chatId, tgUser, systemRubricName);
             return sendResult;
 
-        } else if (inputText.equals(ButtonNameEnum.UPLOAD_MATERIALS_WITH_FILES_NATTIONAL_GOALS.getButtonName())) {
+        } else if (inputText.equals(ButtonNameEnum.UPLOAD_MATERIALS_WITH_FILES_NATIONAL_GOALS.getButtonName())) {
             List<UsersProfilesEntity> result = usersProfilesCrudRepository.findAllFromUsersProfilesBy2Param(
-                    "UPLOAD_MATERIALS_WITH_FILES_NATTIONAL_GOALS",tgUser);
+                    "UPLOAD_MATERIALS_WITH_FILES_NATIONAL_GOALS",tgUser);
             result.forEach(it3-> System.out.println(it3));
             System.out.println("result.size = " + result.size());
             int resultExists = result.size();
@@ -265,10 +277,6 @@ public class MessageHandler {
 
     // Получаем текстовое письмо + пересылкa файлов - на новой кнопке
     private SendMessage getStartMessageMaterialsWithFiles(String chatId, String tgUser, String systemRubricName) throws IOException {
-        // Цикл по пунктам 1-3, получить запросом количество пунктов, организовать цикл по пуктам
-        // В цикле получить сообщение и список файлов и отправить.
-        // Получаем текст первой части сообщения
-        // Пересылка сообщения в телеграм
 
         // Добавить параметр номер рубрики и название, например 1. Нацпроекты
         String myResult = telegramDownloadLetterService.docxDownLoadRealLetterWithFiles(chatId, tgUser, systemRubricName);
