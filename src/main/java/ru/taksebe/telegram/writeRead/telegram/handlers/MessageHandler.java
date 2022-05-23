@@ -59,6 +59,7 @@ public class MessageHandler {
         if (message.hasDocument()) {
 
             // Здесь обработка файла для шаблона Материалы
+            // И загрузка всех файлов с настройками
             // проверка на имя пользователя и запись файла в папку
             SendMessage myResult = addUserDictionaryMaterials(
                     chatId,

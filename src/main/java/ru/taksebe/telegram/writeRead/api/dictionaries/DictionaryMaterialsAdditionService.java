@@ -46,6 +46,22 @@ public class DictionaryMaterialsAdditionService {
             String fileNameWithoutExtension = fileName.replace(("." + fileNameExtension), "");
             String DateForFilename = saveFiles.GetStringDateForNameFile();
 
+            // Получить права пользователя на загрузку айла samples.xlsx (этот файл fileSourceName)
+            if(fileSourceName == "samples.xlsx"){
+                // Если имя файла = samples.xlsx и у пользователя есть право загружать этот файл
+                // Загрузить методом для реальной загрузки Образцов
+                // else if = address.xls - ...
+                // else загрузить материал
+
+//            @Test // Для реальной загрузки Образцов
+//            void xlsLoadSamplesFileNewFormat() throws IOException {
+//                xlsLoadSamplesFilesService.xlsLoadSamplesFileNewFormat();
+//                Assertions.assertEquals(1, 1);
+//            }
+            }else {
+             // Здесь основной код для материалов
+            }
+
             // For OS +
             String myOS = osValidator.returnOS();
             String pathOS = "";
