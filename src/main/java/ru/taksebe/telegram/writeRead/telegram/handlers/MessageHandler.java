@@ -164,6 +164,19 @@ public class MessageHandler {
             SendMessage sendResult = getStartMessageMaterialsWithFiles(chatId, tgUser, systemRubricName);
             return sendResult;
 
+        } else if (inputText.equals(ButtonNameEnum.UPLOAD_MATERIALS_WITH_FILES_INSTITUT_DEV.getButtonName())) {
+            List<UsersProfilesEntity> result = usersProfilesCrudRepository.findAllFromUsersProfilesBy2Param(
+                    "UPLOAD_MATERIALS_WITH_FILES_INSTITUT_DEV",tgUser);
+            result.forEach(it3-> System.out.println(it3));
+            System.out.println("result.size = " + result.size());
+            int resultExists = result.size();
+            if(resultExists == 0){
+                throw new NoRightUploadMaterialsWithFilesButton();
+            }
+            String systemRubricName = "инсразв";
+            SendMessage sendResult = getStartMessageMaterialsWithFiles(chatId, tgUser, systemRubricName);
+            return sendResult;
+
         } else if (inputText.equals(ButtonNameEnum.UPLOAD_FILES_BUTTON.getButtonName())) {
             List<UsersProfilesEntity> result = usersProfilesCrudRepository.findAllFromUsersProfilesBy2Param(
                     "UPLOAD_FILES_BUTTON",tgUser);

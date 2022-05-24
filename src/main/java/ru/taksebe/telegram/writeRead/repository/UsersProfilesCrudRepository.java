@@ -85,6 +85,19 @@ public interface UsersProfilesCrudRepository extends JpaRepository<UsersProfiles
             nativeQuery = true)
     List<UsersProfilesEntity> findAllFromUsersProfilesBy2Param(String accessType, String tgUser);
 
+    //Get findAllFromUsersProfilesBy3Param
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT * FROM users_profiles " +
+            "WHERE (" +
+            "access_type = :accessType  " +
+            "and tg_user = :tgUser " +
+            "and full_file_name = :fullFileName " +
+            ") " +
+            "ORDER BY date_setting DESC " +
+            "LIMIT 1",
+            nativeQuery = true)
+    List<UsersProfilesEntity> findAllFromUsersProfilesBy3Param(String accessType, String tgUser, String fullFileName);
+
     //Delete
     @Modifying
     @Transactional

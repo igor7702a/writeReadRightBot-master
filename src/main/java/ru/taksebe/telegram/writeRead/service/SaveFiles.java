@@ -122,6 +122,8 @@ public class SaveFiles {
             || fileName.indexOf(first3) == 0
         ){
             period = "months";
+        } else if(fileName.indexOf(first1) == 0){ // quater
+
         }
 
         StringBuilder sb = new StringBuilder(
@@ -142,6 +144,7 @@ public class SaveFiles {
         String fileSystemName = "Нет";
         String first1 = "Нет";
         String period = "";
+        String periodQuater = "";
 
         List<SamplesFileNameEntity> ResultByFileName =
                 samplesFileNameCrudRepository.findAllFromSamplesFileNameFirstParam1(fileName);
@@ -152,6 +155,7 @@ public class SaveFiles {
             fileSystemName = ResultByFileName.get(0).getSystem_file_name();
             first1 = ResultByFileName.get(0).getFull_file_name();
             period = ResultByFileName.get(0).getPeriod2();
+            periodQuater = ResultByFileName.get(0).getPeriod3();
         }
 
         String numberYear = LocalDate.now().format(DateTimeFormatter.ofPattern("YYYY")); //2022
@@ -174,6 +178,13 @@ public class SaveFiles {
             numberWeekShort = numberMonthFull.substring(1);
         }else {
             numberWeekShort = new StringBuilder(numberMonthFull).toString();
+        }
+
+        // Здесь обработать, если загрузка квартальная
+        if(periodQuater.equals("quarters")){
+            period = "quarters";
+            numberMonthShort = "3"; // Необходимо автоматически определить номер квартала
+            numberYear = Integer.toString(Integer.parseInt(numberYear) - 1);// Определить как будет в реальном проекте;
         }
 
         StringBuilder sb = new StringBuilder(
@@ -202,3 +213,287 @@ public class SaveFiles {
         return realPath;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

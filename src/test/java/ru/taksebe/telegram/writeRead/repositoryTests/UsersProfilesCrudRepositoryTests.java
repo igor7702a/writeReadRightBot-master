@@ -80,6 +80,18 @@ public class UsersProfilesCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
+    // Get findAllFromUsersProfilesBy3Param
+    @Test
+    void findAllFromUsersProfilesBy3ParamLoadSettings() {
+        List<UsersProfilesEntity> materials = usersProfilesCrudRepository.findAllFromUsersProfilesBy3Param(
+                "LoadSettings",
+                "TarasovIY",
+                "usersprofiles.xlsx"
+        );
+        materials.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
     // Delete
     @Test
     void deleteVoidWhereIdParametr() {
@@ -95,6 +107,22 @@ public class UsersProfilesCrudRepositoryTests {
                 "СпрДостНЦР",
                 "3.1_Справка НЦР.pdf",
                 "LoadAndSave",
+                "TarasovIY",
+                LocalDateTime.now(),
+                "TarasovIY",
+                "Тарасов Игорь Юрьевич"
+        );
+        Assertions.assertEquals(1, 1);
+    }
+
+    @Test
+    void create_UsersProfiles_ForFileWithSettings() {
+        usersProfilesCrudRepository.create_UserProfiles_All8(
+                "None",
+                "None",
+                "None",
+                "usersprofiles.xlsx",
+                "LoadSettings",
                 "TarasovIY",
                 LocalDateTime.now(),
                 "TarasovIY",
