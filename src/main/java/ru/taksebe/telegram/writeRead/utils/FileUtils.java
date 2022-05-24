@@ -23,7 +23,7 @@ public class FileUtils {
 
         byte[] param1 = Files.readAllBytes(paramreadAllBytes);
 
-        ByteArrayResource myResult = new ByteArrayResource(param1) {
+        ByteArrayResource myResBAR = new ByteArrayResource(param1) {
 
             @Override
             public String getFilename() {
@@ -31,7 +31,7 @@ public class FileUtils {
             }
         };
 
-        return myResult;
+        return myResBAR;
     }
 
     // Было
@@ -42,7 +42,7 @@ public class FileUtils {
 
         byte[] param1 = Files.readAllBytes(paramreadAllBytes);
 
-        ByteArrayResource myResult = new ByteArrayResource(param1) {
+        ByteArrayResource myResBAR = new ByteArrayResource(param1) {
 
             @Override
             public String getFilename() {
@@ -50,7 +50,7 @@ public class FileUtils {
             }
         };
 
-        return myResult;
+        return myResBAR;
     }
 
     // Стало
@@ -59,13 +59,13 @@ public class FileUtils {
 
         Path paramreadAllBytes = createOfficeDocumentFileNewType(document, name, suffix);
         byte[] param1 = Files.readAllBytes(paramreadAllBytes);
-        ByteArrayResource myResult = new ByteArrayResource(param1) {
+        ByteArrayResource myResBAR = new ByteArrayResource(param1) {
             @Override
             public String getFilename() {
                 return MessageFormat.format("{0}.{1}", name, suffix);
             }
         };
-        return myResult;
+        return myResBAR;
     }
 
     // Только PDF
@@ -82,13 +82,13 @@ public class FileUtils {
             throws IOException {
         Path paramreadAllBytes = createOfficeDocumentFileOnlyPDF(document, name, suffix);
         byte[] param1 = Files.readAllBytes(paramreadAllBytes);
-        ByteArrayResource myResult = new ByteArrayResource(param1) {
+        ByteArrayResource myResBAR = new ByteArrayResource(param1) {
             @Override
             public String getFilename() {
                 return MessageFormat.format("{0}.{1}", name, suffix);
             }
         };
-        return myResult;
+        return myResBAR;
     }
 
     private static Path createOfficeDocumentFile(POIXMLDocument document, String name, String suffix) throws IOException {
@@ -153,7 +153,7 @@ public class FileUtils {
 
         byte[] param1 = Files.readAllBytes(paramreadAllBytes);
 
-        ByteArrayResource myResult = new ByteArrayResource(param1) {
+        ByteArrayResource myResBAR = new ByteArrayResource(param1) {
 
             @Override
             public String getFilename() {
@@ -161,6 +161,6 @@ public class FileUtils {
             }
         };
 
-        return myResult;
+        return myResBAR;
     }
 }

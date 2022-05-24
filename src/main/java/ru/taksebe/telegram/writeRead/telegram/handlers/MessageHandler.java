@@ -61,7 +61,7 @@ public class MessageHandler {
             // Здесь обработка файла для шаблона Материалы
             // И загрузка всех файлов с настройками
             // проверка на имя пользователя и запись файла в папку
-            SendMessage myResult = addUserDictionaryMaterials(
+            SendMessage myResSM = addUserDictionaryMaterials(
                     chatId,
                     message.getDocument().getFileId(),
                     message.getDocument().getFileName().toString(),
@@ -69,8 +69,8 @@ public class MessageHandler {
             );
 
             // Здесь далее обработка файла эксель в начальном шаблоне
-            //SendMessage myResult = addUserDictionary(chatId, message.getDocument().getFileId());
-            return myResult;
+            //SendMessage myResSM = addUserDictionary(chatId, message.getDocument().getFileId());
+            return myResSM;
         }
 
         String inputText = message.getText();
@@ -80,23 +80,23 @@ public class MessageHandler {
             throw new IllegalArgumentException();
         } else if (inputText.equals("/startbot")) {
             // Проверить, чтобы отвечал только в test_bot
-            SendMessage myResult = getStartMessage(chatId);
-            SendMessage myResultEmpty = getStartMessageEmpty(chatId);
+            SendMessage myResSM = getStartMessage(chatId);
+            SendMessage myResEmpty = getStartMessageEmpty(chatId);
             if(chatId.equals("5297506090")){
             }else{
-                myResult = myResultEmpty;
+                myResSM = myResEmpty;
             }
-            return myResult;
+            return myResSM;
         }else if (inputText.equals("/start")) {
             // Проверить, чтобы отвечал только в test_bot
-            SendMessage myResult = getStartMessage(chatId);
-            SendMessage myResultEmpty = getStartMessageEmpty(chatId);
+            SendMessage myResSM = getStartMessage(chatId);
+            SendMessage myResEmpty = getStartMessageEmpty(chatId);
             if(chatId.equals("5297506090")){
             }else{
-                myResult = myResultEmpty;
+                myResSM = myResEmpty;
             }
 
-            return myResult;
+            return myResSM;
 
             // new buttons for materials
         } else if (inputText.equals(ButtonNameEnum.UPLOAD_MATERIALS_BUTTON.getButtonName())) {
@@ -283,8 +283,8 @@ public class MessageHandler {
     // Для новых кнопок
     // Получаем текстовое письмо без пересылки файлов
     private SendMessage getStartMessageMaterials(String chatId) throws IOException {
-        String myResult = telegramDownloadLetterService.docxDownLoadRealLetter();
-        SendMessage sendMessage = new SendMessage(chatId, myResult);
+        String myResSt = telegramDownloadLetterService.docxDownLoadRealLetter();
+        SendMessage sendMessage = new SendMessage(chatId, myResSt);
         System.out.println("chatId - " + chatId);
         sendMessage.setParseMode("HTML");
         sendMessage.setReplyMarkup(replyKeyboardMaker.getMainMenuKeyboard());
@@ -297,7 +297,7 @@ public class MessageHandler {
     private SendMessage getStartMessageMaterialsWithFiles(String chatId, String tgUser, String systemRubricName) throws IOException {
 
         // Добавить параметр номер рубрики и название, например 1. Нацпроекты
-        String myResult = telegramDownloadLetterService.docxDownLoadRealLetterWithFiles(chatId, tgUser, systemRubricName);
+        String myResSt = telegramDownloadLetterService.docxDownLoadRealLetterWithFiles(chatId, tgUser, systemRubricName);
 
         chatId = "-684336344";
 
@@ -310,7 +310,7 @@ public class MessageHandler {
             chatId = result11.get(0).getName_recipient();
         }
 
-        SendMessage sendMessage = new SendMessage(chatId, myResult);
+        SendMessage sendMessage = new SendMessage(chatId, myResSt);
         System.out.println("chatId - " + chatId);
         sendMessage.setParseMode("HTML");
         sendMessage.setReplyMarkup(replyKeyboardMaker.getMainMenuKeyboard());
@@ -326,13 +326,13 @@ public class MessageHandler {
         // Пересылка сообщения в телеграм
 
         // Добавить параметр номер рубрики и название, например 1. Нацпроекты
-        String myResult = telegramDownloadLetterService.docxDownLoadRealLetterWithFiles(chatId, tgUser);
+        String myResSt = telegramDownloadLetterService.docxDownLoadRealLetterWithFiles(chatId, tgUser);
 
         // Здесь надо получить запросом, куда отправлять, Пока привяжем к конкретной кнопке значения Рубрика 1, 1.1, 1.2, 1.3
         // Отправляем сообщения в группу 01. ДПД. Оперативка (+ надо отправить в сам бот, чтобы пользователь видел, что отправилось)
         chatId = "-684336344";
 
-        SendMessage sendMessage = new SendMessage(chatId, myResult);
+        SendMessage sendMessage = new SendMessage(chatId, myResSt);
         System.out.println("chatId - " + chatId);
         sendMessage.setParseMode("HTML");
         sendMessage.setReplyMarkup(replyKeyboardMaker.getMainMenuKeyboard());

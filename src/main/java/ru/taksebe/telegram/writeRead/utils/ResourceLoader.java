@@ -49,8 +49,8 @@ public class ResourceLoader {
     }
 
     public XSSFWorkbook loadTemplateWorkbook() throws IOException {
-        XSSFWorkbook myResult = loadWorkbook(TemplateResourcePathsEnum.TEMPLATE_DICTIONARY.getFilePath());
-        return myResult;
+        XSSFWorkbook myResXW = loadWorkbook(TemplateResourcePathsEnum.TEMPLATE_DICTIONARY.getFilePath());
+        return myResXW;
     }
 
     // Для работы с одиночным файлом pdf
@@ -58,15 +58,15 @@ public class ResourceLoader {
     // Было
     public XSSFWorkbook loadTemplateWorkbookNew() throws IOException {
         String myTemplateDictionary = TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath();
-        XSSFWorkbook myResult = loadWorkbookNew(myTemplateDictionary);
-        return myResult;
+        XSSFWorkbook myResXW = loadWorkbookNew(myTemplateDictionary);
+        return myResXW;
     }
 
     // Стало новый тип
     public PDDocument loadTemplateWorkbookNewType() throws IOException {
         String myTemplateDictionary = TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath();
-        PDDocument myResult = loadWorkbookNewType(myTemplateDictionary);
-        return myResult;
+        PDDocument myResPDD = loadWorkbookNewType(myTemplateDictionary);
+        return myResPDD;
     }
 
     // Только для PDF
@@ -82,7 +82,7 @@ public class ResourceLoader {
     ) throws IOException {
         //String myTemplateDictionary = TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath();
         String myTemplateDictionary = fullPath;
-                PDDocument myResult = loadWorkbookOnlyPDF(
+                PDDocument myResPDD = loadWorkbookOnlyPDF(
                 myTemplateDictionary
                     ,chatId,
                     token,
@@ -92,14 +92,14 @@ public class ResourceLoader {
                     file_suffix,
                     file_id
         );
-        return myResult;
+        return myResPDD;
     }
 
     // Для работы с файлами pdf
     public XSSFWorkbook loadTemplateWorkbookPdf() throws IOException {
         String param1 = TemplateResourcePathsEnum.TEMPLATE_PDF.getFilePath();
-        XSSFWorkbook myResult = loadWorkbookPdf(param1);
-        return myResult;
+        XSSFWorkbook myResXW = loadWorkbookPdf(param1);
+        return myResXW;
     }
 
     public XSSFWorkbook loadDefaultDictionaryWorkbook(DictionaryResourcePathEnum dictionaryResourcePath) throws IOException {
@@ -133,8 +133,8 @@ public class ResourceLoader {
                         .getResourceAsStream(filePath)
         );
 
-        XSSFWorkbook myResult = new XSSFWorkbook(param1);
-        return myResult;
+        XSSFWorkbook myResXW = new XSSFWorkbook(param1);
+        return myResXW;
     }
 
     // Стало
@@ -171,9 +171,9 @@ public class ResourceLoader {
         inputStream.close(); //закрываем оба потока. Они больше не нужны.
         outputStream.close();
 
-        PDDocument myResult = PDDocument.load(new File(sbPath.toString() + "temp.pdf"));
+        PDDocument myResPDD = PDDocument.load(new File(sbPath.toString() + "temp.pdf"));
 
-        return myResult;
+        return myResPDD;
     }
 
     // Только для PDF
@@ -219,9 +219,9 @@ public class ResourceLoader {
         inputStream.close(); //закрываем оба потока. Они больше не нужны.
         outputStream.close();
 
-        PDDocument myResult = PDDocument.load(new File(sbPath.toString() + "temp.pdf"));
+        PDDocument myResPDD = PDDocument.load(new File(sbPath.toString() + "temp.pdf"));
 
-        return myResult;
+        return myResPDD;
     }
 
     // Для работы с pdf

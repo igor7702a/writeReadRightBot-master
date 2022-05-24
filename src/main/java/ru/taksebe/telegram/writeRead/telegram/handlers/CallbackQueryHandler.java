@@ -81,8 +81,8 @@ public class CallbackQueryHandler {
             }
 
             System.out.println("Это работает кнопка - " + CallbackDataPartsEnum.TEMPLATE_NEW.name());
-            SendMessage myResult = getTemplateNew(chatId);
-            return myResult;
+            SendMessage myResSm = getTemplateNew(chatId);
+            return myResSm;
         } else {
             System.out.println("Это работает кнопка - " + "handleDefaultDictionary");
             return handleDefaultDictionary(chatId, data);
@@ -137,8 +137,8 @@ public class CallbackQueryHandler {
 
     private SendMessage getAllDefaultDictionaries(String chatId) {
         try {
-            ByteArrayResource myResult = dictionaryExcelService.getAllDefaultDictionariesWorkbook();
-            telegramApiClient.uploadFile(chatId, myResult);
+            ByteArrayResource myResBAR = dictionaryExcelService.getAllDefaultDictionariesWorkbook();
+            telegramApiClient.uploadFile(chatId, myResBAR);
         } catch (UserDictionaryNotFoundException e) {
             return new SendMessage(chatId, BotMessageEnum.EXCEPTION_DICTIONARY_NOT_FOUND_MESSAGE.getMessage());
         } catch (Exception e) {
@@ -159,8 +159,8 @@ public class CallbackQueryHandler {
     // PowerPoint
     private SendMessage getTemplatePPTX(String chatId) {
         try {
-            ByteArrayResource myResult = dictionaryResourceFileService.getTemplateWorkbookNewType();
-            telegramApiClient.uploadFileNewType(chatId, myResult);
+            ByteArrayResource myResBAR = dictionaryResourceFileService.getTemplateWorkbookNewType();
+            telegramApiClient.uploadFileNewType(chatId, myResBAR);
         } catch (Exception e) {
             return new SendMessage(chatId, BotMessageEnum.EXCEPTION_TEMPLATE_WTF_MESSAGE.getMessage());
         }
@@ -169,8 +169,8 @@ public class CallbackQueryHandler {
     // Для одиночного pdf - проверка пересылки с клавиатуры + инлайн
     private SendMessage getTemplateNew(String chatId) {
         try {
-            ByteArrayResource myResult = dictionaryResourceFileService.getTemplateWorkbookNewType();
-            telegramApiClient.uploadFileNewType(chatId, myResult);
+            ByteArrayResource myResBAR = dictionaryResourceFileService.getTemplateWorkbookNewType();
+            telegramApiClient.uploadFileNewType(chatId, myResBAR);
         } catch (Exception e) {
             return new SendMessage(chatId, BotMessageEnum.EXCEPTION_TEMPLATE_WTF_MESSAGE.getMessage());
         }
@@ -188,7 +188,7 @@ public class CallbackQueryHandler {
             String file_id
     ) {
         try {
-            ByteArrayResource myResult = dictionaryResourceFileService.getTemplateWorkbookOnlyPDF(
+            ByteArrayResource myResBAR = dictionaryResourceFileService.getTemplateWorkbookOnlyPDF(
                         chatId,
                         token,
                         upPath,
@@ -199,7 +199,7 @@ public class CallbackQueryHandler {
             );
             telegramApiClient.uploadFileOnlyPDF(
                     chatId,
-                    myResult,
+                    myResBAR,
                     token,
                     upPath,
                     fullPath,
@@ -227,8 +227,8 @@ public class CallbackQueryHandler {
     private SendMessage getAllDefaultDictionariesPdf(String chatId) {
         try {
             System.out.println("Это работает пересылка файла");
-            ByteArrayResource myResult = dictionaryExcelService.getAllDefaultDictionariesWorkbookPdf();
-            telegramApiClient.uploadFile(chatId, myResult);
+            ByteArrayResource myResBAR = dictionaryExcelService.getAllDefaultDictionariesWorkbookPdf();
+            telegramApiClient.uploadFile(chatId, myResBAR);
 
         } catch (UserDictionaryNotFoundException e) {
             System.out.println("catch - EXCEPTION_DICTIONARY_NOT_FOUND_MESSAGE");

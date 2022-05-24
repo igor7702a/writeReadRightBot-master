@@ -100,8 +100,8 @@ public class DictionaryExcelService {
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         data = bos.toByteArray();
-        ByteArrayResource myResultPdf = new ByteArrayResource(data);
-        return myResultPdf;
+        ByteArrayResource myResPdf = new ByteArrayResource(data);
+        return myResPdf;
 
     }
 
@@ -110,16 +110,16 @@ public class DictionaryExcelService {
         List<Dictionary> defaultDictionaryList = Arrays.stream(param1)
                 .map(resourcePath -> repository.findById(resourcePath.name()).orElseThrow(UserDictionaryNotFoundException::new))
                 .collect(Collectors.toList());
-        ByteArrayResource myResult = createWorkbookByteArrayPdf(defaultDictionaryList, "All grades");
-        return myResult;
+        ByteArrayResource myResBAR = createWorkbookByteArrayPdf(defaultDictionaryList, "All grades");
+        return myResBAR;
     }
 
     // Для тестирования работы с Pdf
     private ByteArrayResource createWorkbookByteArrayPdf(List<Dictionary> dictionaryList, String fileName) throws IOException {
         XSSFWorkbook workbook = createWorkbookPdf(dictionaryList);
         // 06.04.22 Замена суффикса с .xlsx на .pdf
-        ByteArrayResource myResult = FileUtils.createOfficeDocumentResourcePdf(workbook, fileName, ".pdf");
-        return myResult;
+        ByteArrayResource myResBAR = FileUtils.createOfficeDocumentResourcePdf(workbook, fileName, ".pdf");
+        return myResBAR;
     }
 
     private XSSFWorkbook createWorkbookPdf(List<Dictionary> dictionaryList) throws IOException {

@@ -21,21 +21,21 @@ public class DictionaryResourceFileService {
 
     public ByteArrayResource getTemplateWorkbook() throws IOException {
         XSSFWorkbook myResourceLoader = resourceLoader.loadTemplateWorkbook();
-        ByteArrayResource myResult = FileUtils.createOfficeDocumentResource(
+        ByteArrayResource myResBAR = FileUtils.createOfficeDocumentResource(
                 myResourceLoader,
                 "Template",
                 "xlsx");
-        return myResult;
+        return myResBAR;
     }
 
     // Для PPTX
     public ByteArrayResource getTemplateWorkbookPPTX() throws IOException {
         XSSFWorkbook myResourceLoader = resourceLoader.loadTemplateWorkbook();
-        ByteArrayResource myResult = FileUtils.createOfficeDocumentResource(
+        ByteArrayResource myResBAR = FileUtils.createOfficeDocumentResource(
                 myResourceLoader,
                 "TemplatePptx",
                 "pptx");
-        return myResult;
+        return myResBAR;
     }
 
     // Для одиночного файла Pdf
@@ -43,22 +43,22 @@ public class DictionaryResourceFileService {
     public ByteArrayResource getTemplateWorkbookNew() throws IOException {
 
         XSSFWorkbook myResourceLoader = resourceLoader.loadTemplateWorkbookNew();
-        ByteArrayResource myResult = FileUtils.createOfficeDocumentResourceNew(
+        ByteArrayResource myResBAR = FileUtils.createOfficeDocumentResourceNew(
                 myResourceLoader,
                 "TemplatePdf", // Здесь должно быть имя реального файла
                 "pdf");
-        return myResult;
+        return myResBAR;
     }
 
     // Стало новый тип
     public ByteArrayResource getTemplateWorkbookNewType() throws IOException {
 
         PDDocument myResourceLoader = resourceLoader.loadTemplateWorkbookNewType();
-        ByteArrayResource myResult = FileUtils.createOfficeDocumentResourceNewType(
+        ByteArrayResource myResBAR = FileUtils.createOfficeDocumentResourceNewType(
                 myResourceLoader,
                 "TemplatePdf", // Здесь должно быть имя реального файла
                 "pdf");
-        return myResult;
+        return myResBAR;
     }
 
     // Стало новый тип Только PDF
@@ -81,7 +81,7 @@ public class DictionaryResourceFileService {
                 file_suffix,
                 file_id
         );
-        ByteArrayResource myResult = FileUtils.createOfficeDocumentResourceOnlyPDF(
+        ByteArrayResource myResBAR = FileUtils.createOfficeDocumentResourceOnlyPDF(
                 myResourceLoader,
                 file_name, // Здесь должно быть имя реального файла для отображения в телеграм
                 file_suffix,
@@ -91,7 +91,7 @@ public class DictionaryResourceFileService {
                 fullPath,
                 file_id
                 );
-        return myResult;
+        return myResBAR;
     }
 
     public ByteArrayResource getTemplateWorkbookPdfExample() throws IOException {
@@ -101,12 +101,12 @@ public class DictionaryResourceFileService {
 
         XSSFWorkbook myResourceLoader = resourceLoader.loadTemplateWorkbook();
 
-        ByteArrayResource myResult = FileUtils.createOfficeDocumentResource(
+        ByteArrayResource myResBAR = FileUtils.createOfficeDocumentResource(
                 myResourceLoader,
                 fileName,
                 extentionName);
 
-        return myResult;
+        return myResBAR;
     }
 
     public ByteArrayResource getTemplateWorkbookPdf() throws IOException {
@@ -116,7 +116,7 @@ public class DictionaryResourceFileService {
 
         XSSFWorkbook myResourceLoader = resourceLoader.loadTemplateWorkbook();
 
-        ByteArrayResource myResult = FileUtils.createOfficeDocumentResource(
+        ByteArrayResource myResBAR = FileUtils.createOfficeDocumentResource(
                 myResourceLoader,
                 fileName,
                 extentionName);
@@ -130,9 +130,9 @@ public class DictionaryResourceFileService {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         data = bos.toByteArray();
 
-        ByteArrayResource myResultPdf = new ByteArrayResource(data);
+        ByteArrayResource myResPdf = new ByteArrayResource(data);
 
-        return myResultPdf;
+        return myResPdf;
     }
 
     public ByteArrayResource getTemplateWorkbookPdfVar2() throws IOException {
@@ -145,8 +145,8 @@ public class DictionaryResourceFileService {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         data = bos.toByteArray();
 
-        ByteArrayResource myResultPdf = new ByteArrayResource(data);
+        ByteArrayResource myResPdf = new ByteArrayResource(data);
 
-        return myResultPdf;
+        return myResPdf;
     }
 }
