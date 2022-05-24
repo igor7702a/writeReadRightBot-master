@@ -463,6 +463,7 @@ public class TelegramDownloadLetterService {
             numberMonth = result10.get(0).getMonth_number(); // Для теста добавим к номеру месяца 6, чтобы получилось 11
             timetable = result10.get(0).getTimetable(); // получить из запроса
             chatIdAimFile = result10.get(0).getName_recipient(); //"-684336344"; // телеграм канал test_group, получить из запроса
+
         }
 
         // По новой схеме выводим одну рубрику на одну кнопку
@@ -540,6 +541,10 @@ public class TelegramDownloadLetterService {
                         String nameRubric = element.getSystem_rubric_name();
                         String nameBook = element.getSystem_file_name();
 
+                        if (timetable.equals("Квартально")){
+                            timetablePeriod = "quarters";
+                        }
+
                         List<ForwardedFilesEntity> resultAlreadySended9 = forwardedFilesCrudRepository.findAllFromForwardedAlreadySended(
                                 nameRubric,
                                 nameBook,
@@ -589,6 +594,9 @@ public class TelegramDownloadLetterService {
                         String nameRubric = element.getSystem_rubric_name();
                         String nameBook = element.getSystem_file_name();
                         String timetablePeriod = "months";
+                        if(timetable.equals("Квартально")){
+                            timetablePeriod = "quarters";
+                        }
                         String myFile = receiveEndFileParam(
                                 initialPath, //c:/Books/files/
                                 numberYear,
