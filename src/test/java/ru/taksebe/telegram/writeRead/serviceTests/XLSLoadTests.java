@@ -50,6 +50,18 @@ public class XLSLoadTests {
         Assertions.assertEquals(1, 1);
     }
 
+    @Test // Для копирования строки в БД по id
+    void CopyById() throws IOException {
+        xlsLoadSamplesFilesService.CopyById(6, "2_3_Таблица_риски_финансирование_на_01_12_2021.pdf");
+        Assertions.assertEquals(1, 1);
+    }
+
+    @Test // Для копирования строки в БД по id
+    void CopyById2() throws IOException {
+        xlsLoadSamplesFilesService.CopyById(7, "2_4_Таблица_риски_мероприятия_на_01_12_2021.pdf");
+        Assertions.assertEquals(1, 1);
+    }
+
     @Test // Для реальной загрузки профилей пользователей
     void xlsLoadUsersProfilesNewFormat() throws IOException {
         xlsLoadUsersProfilesService.xlsLoadUsersProfilesNewFormat();

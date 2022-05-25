@@ -6,7 +6,11 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import ru.taksebe.telegram.writeRead.entity.SamplesFileNameEntity;
+import ru.taksebe.telegram.writeRead.repository.SamplesFileNameCrudRepository;
 import ru.taksebe.telegram.writeRead.entity.UsersProfilesEntity;
 import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
 import ru.taksebe.telegram.writeRead.repository.UsersProfilesCrudRepository;
@@ -47,6 +51,8 @@ public class DictionaryMaterialsAdditionService {
     XLSLoadUsersProfilesService xlsLoadUsersProfilesService;
     @Autowired
     XLSNewFormatLoadSettingFilesService xlsNewFormatLoadSettingFilesService;
+    @Autowired
+    SamplesFileNameCrudRepository samplesFileNameCrudRepository;
 
     private final DictionaryRepository repository;
 
@@ -56,9 +62,11 @@ public class DictionaryMaterialsAdditionService {
             String fileSourceName = fileName;
             String fileDestName = fileName;
             String pathFile = "";
+            String pathFileNextWeek = "";
             String fileNameExtension = "";
             String fileNameWithoutExtension = "";
             String DateForFilename = "";
+            Boolean thisIsWeekSend = false;
 
             // Получить права пользователя на загрузку переданного файла
             List<UsersProfilesEntity> result12 = usersProfilesCrudRepository.findAllFromUsersProfilesBy3Param(
@@ -80,10 +88,13 @@ public class DictionaryMaterialsAdditionService {
                 // - Протестировать изменение кода
                 // For OS +
                 pathFile = saveFiles.GetPathFileReal(fileName, userName);
+                thisIsWeekSend = getThisIsWeekSend(fileName);
                 fileNameExtension = saveFiles.getFileExtension(fileName);
                 fileNameWithoutExtension = fileName.replace(("." + fileNameExtension), "");
                 DateForFilename = saveFiles.GetStringDateForNameFile();
-
+                if(thisIsWeekSend){
+                    pathFileNextWeek = saveFiles.GetPathFileRealNextWeek(fileName, userName);
+                }
                 String myOS = osValidator.returnOS();
                 String pathOS = "";
 
@@ -96,13 +107,19 @@ public class DictionaryMaterialsAdditionService {
                 else {
                 }
                 StringBuilder sbPath = new StringBuilder(pathOS);
-                // -
                 StringBuilder fullPathSource = new StringBuilder(pathOS + pathFile + fileSourceName);
                 StringBuilder fullPathDest = new StringBuilder(
                         pathOS + pathFile + fileNameWithoutExtension + "_" + DateForFilename + "." + fileNameExtension);
+                StringBuilder fullPathDestNextWeek = new StringBuilder(
+                        pathOS + pathFileNextWeek + fileNameWithoutExtension + "_" + DateForFilename + "." + fileNameExtension);
                 File source = file;
-                File  dest = new File(fullPathDest.toString());
+                File dest = new File(fullPathDest.toString());
+                File destNextWeek = new File(fullPathDestNextWeek.toString());
+
                 saveFiles.copyFileUsingApacheCommonsIO(source, dest);
+                if(thisIsWeekSend){
+                    saveFiles.copyFileUsingApacheCommonsIO(source, destNextWeek);
+                }
 
                 // Запись информации в таблицу Лог в БД
                 savedFilesCrudRepository.create_SavedFiles_All6(
@@ -113,6 +130,16 @@ public class DictionaryMaterialsAdditionService {
                         "DescriptionFromTelegram",
                         "Good"
                 );
+                if(thisIsWeekSend){
+                    savedFilesCrudRepository.create_SavedFiles_All6(
+                            fileNameWithoutExtension + "_" + DateForFilename + "." + fileNameExtension,
+                            fullPathDestNextWeek.toString(),
+                            LocalDateTime.now(),
+                            userName,
+                            "DescriptionFromTelegram",
+                            "Good"
+                    );
+                }
             }
         }
     }
@@ -149,5 +176,18 @@ public class DictionaryMaterialsAdditionService {
         line.remove(0);
 
         return new Word(key, new HashSet<>(line));
+    }
+
+    public Boolean getThisIsWeekSend(String fileName){
+        Boolean ThisIsWeekSend = false;
+
+        List<SamplesFileNameEntity> result13 = samplesFileNameCrudRepository.findAllFromSamplesFileNameFirstParam1(fileName);
+        result13.forEach(it13-> System.out.println(it13));
+        System.out.println("result13.size = " + result13.size());
+        int resultExists13 = result13.size();
+        if(resultExists13 != 0){
+            ThisIsWeekSend = true;
+        }
+        return ThisIsWeekSend;
     }
 }

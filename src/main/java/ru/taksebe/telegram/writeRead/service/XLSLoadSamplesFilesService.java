@@ -8,6 +8,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.taksebe.telegram.writeRead.entity.SamplesFileNameEntity;
+import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
 import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
 import ru.taksebe.telegram.writeRead.repository.SamplesFileNameCrudRepository;
 
@@ -16,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Iterator;
+import java.util.List;
 
 @Component
 public class XLSLoadSamplesFilesService {
@@ -389,7 +392,46 @@ public class XLSLoadSamplesFilesService {
 
     }
 
+    // Метод копирования одной строки в другую по id, но с другим fullFileName
+    public void CopyById(long id, String newFullFileName){
+        // Получить строку по id
+        List<SamplesFileNameEntity> result12 = samplesFileNameCrudRepository.findAllFromSamplesFileNameById(id);
+        result12.forEach(it12-> System.out.println(it12));
+        System.out.println("result12.size = " + result12.size());
+        int resultExists12 = result12.size();
 
+        if(resultExists12 != 0){
+
+            String rubricBookNumber = result12.get(0).getRubric_book_number();
+            String systemRubricName = result12.get(0).getSystem_rubric_name();
+            String systemFileName = result12.get(0).getSystem_file_name();
+            String fullFileName = newFullFileName;
+            String midFileName = result12.get(0).getMid_file_name();
+            String shortFileName = result12.get(0).getShort_file_name();
+            LocalDateTime dateSetting = LocalDateTime.now();
+            String period1 = result12.get(0).getPeriod1();
+            String period2 = result12.get(0).getPeriod2();
+            String period3 = result12.get(0).getPeriod3();
+            String period4 = result12.get(0).getPeriod4();
+            String responsible = result12.get(0).getResponsible();
+
+         // Записать с другим полным именем файла
+            samplesFileNameCrudRepository.create_SampleFileNames_All13(
+                    rubricBookNumber,
+                    systemRubricName,
+                    systemFileName,
+                    fullFileName,
+                    midFileName,
+                    shortFileName,
+                    dateSetting,
+                    period1,
+                    period2,
+                    period3,
+                    period4,
+                    responsible
+            );
+        }
+    }
 }
 
 // 1 rubricBookNumber = "";

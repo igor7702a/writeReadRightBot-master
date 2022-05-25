@@ -145,6 +145,7 @@ public class SaveFiles {
         String first1 = "Нет";
         String period = "";
         String periodQuater = "";
+        String periodWeeks = "";
 
         List<SamplesFileNameEntity> ResultByFileName =
                 samplesFileNameCrudRepository.findAllFromSamplesFileNameFirstParam1(fileName);
@@ -156,6 +157,7 @@ public class SaveFiles {
             first1 = ResultByFileName.get(0).getFull_file_name();
             period = ResultByFileName.get(0).getPeriod2();
             periodQuater = ResultByFileName.get(0).getPeriod3();
+            periodWeeks = ResultByFileName.get(0).getPeriod1();
         }
 
         String numberYear = LocalDate.now().format(DateTimeFormatter.ofPattern("YYYY")); //2022
@@ -184,6 +186,99 @@ public class SaveFiles {
         if(periodQuater.equals("quarters")){
             period = "quarters";
             numberMonthShort = "3"; // Необходимо автоматически определить номер квартала
+            numberYear = Integer.toString(Integer.parseInt(numberYear) - 1);// Определить как будет в реальном проекте;
+        }
+
+        // Здесь обработать, если загрузка недельная
+        if(periodWeeks.equals("weeks")){
+            period = "weeks";
+            numberMonthShort = numberWeekFull; // Необходимо автоматически определить номер недели
+            numberYear = Integer.toString(Integer.parseInt(numberYear) - 1);// Определить как будет в реальном проекте;
+        }
+
+        StringBuilder sb = new StringBuilder(
+                numberYear + "/" +
+                        period + "/" +
+                        numberMonthShort  + "/" +
+                        rubricSystemName + "/" +
+                        fileSystemName + "/");
+        realPath = sb.toString();
+
+        int index = realPath.indexOf("Нет");
+        if (index != -1) {
+            throw new FileNameNotFoundInSamplesException();
+        }
+
+        // Проверить есть ли у пользователя права на запись файла, иначе выдать исключение
+        List<UsersProfilesEntity> resultUsersProfiles = usersProfilesCrudRepository.findAllFromUsersProfilesBy4Param(
+                userName, rubricSystemName, fileSystemName);
+        resultUsersProfiles.forEach(it3-> System.out.println(it3));
+        System.out.println("result.size = " + resultUsersProfiles.size());
+        int resultUsersProfilesExists = resultUsersProfiles.size();
+        if(resultUsersProfilesExists == 0){
+            throw new NotRightSaveFileException();
+        }
+
+        return realPath;
+    }
+
+    public String GetPathFileRealNextWeek(String fileName, String userName){
+        // Добавить 1 к номеру недели
+        String realPath = "";
+
+        String rubricSystemName = "Нет";
+        String fileSystemName = "Нет";
+        String first1 = "Нет";
+        String period = "";
+        String periodQuater = "";
+        String periodWeeks = "";
+
+        List<SamplesFileNameEntity> ResultByFileName =
+                samplesFileNameCrudRepository.findAllFromSamplesFileNameFirstParam1(fileName);
+        int resultExists = ResultByFileName.size();
+
+        if(resultExists != 0){
+            rubricSystemName = ResultByFileName.get(0).getSystem_rubric_name();
+            fileSystemName = ResultByFileName.get(0).getSystem_file_name();
+            first1 = ResultByFileName.get(0).getFull_file_name();
+            period = ResultByFileName.get(0).getPeriod2();
+            periodQuater = ResultByFileName.get(0).getPeriod3();
+            periodWeeks = ResultByFileName.get(0).getPeriod1();
+        }
+
+        String numberYear = LocalDate.now().format(DateTimeFormatter.ofPattern("YYYY")); //2022
+        String numberMonthShort = "";
+        String numberWeekShort = "";
+
+        String numberMonthFull = LocalDate.now().format(DateTimeFormatter.ofPattern("MM")); //04
+        // Если первый символ = 0, то учитываем без него
+        char cMounth = numberMonthFull.charAt(0);
+        if(cMounth == 48){
+            numberMonthShort = numberMonthFull.substring(1);
+        }else {
+            numberMonthShort = new StringBuilder(numberMonthFull).toString();
+        }
+
+        String numberWeekFull = LocalDate.now().format(DateTimeFormatter.ofPattern("w")); //17
+        // Если первый символ = 0, то учитываем без него
+        char cWeek = numberWeekFull.charAt(0);
+        if(cWeek == 48){
+            numberWeekShort = numberMonthFull.substring(1);
+        }else {
+            numberWeekShort = new StringBuilder(numberMonthFull).toString();
+        }
+
+        // Здесь обработать, если загрузка квартальная
+        if(periodQuater.equals("quarters")){
+            period = "quarters";
+            numberMonthShort = "3"; // Необходимо автоматически определить номер квартала
+            numberYear = Integer.toString(Integer.parseInt(numberYear) - 1);// Определить как будет в реальном проекте;
+        }
+
+        // Здесь обработать, если загрузка недельная
+        if(periodWeeks.equals("weeks")){
+            period = "weeks";
+            numberMonthShort = Integer.toString(Integer.parseInt(numberWeekFull) + 1); // Необходимо автоматически определить номер недели
             numberYear = Integer.toString(Integer.parseInt(numberYear) - 1);// Определить как будет в реальном проекте;
         }
 
