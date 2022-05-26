@@ -3,7 +3,6 @@ package ru.taksebe.telegram.writeRead.api.dictionaries;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.apache.poi.ooxml.POIXMLDocument;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -19,8 +18,6 @@ import ru.taksebe.telegram.writeRead.utils.FileUtils;
 import ru.taksebe.telegram.writeRead.utils.ResourceLoader;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 

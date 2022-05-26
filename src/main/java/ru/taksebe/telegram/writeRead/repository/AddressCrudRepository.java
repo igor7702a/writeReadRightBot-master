@@ -5,12 +5,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.taksebe.telegram.writeRead.entity.AddressEntity;
-import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-
 
 public interface AddressCrudRepository extends JpaRepository<AddressEntity, Long> {
 

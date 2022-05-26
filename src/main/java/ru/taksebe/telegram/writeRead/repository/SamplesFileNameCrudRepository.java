@@ -5,10 +5,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.taksebe.telegram.writeRead.entity.SamplesFileNameEntity;
-
 import java.time.LocalDateTime;
 import java.util.List;
-
 
 public interface SamplesFileNameCrudRepository extends JpaRepository<SamplesFileNameEntity, Long> {
 
