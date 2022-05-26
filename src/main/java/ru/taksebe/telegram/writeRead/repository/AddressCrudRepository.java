@@ -63,10 +63,3 @@ public interface AddressCrudRepository extends JpaRepository<AddressEntity, Long
 
     //Update
 }
-
-//    id SERIAL PRIMARY KEY,
-//    type_address VARCHAR(150),
-//    matter_address VARCHAR(150),
-//    description_address VARCHAR(150),
-//    datetime_upload timestamp,
-//    responsible VARCHAR(100)

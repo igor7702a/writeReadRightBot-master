@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.taksebe.telegram.writeRead.service.SendAndGetFilesTelegram;
 
-import java.io.File;
 import java.io.IOException;
 
 @SpringBootTest

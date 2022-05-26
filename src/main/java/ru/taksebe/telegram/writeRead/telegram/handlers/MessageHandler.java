@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import ru.taksebe.telegram.writeRead.api.dictionaries.DictionaryAdditionService;
 import ru.taksebe.telegram.writeRead.api.dictionaries.DictionaryMaterialsAdditionService;
 import ru.taksebe.telegram.writeRead.api.dictionaries.DictionaryExcelService;
@@ -21,14 +20,12 @@ import ru.taksebe.telegram.writeRead.telegram.TelegramApiClient;
 import ru.taksebe.telegram.writeRead.telegram.keyboards.InlineKeyboardMaker;
 import ru.taksebe.telegram.writeRead.telegram.keyboards.InlineKeyboardMakerPdf;
 import ru.taksebe.telegram.writeRead.telegram.keyboards.ReplyKeyboardMaker;
-import ru.taksebe.telegram.writeRead.telegram.handlers.CallbackQueryHandler;
 import ru.taksebe.telegram.writeRead.service.TelegramDownloadLetterService;
 import java.io.IOException;
 import java.util.List;
 
 import ru.taksebe.telegram.writeRead.entity.UsersProfilesEntity;
 import ru.taksebe.telegram.writeRead.repository.UsersProfilesCrudRepository;
-import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
 import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
 
 @Component

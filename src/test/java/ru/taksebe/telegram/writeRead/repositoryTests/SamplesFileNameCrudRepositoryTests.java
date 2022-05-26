@@ -5,13 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.transaction.annotation.Transactional;
 import ru.taksebe.telegram.writeRead.entity.SamplesFileNameEntity;
 import ru.taksebe.telegram.writeRead.repository.SamplesFileNameCrudRepository;
-import ru.taksebe.telegram.writeRead.repository.SavedFilesCrudRepository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

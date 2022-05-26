@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.taksebe.telegram.writeRead.api.dictionaries.DictionaryExcelService;
 import ru.taksebe.telegram.writeRead.api.dictionaries.DictionaryResourceFileService;
 import ru.taksebe.telegram.writeRead.api.tasks.TaskService;
@@ -18,16 +17,9 @@ import ru.taksebe.telegram.writeRead.constants.bot.CallbackDataPartsEnum;
 import ru.taksebe.telegram.writeRead.constants.resources.DictionaryResourcePathEnum;
 import ru.taksebe.telegram.writeRead.entity.UsersProfilesEntity;
 import ru.taksebe.telegram.writeRead.exceptions.NoRightTemplateNewButton;
-import ru.taksebe.telegram.writeRead.exceptions.NoRightUploadMaterialsWithFilesButton;
 import ru.taksebe.telegram.writeRead.exceptions.UserDictionaryNotFoundException;
 import ru.taksebe.telegram.writeRead.telegram.TelegramApiClient;
 import ru.taksebe.telegram.writeRead.repository.UsersProfilesCrudRepository;
-import ru.taksebe.telegram.writeRead.entity.UsersProfilesEntity;
-
-// Для работы с pdf
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ByteArrayOutputStream;
 
 import java.io.IOException;
 import java.util.List;

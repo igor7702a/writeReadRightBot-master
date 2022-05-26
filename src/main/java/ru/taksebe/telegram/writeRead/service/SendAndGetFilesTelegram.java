@@ -1,15 +1,12 @@
 package ru.taksebe.telegram.writeRead.service;
 
-import org.apache.tomcat.jni.OS;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
-import ru.taksebe.telegram.writeRead.service.OSValidator;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -111,12 +108,7 @@ public class SendAndGetFilesTelegram {
         sendPhotoRequest.setChatId(chatId);
         // Set the photo file as a new photo (You can also use InputStream with a constructor overload)
         sendPhotoRequest.setPhoto(new InputFile(new File(filePath)));
-//        try {
-//            // Execute the method
-//            execute(sendPhotoRequest);
-//        } catch (TelegramApiException e) {
-//            e.printStackTrace();
-//        }
+
     }
 
 }

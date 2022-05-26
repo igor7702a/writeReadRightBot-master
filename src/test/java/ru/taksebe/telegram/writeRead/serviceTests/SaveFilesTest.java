@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -34,8 +33,6 @@ public class SaveFilesTest {
         saveFiles.CopyFile("c:/Books/TemplatePdf.pdf", "c:/Books/TemplatePdf2.pdf");
         Assertions.assertEquals(1, 1);
     }
-    //    File source = new File("c:/Books/TemplatePdf.pdf");
-    //    File  dest = new File("c:/Books/TemplatePdf1.pdf");
 
     @Test
     void receiveOS_4Param() throws IOException {
@@ -46,10 +43,6 @@ public class SaveFilesTest {
                 "c:/");
         Assertions.assertEquals(1, 1);
     }
-    //    File source = new File("c:/Books/TemplatePdf.pdf");
-    //    File  dest = new File("c:/Books/TemplatePdf1.pdf");
-    //    c:/
-    //    /home/svc_chatbot/
 
     @Test
     void receiveOS_4ParamWinUnix() throws IOException {
@@ -75,16 +68,9 @@ public class SaveFilesTest {
                 pathOS);
         Assertions.assertEquals(1, 1);
     }
-    //    File source = new File("c:/Books/TemplatePdf.pdf");
-    //    File  dest = new File("c:/Books/TemplatePdf1.pdf");
-    //    c:/
-    //    /home/svc_chatbot/
 
     @Test
     void GetStringDateForNameFile() throws IOException {
-        // Format 1:
-        //DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        // Format 2:
         DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
         Date date = new Date();
         String myDate = dateFormat.format(date);

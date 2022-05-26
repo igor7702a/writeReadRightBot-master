@@ -173,14 +173,4 @@ public class XLSLoadAddressService {
 
 }
 
-// rubric_book_number VARCHAR(15),
-// system_rubric_name VARCHAR(100),
-// system_file_name VARCHAR(100),
-// full_file_name VARCHAR(250),
-// access_type VARCHAR(50),
-// tg_user VARCHAR(150),
-// date_setting timestamp,
-// responsible VARCHAR(100)
-// user_fio VARCHAR(150)
-
 

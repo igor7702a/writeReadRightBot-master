@@ -1,10 +1,6 @@
 package ru.taksebe.telegram.writeRead.utils;
 
 import lombok.Getter;
-import org.apache.commons.compress.utils.IOUtils;
-import org.apache.pdfbox.cos.COSDocument;
-import org.apache.pdfbox.io.MemoryUsageSetting;
-import org.apache.pdfbox.io.ScratchFile;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.poi.poifs.crypt.dsig.SignaturePart;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;

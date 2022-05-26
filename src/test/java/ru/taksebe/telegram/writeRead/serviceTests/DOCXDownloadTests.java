@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.taksebe.telegram.writeRead.service.DOCXDownloadLetterService;
 
 import java.io.IOException;
-import java.util.List;
 
 @SpringBootTest
 public class DOCXDownloadTests {

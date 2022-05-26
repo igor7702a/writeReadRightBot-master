@@ -9,7 +9,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.taksebe.telegram.writeRead.entity.SamplesFileNameEntity;
-import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
 import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
 import ru.taksebe.telegram.writeRead.repository.SamplesFileNameCrudRepository;
 
@@ -433,16 +432,3 @@ public class XLSLoadSamplesFilesService {
         }
     }
 }
-
-// 1 rubricBookNumber = "";
-// 2 systemRubricName = "";
-// 3 systemFileName = "";
-// 4 fullFileName = "";
-// 5 midFileName = "";
-// 6 shortFileName = "";
-// 7 dateSetting = LocalDateTime.now();
-// 8 period1 = "";
-// 9 period2 = "";
-// 10 period3 = "";
-// 11 period4 = "";
-// 12 responsible = "";

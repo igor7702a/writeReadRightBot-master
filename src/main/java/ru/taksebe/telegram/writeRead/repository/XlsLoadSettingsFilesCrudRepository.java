@@ -236,23 +236,3 @@ public interface XlsLoadSettingsFilesCrudRepository extends JpaRepository<XlsLoa
 
     //Update
 }
-
-//    Id SERIAL PRIMARY KEY,
-//+    item_name VARCHAR(200),
-//+    date_item_name DATE,
-//+    arm_name VARCHAR(200),
-//+    arm_link VARCHAR(200),
-//+    officer_for VARCHAR(200),
-//+    rubric_number INTEGER,
-//+    rubric_name VARCHAR(150),
-//+    book_number INTEGER,
-//+    book_name VARCHAR(200),
-//+    file_name VARCHAR(200),
-//+    month_number INTEGER,
-//+    timetable VARCHAR(100),
-//+    type_recipient VARCHAR(100),
-//+    name_recipient VARCHAR(200),
-//+    fio_upload VARCHAR(200),
-//+    datetime_upload TIMESTAMP,
-//+    system_rubric_name VARCHAR(100),
-//+    system_file_name VARCHAR(100)

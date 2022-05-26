@@ -5,15 +5,12 @@ import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import ru.taksebe.telegram.writeRead.entity.ForwardedFilesEntity;
 import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
 import ru.taksebe.telegram.writeRead.model.DateFile;
 import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
 import ru.taksebe.telegram.writeRead.repository.ForwardedFilesCrudRepository;
 import ru.taksebe.telegram.writeRead.telegram.handlers.CallbackQueryHandler;
-import ru.taksebe.telegram.writeRead.service.OSValidator;
-
 
 import java.io.File;
 import java.io.FileOutputStream;

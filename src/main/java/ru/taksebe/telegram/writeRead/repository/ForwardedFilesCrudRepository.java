@@ -144,20 +144,3 @@ public interface ForwardedFilesCrudRepository extends JpaRepository<ForwardedFil
 
     //Update
 }
-
-//    id integer
-//    address_id integer
-//    rubric_book_number VARCHAR(15);
-//    system_rubric_name VARCHAR(100);
-//    system_file_name VARCHAR(100);
-//    full_file_name VARCHAR(250);
-//    st_year VARCHAR(10);
-//    st_period VARCHAR(50);
-//    number_period VARCHAR(10);
-//    delivery_date timestamp;
-//    harvest VARCHAR(50);
-//    type_address VARCHAR(150);
-//    matter_address VARCHAR(150);
-//    description_address VARCHAR(150);
-//    datetime_upload timestamp;
-//    responsible VARCHAR(100)

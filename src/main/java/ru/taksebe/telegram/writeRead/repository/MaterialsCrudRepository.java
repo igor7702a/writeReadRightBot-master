@@ -168,15 +168,3 @@ public interface MaterialsCrudRepository extends JpaRepository<MaterialsEntity, 
     //Update
 }
 
-//    Id
-//+    file_section_synonym
-//+    file_synonym
-//+    file_name
-//+    file_extension
-//+    file_date_upload
-//+    file_time_upload
-//+    file_type_upload
-//+    file_username_upload
-//+    file_path
-//+    file_type_function
-//+    file_datetime_upload
