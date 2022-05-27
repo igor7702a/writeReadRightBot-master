@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,10 +11,12 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "forwarded_files")
 @Data
+@Schema(description = "Лог пересланных файлов")
 public class ForwardedFilesEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Идентификатор", accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 
 //    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -23,76 +26,91 @@ public class ForwardedFilesEntity {
     @Column
     @Getter
     @Setter
+    @Schema(description = "Номер рубрики", accessMode = Schema.AccessMode.READ_WRITE)
     private String rubric_book_number;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Системное имя рубрики", accessMode = Schema.AccessMode.READ_WRITE)
     private String system_rubric_name;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Системное имя файла", accessMode = Schema.AccessMode.READ_WRITE)
     private String system_file_name;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Полное имя файла", accessMode = Schema.AccessMode.READ_WRITE)
     private String full_file_name;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Год", accessMode = Schema.AccessMode.READ_WRITE)
     private int st_year;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Период рассылки", accessMode = Schema.AccessMode.READ_WRITE)
     private String st_period;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Номер периода рассылки", accessMode = Schema.AccessMode.READ_WRITE)
     private String number_period;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Дата пересылки файла", accessMode = Schema.AccessMode.READ_WRITE)
     private LocalDateTime delivery_date;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Результат пересылки файла", accessMode = Schema.AccessMode.READ_WRITE)
     private String harvest;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Тип адреса пересылки", accessMode = Schema.AccessMode.READ_WRITE)
     private String type_address;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Содержание адреса пересылки", accessMode = Schema.AccessMode.READ_WRITE)
     private String matter_address;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Описание адреса пересылки", accessMode = Schema.AccessMode.READ_WRITE)
     private String description_address;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Дата загрузки", accessMode = Schema.AccessMode.READ_WRITE)
     private LocalDateTime datetime_upload;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Ответственный", accessMode = Schema.AccessMode.READ_WRITE)
     private String responsible;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Комментарий", accessMode = Schema.AccessMode.READ_WRITE)
     private String comment;
 
     public Long getId() {
@@ -125,21 +143,4 @@ public class ForwardedFilesEntity {
     }
 
 }
-//    id integer
-//    address_id integer
-//    rubric_book_number VARCHAR(15);
-//    system_rubric_name VARCHAR(100);
-//    system_file_name VARCHAR(100);
-//    full_file_name VARCHAR(250);
-//    st_year VARCHAR(10);
-//    st_period VARCHAR(50);
-//    number_period VARCHAR(10);
-//    delivery_date timestamp;
-//    harvest VARCHAR(50);
-//    type_address VARCHAR(150);
-//    matter_address VARCHAR(150);
-//    description_address VARCHAR(150);
-//    datetime_upload timestamp;
-//    responsible VARCHAR(100)
-//    comment VARCHAR(100)
 

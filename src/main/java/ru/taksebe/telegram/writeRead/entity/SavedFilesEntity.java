@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,40 +9,48 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "saved_files")
+@Schema(description = "Лог загруженных файлов")
 public class SavedFilesEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Идентификатор", accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Имя файла", accessMode = Schema.AccessMode.READ_WRITE)
     private String file_name;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Путь к файлу", accessMode = Schema.AccessMode.READ_WRITE)
     private String file_path;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Дата записи", accessMode = Schema.AccessMode.READ_WRITE)
     private LocalDateTime save_date;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Ответственный", accessMode = Schema.AccessMode.READ_WRITE)
     private String responsible;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Описание", accessMode = Schema.AccessMode.READ_WRITE)
     private String decription;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Результат", accessMode = Schema.AccessMode.READ_WRITE)
     private String harvest;
 
     public Long getId() {
@@ -65,19 +74,3 @@ public class SavedFilesEntity {
     }
 
 }
-
-// Id
-// file_name VARCHAR(200),
-// file_path VARCHAR(250),
-// save_date TIMESTAMP,
-// responsible VARCHAR(100),
-// decription VARCHAR(250),
-// harvest VARCHAR(50)
-
-// Id Long
-// file_name String,
-// file_path VARCHAR(250),
-// save_date TIMESTAMP,
-// responsible VARCHAR(100),
-// decription VARCHAR(250),
-// harvest VARCHAR(50)

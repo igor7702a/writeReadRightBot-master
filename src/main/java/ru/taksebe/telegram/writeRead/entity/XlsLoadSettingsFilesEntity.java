@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,101 +10,120 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "XlsLoadSettingsFilesEntity")
-
+@Schema(description = "Настройка рассылки файлов")
 public class XlsLoadSettingsFilesEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Идентификатор", accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Имя пункта", accessMode = Schema.AccessMode.READ_WRITE)
     private String item_name;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Дата имени пункта", accessMode = Schema.AccessMode.READ_WRITE)
     private LocalDate date_item_name;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Имя арма", accessMode = Schema.AccessMode.READ_WRITE)
     private String arm_name;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Ссылка на арм", accessMode = Schema.AccessMode.READ_WRITE)
     private String arm_link;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Ответственный за пункт", accessMode = Schema.AccessMode.READ_WRITE)
     private String officer_for;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Номер рубрики", accessMode = Schema.AccessMode.READ_WRITE)
     private int rubric_number;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Имя рубрики", accessMode = Schema.AccessMode.READ_WRITE)
     private String rubric_name;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Номер книжки", accessMode = Schema.AccessMode.READ_WRITE)
     private int book_number;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Имя книжки", accessMode = Schema.AccessMode.READ_WRITE)
     private String book_name;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Имя файла", accessMode = Schema.AccessMode.READ_WRITE)
     private String file_name;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Номер месяца", accessMode = Schema.AccessMode.READ_WRITE)
     private int month_number;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Расписание", accessMode = Schema.AccessMode.READ_WRITE)
     private String timetable;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Тип получателя", accessMode = Schema.AccessMode.READ_WRITE)
     private String type_recipient;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Имя получателя", accessMode = Schema.AccessMode.READ_WRITE)
     private String name_recipient;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Фамилия загрузившего", accessMode = Schema.AccessMode.READ_WRITE)
     private String fio_upload;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Дата и время загрузки", accessMode = Schema.AccessMode.READ_WRITE)
     private LocalDateTime datetime_upload;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Системное имя рубрики", accessMode = Schema.AccessMode.READ_WRITE)
     private String system_rubric_name;
 
     @Column
     @Getter
     @Setter
+    @Schema(description = "Системное имя файла", accessMode = Schema.AccessMode.READ_WRITE)
     private String system_file_name;
 
     public Long getId() {
@@ -139,23 +159,3 @@ public class XlsLoadSettingsFilesEntity {
     }
 
 }
-
-//    Id SERIAL PRIMARY KEY,
-//++    item_name VARCHAR(200),
-//++    date_item_name DATE,
-//++    arm_name VARCHAR(200),
-//++    arm_link VARCHAR(200),
-//++    officer_for VARCHAR(200),
-//++    rubric_number INTEGER,
-//++    rubric_name VARCHAR(150),
-//++    book_number INTEGER,
-//++    book_name VARCHAR(200),
-//++    file_name VARCHAR(200),
-//++    month_number INTEGER,
-//++    timetable VARCHAR(100),
-//++    type_recipient VARCHAR(100),
-//++    name_recipient VARCHAR(200),
-//++    fio_upload VARCHAR(200),
-//++    datetime_upload TIMESTAMP,
-//++    system_rubric_name VARCHAR(100),
-//+    system_file_name VARCHAR(100)
