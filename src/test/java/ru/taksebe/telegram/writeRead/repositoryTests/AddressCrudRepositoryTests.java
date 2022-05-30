@@ -1,5 +1,7 @@
 package ru.taksebe.telegram.writeRead.repositoryTests;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +15,14 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+@Tag(name = "Тест методов CRUD репозитори для таблицы address", description = "Набор тестов для работы с БД таблица address")
 public class AddressCrudRepositoryTests {
 
     @Autowired
     AddressCrudRepository addressCrudRepository;
 
-    // Get findAllFromAddress
     @Test
+    @Operation(summary = "Get", description = "findAllFromAddress")
     void findAllFromAddress() {
         List<AddressEntity> adress = addressCrudRepository.findAllFromAddress();
         adress.forEach(it -> System.out.println(it));
