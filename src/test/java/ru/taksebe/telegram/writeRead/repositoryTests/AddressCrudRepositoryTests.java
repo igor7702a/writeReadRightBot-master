@@ -15,7 +15,7 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
-@Tag(name = "Тест методов CRUD репозитори для таблицы address", description = "Набор тестов для работы с БД таблица address")
+@Tag(name = "AddressCrudRepositoryTests", description = "Набор тестов для работы с БД, таблица: address")
 public class AddressCrudRepositoryTests {
 
     @Autowired

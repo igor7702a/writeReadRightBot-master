@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.repository;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,37 +12,37 @@ import java.util.List;
 
 public interface XlsLoadSettingsFilesCrudRepository extends JpaRepository<XlsLoadSettingsFilesEntity, Long> {
 
-    //Get findAllFromXlsLoadSettingsFiles
+    @Operation(summary = "Get", description = "findAllFromXlsLoadSettingsFiles")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles", nativeQuery = true)
     List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFiles();
 
-    //Get findAllFromXlsLoadSettingsFilesById
+    @Operation(summary = "Get", description = "findAllFromXlsLoadSettingsFilesById")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles WHERE id=:id", nativeQuery = true)
     List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFilesById(long id);
 
-    //Get findAllFromXlsLoadSettingsFilesBySystemRubricName
+    @Operation(summary = "Get", description = "findAllFromXlsLoadSettingsFilesBySystemRubricName")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles WHERE system_rubric_name=:systemRubricName", nativeQuery = true)
     List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFilesBySystemRubricName(String systemRubricName);
 
-    //Get find1FromXlsLoadSettingsFilesBySystemRubricName
+    @Operation(summary = "Get", description = "find1FromXlsLoadSettingsFilesBySystemRubricName")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles WHERE system_rubric_name=:systemRubricName LIMIT 1", nativeQuery = true)
     List<XlsLoadSettingsFilesEntity> find1FromXlsLoadSettingsFilesBySystemRubricName(String systemRubricName);
 
-    //Get findAllFromXlsLoadSettingsFilesByMonth
+    @Operation(summary = "Get", description = "findAllFromXlsLoadSettingsFilesByMonth")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles WHERE month_number=:monthNumber", nativeQuery = true)
     List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFilesByMonth(int monthNumber);
 
-    //Get findAllFromXlsLoadSettingsFilesByYear
+    @Operation(summary = "Get", description = "findAllFromXlsLoadSettingsFilesByYear")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles WHERE (date_item_name>=:dateFirst and date_item_name<=:dateEnd)", nativeQuery = true)
     List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFilesByYear(LocalDate dateFirst, LocalDate dateEnd);
 
-    //Get findAllFromXlsLoadSettingsFilesByYearAndMonth
+    @Operation(summary = "Get", description = "findAllFromXlsLoadSettingsFilesByYearAndMonth")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles " +
             "WHERE (" +
@@ -51,7 +52,7 @@ public interface XlsLoadSettingsFilesCrudRepository extends JpaRepository<XlsLoa
             ")", nativeQuery = true)
     List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFilesByYearAndMonth(LocalDate dateFirst, LocalDate dateEnd, int monthNumber);
 
-    //Get findAllFromXlsLoadSettingsFilesBy4Param
+    @Operation(summary = "Get", description = "findAllFromXlsLoadSettingsFilesBy4Param")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles " +
             "WHERE (" +
@@ -63,7 +64,7 @@ public interface XlsLoadSettingsFilesCrudRepository extends JpaRepository<XlsLoa
     List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFiles4Param(
             LocalDate dateFirst, LocalDate dateEnd, int monthNumber, String timetableParam);
 
-    //Get findAllFromXlsLoadSettingsFilesOneRubric
+    @Operation(summary = "Get", description = "findAllFromXlsLoadSettingsFilesOneRubric")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles " +
             "WHERE (" +
@@ -77,7 +78,7 @@ public interface XlsLoadSettingsFilesCrudRepository extends JpaRepository<XlsLoa
     List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFilesOneRubric(
             LocalDate dateFirst, LocalDate dateEnd, int monthNumber, String timetableParam, int rubricNumber, String systemRubricName);
 
-    //Get findAllFromXlsLoadSettingsFiles5Param String systemRubricName
+    @Operation(summary = "Get", description = "findAllFromXlsLoadSettingsFiles5Param String systemRubricName")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles " +
             "WHERE (" +
@@ -90,7 +91,7 @@ public interface XlsLoadSettingsFilesCrudRepository extends JpaRepository<XlsLoa
     List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFiles5Param(
             LocalDate dateFirst, LocalDate dateEnd, int monthNumber, String timetableParam, String systemRubricName);
 
-    //Get findAllFromXlsLoadSettingsFiles5Param
+    @Operation(summary = "Get", description = "findAllFromXlsLoadSettingsFiles5Param")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles " +
             "WHERE (" +
@@ -103,7 +104,7 @@ public interface XlsLoadSettingsFilesCrudRepository extends JpaRepository<XlsLoa
     List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFiles5Param(
             LocalDate dateFirst, LocalDate dateEnd, int monthNumber, String timetableParam, int rubricNumber);
 
-    //Get findAllFromXlsLoadSettingsFiles5Param1Order
+    @Operation(summary = "Get", description = "findAllFromXlsLoadSettingsFiles5Param1Order")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles " +
             "WHERE (" +
@@ -122,7 +123,7 @@ public interface XlsLoadSettingsFilesCrudRepository extends JpaRepository<XlsLoa
 //    @Query(nativeQuery = true, value = "delete from materials where id=:id")
 //    void deleteVoidWhereIdParametr(long id);
 
-    //Create create_XlsLoadSettingsFiles_All12
+    @Operation(summary = "Get", description = "create_XlsLoadSettingsFiles_All12")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "insert into XlsLoadSettingsFiles (" +
@@ -169,7 +170,7 @@ public interface XlsLoadSettingsFilesCrudRepository extends JpaRepository<XlsLoa
             String timetable
     );
 
-    //Create create_XlsLoadSettingsFiles_All18
+    @Operation(summary = "Get", description = "create_XlsLoadSettingsFiles_All18")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "insert into XlsLoadSettingsFiles (" +

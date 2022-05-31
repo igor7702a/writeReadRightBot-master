@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.repositoryTests;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.taksebe.telegram.writeRead.entity.MaterialsEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+@Tag(name = "MaterialsCrudRepositoryTests", description = "Набор тестов для работы с БД, таблица: materials")
 public class MaterialsCrudRepositoryTests {
 
     @Autowired

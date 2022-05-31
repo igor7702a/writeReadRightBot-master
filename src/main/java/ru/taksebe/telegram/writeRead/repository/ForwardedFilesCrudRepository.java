@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.repository;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,17 +11,17 @@ import java.util.List;
 
 public interface ForwardedFilesCrudRepository extends JpaRepository<ForwardedFilesEntity, Long> {
 
-    //Get findAllFromForwardedFiles
+    @Operation(summary = "Get", description = "findAllFromForwardedFiles")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM forwarded_files", nativeQuery = true)
     List<ForwardedFilesEntity> findAllFromForwardedFiles();
 
-    //Get findAllFromForwardedFilesById
+    @Operation(summary = "Get", description = "findAllFromForwardedFilesById")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM forwarded_files WHERE id=:id", nativeQuery = true)
     List<ForwardedFilesEntity> findAllFromForwardedFilesById(long id);
 
-    //Get findAllFromForwardedAlreadySended
+    @Operation(summary = "Get", description = "findAllFromForwardedAlreadySended")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM forwarded_files WHERE (" +
             "system_rubric_name=:systemRubricName " +
@@ -45,7 +46,7 @@ public interface ForwardedFilesCrudRepository extends JpaRepository<ForwardedFil
             String typeAddress,
             String descriptionAddress);
 
-    //Get findAllFromForwardedAlreadySended2
+    @Operation(summary = "Get", description = "findAllFromForwardedAlreadySended2")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM forwarded_files WHERE (" +
             "system_rubric_name=:systemRubricName " +
@@ -57,7 +58,7 @@ public interface ForwardedFilesCrudRepository extends JpaRepository<ForwardedFil
             String systemFileName
            );
 
-    //Get findAllFromForwardedAlreadySended4
+    @Operation(summary = "Get", description = "findAllFromForwardedAlreadySended4")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM forwarded_files WHERE (" +
             "system_rubric_name=:systemRubricName " +
@@ -74,19 +75,19 @@ public interface ForwardedFilesCrudRepository extends JpaRepository<ForwardedFil
             String stYear,
             String stPeriod);
 
-    //Delete deleteVoidWhereIdParametr
+    @Operation(summary = "Delete", description = "deleteVoidWhereIdParametr")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "delete from forwarded_files where id=:id")
     void deleteVoidWhereIdParametr(long id);
 
-    //Delete deleteCleanAllForwardedFiles
+    @Operation(summary = "Delete", description = "deleteCleanAllForwardedFiles")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "delete from forwarded_files where id>0")
     void deleteCleanAllForwardedFiles();
 
-    //Create create_XlsLoadSettingsFiles_All
+    @Operation(summary = "Create", description = "create_XlsLoadSettingsFiles_All")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "insert into forwarded_files (" +

@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.repository;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,17 +11,17 @@ import java.util.List;
 
 public interface AddressCrudRepository extends JpaRepository<AddressEntity, Long> {
 
-    //Get findAllFromAddress
+    @Operation(summary = "Get", description = "findAllFromAddress")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM address", nativeQuery = true)
     List<AddressEntity> findAllFromAddress();
 
-    //Get findAllFromAddressById
+    @Operation(summary = "Get", description = "findAllFromAddressById")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM address WHERE id=:id", nativeQuery = true)
     List<AddressEntity> findAllFromAddressById(long id);
 
-    //Get findAllFromAddressBy3Param
+    @Operation(summary = "Get", description = "findAllFromAddressBy3Param")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM address WHERE (" +
             "type_address=:typeAddress " +
@@ -29,13 +30,13 @@ public interface AddressCrudRepository extends JpaRepository<AddressEntity, Long
             "LIMIT 1", nativeQuery = true)
     List<AddressEntity> findAllFromAddressBy3Param(String typeAddress, String matterAddress, String descriptionAddress);
 
-    //Delete
+    @Operation(summary = "Delete", description = "deleteVoidWhereIdParametr")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "delete from address where id=:id")
     void deleteVoidWhereIdParametr(long id);
 
-    //Create
+    @Operation(summary = "Create", description = "create_Address_All5")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "insert into address (" +

@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.repository;
 
+import io.swagger.v3.oas.annotations.Operation;
 import ru.taksebe.telegram.writeRead.entity.MaterialsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,23 +13,23 @@ import java.util.List;
 
 public interface MaterialsCrudRepository extends JpaRepository<MaterialsEntity, Long> {
 
-    //Get findAllFromMaterials
+    @Operation(summary = "Get", description = "findAllFromMaterials")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM materials", nativeQuery = true)
     List<MaterialsEntity> findAllFromMaterials();
 
-    //Get findAllFromMaterialsById
+    @Operation(summary = "Get", description = "findAllFromMaterialsById")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM materials WHERE id=:id", nativeQuery = true)
     List<MaterialsEntity> findAllFromMaterialsById(long id);
 
-    //Delete
+    @Operation(summary = "Delete", description = "deleteVoidWhereIdParametr")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "delete from materials where id=:id")
     void deleteVoidWhereIdParametr(long id);
 
-    //Create
+    @Operation(summary = "Create", description = "create_Materials_All2")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "insert into materials (" +
@@ -45,6 +46,7 @@ public interface MaterialsCrudRepository extends JpaRepository<MaterialsEntity, 
             String fileSynonym
     );
 
+    @Operation(summary = "Create", description = "create_Materials_All4")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "insert into materials (" +
@@ -67,6 +69,7 @@ public interface MaterialsCrudRepository extends JpaRepository<MaterialsEntity, 
             String fileExtension
     );
 
+    @Operation(summary = "Create", description = "create_Materials_All5")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "insert into materials (" +

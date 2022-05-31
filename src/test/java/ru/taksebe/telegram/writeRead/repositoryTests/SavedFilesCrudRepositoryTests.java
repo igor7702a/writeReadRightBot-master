@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.repositoryTests;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+@Tag(name = "SavedFilesCrudRepositoryTests", description = "Набор тестов для работы с БД, таблица: saved_files")
 public class SavedFilesCrudRepositoryTests {
 
     @Autowired

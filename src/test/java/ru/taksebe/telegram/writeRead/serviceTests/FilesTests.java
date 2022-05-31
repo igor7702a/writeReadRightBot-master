@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.serviceTests;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import ru.taksebe.telegram.writeRead.telegram.TelegramApiClient;
 import java.io.IOException;
 
 @SpringBootTest
+@Tag(name = "FilesTests", description = "Тест по работе с файлами")
 public class FilesTests {
 
     @Autowired

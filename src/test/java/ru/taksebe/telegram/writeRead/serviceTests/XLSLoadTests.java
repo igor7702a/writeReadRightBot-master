@@ -62,6 +62,8 @@ public class XLSLoadTests {
         Assertions.assertEquals(1, 1);
     }
 
+    // передать id образца, номер подпункта 2.1, номер дня (1 или 15), номер месяца, номер года
+
     @Test // Для реальной загрузки профилей пользователей
     void xlsLoadUsersProfilesNewFormat() throws IOException {
         xlsLoadUsersProfilesService.xlsLoadUsersProfilesNewFormat();

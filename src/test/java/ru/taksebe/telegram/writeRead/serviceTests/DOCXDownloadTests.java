@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.serviceTests;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import ru.taksebe.telegram.writeRead.service.DOCXDownloadLetterService;
 import java.io.IOException;
 
 @SpringBootTest
+@Tag(name = "DOCXDownloadTests", description = "Тест выгрузки в файл формата word DOCX")
 public class DOCXDownloadTests {
 
     @Autowired
