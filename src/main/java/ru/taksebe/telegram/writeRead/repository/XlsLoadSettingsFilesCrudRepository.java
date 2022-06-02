@@ -27,6 +27,11 @@ public interface XlsLoadSettingsFilesCrudRepository extends JpaRepository<XlsLoa
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles WHERE system_rubric_name=:systemRubricName", nativeQuery = true)
     List<XlsLoadSettingsFilesEntity> findAllFromXlsLoadSettingsFilesBySystemRubricName(String systemRubricName);
 
+    @Operation(summary = "Get", description = "find1FromXlsLoadSettingsFilesBySystemRubricNameOrder")
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT * FROM XlsLoadSettingsFiles WHERE system_rubric_name=:systemRubricName ORDER BY datetime_upload DESC LIMIT 1", nativeQuery = true)
+    List<XlsLoadSettingsFilesEntity> find1FromXlsLoadSettingsFilesBySystemRubricNameOrder(String systemRubricName);
+
     @Operation(summary = "Get", description = "find1FromXlsLoadSettingsFilesBySystemRubricName")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM XlsLoadSettingsFiles WHERE system_rubric_name=:systemRubricName LIMIT 1", nativeQuery = true)
@@ -123,7 +128,7 @@ public interface XlsLoadSettingsFilesCrudRepository extends JpaRepository<XlsLoa
 //    @Query(nativeQuery = true, value = "delete from materials where id=:id")
 //    void deleteVoidWhereIdParametr(long id);
 
-    @Operation(summary = "Get", description = "create_XlsLoadSettingsFiles_All12")
+    @Operation(summary = "Create", description = "create_XlsLoadSettingsFiles_All12")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "insert into XlsLoadSettingsFiles (" +
@@ -170,7 +175,7 @@ public interface XlsLoadSettingsFilesCrudRepository extends JpaRepository<XlsLoa
             String timetable
     );
 
-    @Operation(summary = "Get", description = "create_XlsLoadSettingsFiles_All18")
+    @Operation(summary = "Create", description = "create_XlsLoadSettingsFiles_All18")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "insert into XlsLoadSettingsFiles (" +

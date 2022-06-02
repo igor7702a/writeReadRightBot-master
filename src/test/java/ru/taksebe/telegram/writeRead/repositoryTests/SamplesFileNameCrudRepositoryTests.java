@@ -1,11 +1,14 @@
 package ru.taksebe.telegram.writeRead.repositoryTests;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 import ru.taksebe.telegram.writeRead.entity.SamplesFileNameEntity;
 import ru.taksebe.telegram.writeRead.repository.SamplesFileNameCrudRepository;
 
@@ -20,7 +23,7 @@ public class SamplesFileNameCrudRepositoryTests {
     @Autowired
     SamplesFileNameCrudRepository samplesFileNameCrudRepository;
 
-    // Get findAllFromSampleFileName
+    @Operation(summary = "Get", description = "findAllFromSampleFileName")
     @Test
     void findAllFromxlsLoadSettingsFiles() {
         List<SamplesFileNameEntity> notes = samplesFileNameCrudRepository.findAllFromSampleFileName();
@@ -28,7 +31,7 @@ public class SamplesFileNameCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Get findAllFromXlsLoadSettingsFilesById
+    @Operation(summary = "Get", description = "findAllFromXlsLoadSettingsFilesById")
     @Test
     void findAllFromMaterialsById() {
         List<SamplesFileNameEntity> SamplesFilesName = samplesFileNameCrudRepository.findAllFromSamplesFileNameById(2L);
@@ -36,7 +39,7 @@ public class SamplesFileNameCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Get findAllFromSamplesFileNameByFileNameV1
+    @Operation(summary = "Get", description = "findAllFromSamplesFileNameByFileNameV1")
     @Test
     void findAllFromSamplesFileNameByFileNameV1() {
         List<SamplesFileNameEntity> SamplesFilesName =
@@ -45,7 +48,21 @@ public class SamplesFileNameCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Get findAllFromSamplesFileNameRangeByDate
+    @Operation(summary = "Get", description = "findAllFromSamplesByRubricNumber")
+    @Test
+    void findAllFromSamplesByRubricNumber() {
+        List<SamplesFileNameEntity> SamplesFilesName =
+                samplesFileNameCrudRepository.findAllFromSamplesByRubricNumber("3.1");
+        SamplesFilesName.forEach(it -> System.out.println(it));
+        Assertions.assertEquals(1, 1);
+    }
+
+//    @Operation(summary = "Get", description = "findAllFromSamplesByRubricNumber")
+//    @Transactional(readOnly = true)
+//    @Query(value = "SELECT * FROM samples_filename WHERE rubric_book_number=:rubricNumber ORDER BY date_setting DESC LIMIT 1", nativeQuery = true)
+//    List<SamplesFileNameEntity> findAllFromSamplesByRubricNumber(String rubricNumber);
+
+    @Operation(summary = "Get", description = "findAllFromSamplesFileNameRangeByDate")
     @Test
     void findAllFromSamplesFileNameRangeByDate() {
         List<SamplesFileNameEntity> SamplesFilesName =
@@ -54,8 +71,7 @@ public class SamplesFileNameCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Get findAllFromSamplesFileNameFirst
-    // Выбрать строку с максимальным занчением даты
+    @Operation(summary = "Get", description = "findAllFromSamplesFileNameFirst Выбрать строку с максимальным занчением даты")
     @Test
     void findAllFromSamplesFileNameFirst() {
         List<SamplesFileNameEntity> SamplesFilesName =
@@ -71,7 +87,7 @@ public class SamplesFileNameCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Delete
+    @Operation(summary = "Delete", description = "deleteVoidWhereIdParametr")
     @Test
     void deleteVoidWhereIdParametr() {
         samplesFileNameCrudRepository.deleteVoidWhereIdParametr(1L);
@@ -134,5 +150,7 @@ public class SamplesFileNameCrudRepositoryTests {
         );
         Assertions.assertEquals(1, 1);
     }
+
+
 
 }

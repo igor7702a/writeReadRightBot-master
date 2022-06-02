@@ -1,5 +1,7 @@
 package ru.taksebe.telegram.writeRead.serviceTests;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,30 +16,29 @@ public class SendAndGetFilesTelegramTests {
     @Autowired
     SendAndGetFilesTelegram sendAndGetFilesTelegram;
 
-    // Resend files by id
     @Test
+    @Operation(summary = "sendDocument", description = "Resend files by id")
     void sendDocument() throws IOException {
         sendAndGetFilesTelegram.sendDocument("","");
         Assertions.assertEquals(1, 1);
     }
 
-    // Information about bot
     @Test
+    @Operation(summary = "getMe", description = "Information about bot")
     void getMe() throws IOException {
         sendAndGetFilesTelegram.getMe();
         Assertions.assertEquals(1, 1);
     }
 
-    // Send Photo JPG
     @Test
+    @Operation(summary = "sendPhotoJPG", description = "Send Photo JPG")
     void sendPhotoJPG() throws IOException {
         sendAndGetFilesTelegram.sendPhotoJPG();
         Assertions.assertEquals(1, 1);
     }
 
-    // Send Photo jpg New
-    //sendImageUploadingAFile(String filePath, String chatId) {
     @Test
+    @Operation(summary = "sendImageUploadingAFile", description = "Send Photo jpg New")
     void sendPhotoJPGNew() throws IOException {
         sendAndGetFilesTelegram.sendImageUploadingAFile("", "");
         Assertions.assertEquals(1, 1);

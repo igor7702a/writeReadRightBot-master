@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.serviceTests;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -28,8 +29,8 @@ public class DOCXDownloadTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Для реальных данных
     @Test
+    @Operation(summary = "docxDownLoadRealLetter", description = "Для реальных данных")
     void docxDownLoadRealLetter() throws IOException {
         docxDownloadLetterService.docxDownLoadRealLetter();
         Assertions.assertEquals(1, 1);

@@ -95,6 +95,7 @@ public interface MaterialsCrudRepository extends JpaRepository<MaterialsEntity, 
             LocalDate fileDateUpload
     );
 
+    @Operation(summary = "Create", description = "create_Materials_All7")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "insert into materials (" +
@@ -126,6 +127,7 @@ public interface MaterialsCrudRepository extends JpaRepository<MaterialsEntity, 
             String fileTypeUpload
     );
 
+    @Operation(summary = "Create", description = "create_Materials_All11")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "insert into materials (" +

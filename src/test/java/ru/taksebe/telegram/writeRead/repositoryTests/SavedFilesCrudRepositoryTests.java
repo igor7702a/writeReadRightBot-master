@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.repositoryTests;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ public class SavedFilesCrudRepositoryTests {
     @Autowired
     SavedFilesCrudRepository savedFilesCrudRepository;
 
-    // Get
+    @Operation(summary = "Get", description = "findAllFromSavedFiles")
     @Test
     void findAllFromSavedFiles() {
         List<SavedFilesEntity> savedFiles = savedFilesCrudRepository.findAllFromSavedFiles();
@@ -28,14 +29,14 @@ public class SavedFilesCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Delete
+    @Operation(summary = "Delete", description = "deleteVoidWhereIdParametr")
     @Test
     void deleteVoidWhereIdParametr() {
         savedFilesCrudRepository.deleteVoidWhereIdParametr(1L);
         Assertions.assertEquals(1, 1);
     }
 
-    // Create
+    @Operation(summary = "Create", description = "create_SavedFiles_All6")
     @Test
     void create_SavedFiles_All6() {
         savedFilesCrudRepository.create_SavedFiles_All6(

@@ -1,5 +1,7 @@
 package ru.taksebe.telegram.writeRead.api.dictionaries;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -26,7 +28,7 @@ public class DictionaryResourceFileService {
         return myResBAR;
     }
 
-    // Для PPTX
+    //@Operation(Summary = "getTemplateWorkbookPPTX", description = "Для PPTX")
     public ByteArrayResource getTemplateWorkbookPPTX() throws IOException {
         XSSFWorkbook myResourceLoader = resourceLoader.loadTemplateWorkbook();
         ByteArrayResource myResBAR = FileUtils.createOfficeDocumentResource(
@@ -36,8 +38,7 @@ public class DictionaryResourceFileService {
         return myResBAR;
     }
 
-    // Для одиночного файла Pdf
-    // Было
+    @Operation(summary = "getTemplateWorkbookNew", description = "Для одиночного файла Pdf Было")
     public ByteArrayResource getTemplateWorkbookNew() throws IOException {
 
         XSSFWorkbook myResourceLoader = resourceLoader.loadTemplateWorkbookNew();
@@ -48,7 +49,7 @@ public class DictionaryResourceFileService {
         return myResBAR;
     }
 
-    // Стало новый тип
+    @Operation(summary = "getTemplateWorkbookNewType", description = "Стало новый тип")
     public ByteArrayResource getTemplateWorkbookNewType() throws IOException {
 
         PDDocument myResourceLoader = resourceLoader.loadTemplateWorkbookNewType();
@@ -59,7 +60,7 @@ public class DictionaryResourceFileService {
         return myResBAR;
     }
 
-    // Стало новый тип Только PDF
+    @Operation(summary = "getTemplateWorkbookOnlyPDF", description = "Стало новый тип Только PDF")
     public ByteArrayResource getTemplateWorkbookOnlyPDF(
             String chatId,
             String token,

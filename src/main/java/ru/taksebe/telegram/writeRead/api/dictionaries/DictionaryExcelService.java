@@ -1,5 +1,7 @@
 package ru.taksebe.telegram.writeRead.api.dictionaries;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -86,7 +88,7 @@ public class DictionaryExcelService {
         return defaultDictionaryNames.isEmpty() ? "Personal dictionary" : defaultDictionaryNames.get(0);
     }
 
-    // Для тестирования отправки Pdf вариант 1
+    @Operation(summary = "getAllDefaultDictionariesWorkbookPdfVar1", description = "Для тестирования отправки Pdf вариант 1")
     public ByteArrayResource getAllDefaultDictionariesWorkbookPdfVar1() throws IOException {
         File file = new File("c:\\Books\\files\\2021\\months\\11\\нацпроекты\\ТабКасИсп\\1.2_НП_касса_2020vs2021_220331_153802.pdf");
         FileInputStream fis = new FileInputStream(file);
@@ -111,7 +113,7 @@ public class DictionaryExcelService {
         return myResBAR;
     }
 
-    // Для тестирования работы с Pdf
+    @Operation(summary = "createWorkbookByteArrayPdf", description = "Для тестирования работы с Pdf")
     private ByteArrayResource createWorkbookByteArrayPdf(List<Dictionary> dictionaryList, String fileName) throws IOException {
         XSSFWorkbook workbook = createWorkbookPdf(dictionaryList);
         // 06.04.22 Замена суффикса с .xlsx на .pdf

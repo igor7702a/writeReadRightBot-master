@@ -8,6 +8,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.taksebe.telegram.writeRead.entity.SamplesFileNameEntity;
+import ru.taksebe.telegram.writeRead.entity.XlsLoadSettingsFilesEntity;
 import ru.taksebe.telegram.writeRead.repository.XlsLoadSettingsFilesCrudRepository;
 
 import java.io.File;
@@ -15,7 +17,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 
 @Component
 public class XLSNewFormatLoadSettingFilesService {
@@ -500,6 +504,61 @@ public class XLSNewFormatLoadSettingFilesService {
         }
 
         return ld;
-    };
+    }
 
+    // Метод копирования одной строки в другую по id, но с другим fullFileName и общая дата заголовка
+    public void CopyById(long id, String newFullFileName, String newFullFileNameWithoutExtension, LocalDate newDateItemName){
+        List<XlsLoadSettingsFilesEntity> result15 = xlsLoadSettingsFilesCrudRepository.findAllFromXlsLoadSettingsFilesById(id);
+        result15.forEach(it15-> System.out.println(it15));
+        System.out.println("result15.size = " + result15.size());
+        int resultExists15 = result15.size();
+
+        if(resultExists15 != 0){
+
+            String itemName = result15.get(0).getItem_name();
+            LocalDate dateItemName = newDateItemName;
+            String armName = result15.get(0).getArm_name();
+            String armLink = result15.get(0).getArm_link();
+            String officerFor = result15.get(0).getOfficer_for();
+            int rubricNumber = result15.get(0).getRubric_number();
+            String rubricName = result15.get(0).getRubric_name();
+            int bookNumber = result15.get(0).getBook_number();
+            String bookName = newFullFileNameWithoutExtension;
+            String fileName = newFullFileNameWithoutExtension;
+            int monthNumber = LocalDate.now().getMonthValue();
+            String timetable = result15.get(0).getTimetable();
+            String typeRecipient = result15.get(0).getType_recipient();
+            String nameRecipient = result15.get(0).getName_recipient();
+            String fioUpload = result15.get(0).getFio_upload();
+            LocalDateTime datetimeUpload = LocalDateTime.now();
+            String systemRubricName = result15.get(0).getSystem_rubric_name();
+            String systemFileName = result15.get(0).getSystem_file_name();
+
+            if(timetable.equals("Недельно")){
+                monthNumber = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
+            }
+
+            // Записать с другим полным именем файла
+            xlsLoadSettingsFilesCrudRepository.create_XlsLoadSettingsFiles_All18(
+                 itemName,
+                 dateItemName,
+                 armName,
+                 armLink,
+                 officerFor,
+                 rubricNumber,
+                 rubricName,
+                 bookNumber,
+                 bookName,
+                 fileName,
+                 monthNumber,
+                 timetable,
+                 typeRecipient,
+                 nameRecipient,
+                 fioUpload,
+                 datetimeUpload,
+                 systemRubricName,
+                 systemFileName
+            );
+        }
+    }
 }

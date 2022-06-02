@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.repository;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,17 +11,17 @@ import java.util.List;
 
 public interface UsersProfilesCrudRepository extends JpaRepository<UsersProfilesEntity, Long> {
 
-    //Get findAllFromUsersProfiles
+    @Operation(summary = "Get", description = "findAllFromUsersProfiles")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM users_profiles", nativeQuery = true)
     List<UsersProfilesEntity> findAllFromUsersProfiles();
 
-    //Get findAllFromUsersProfilesById
+    @Operation(summary = "Get", description = "findAllFromUsersProfilesById")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM users_profiles WHERE id=:id", nativeQuery = true)
     List<UsersProfilesEntity> findAllFromUsersProfilesById(long id);
 
-    //Get findAllFromUsersProfilesBy4Test
+    @Operation(summary = "Get", description = "findAllFromUsersProfilesBy4Test")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM users_profiles " +
             "WHERE (" +
@@ -34,7 +35,7 @@ public interface UsersProfilesCrudRepository extends JpaRepository<UsersProfiles
             nativeQuery = true)
     List<UsersProfilesEntity> findAllFromUsersProfilesBy4Test();
 
-    //Get findAllFromUsersProfilesBy4Param - only 3
+    @Operation(summary = "Get", description = "findAllFromUsersProfilesBy4Param")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM users_profiles " +
             "WHERE (" +
@@ -57,7 +58,7 @@ public interface UsersProfilesCrudRepository extends JpaRepository<UsersProfiles
 //    ORDER BY date_setting DESC
 //    LIMIT 1
 
-    //Get findAllFromUsersProfilesBy4Param - all 4
+    @Operation(summary = "Get", description = "findAllFromUsersProfilesBy4Param")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM users_profiles " +
             "WHERE (" +
@@ -71,7 +72,7 @@ public interface UsersProfilesCrudRepository extends JpaRepository<UsersProfiles
             nativeQuery = true)
     List<UsersProfilesEntity> findAllFromUsersProfilesBy4Param(String accessType, String tgUser, String systemRubricName, String systemFilename);
 
-    //Get findAllFromUsersProfilesBy2Param
+    @Operation(summary = "Get", description = "findAllFromUsersProfilesBy2Param")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM users_profiles " +
             "WHERE (" +
@@ -83,7 +84,7 @@ public interface UsersProfilesCrudRepository extends JpaRepository<UsersProfiles
             nativeQuery = true)
     List<UsersProfilesEntity> findAllFromUsersProfilesBy2Param(String accessType, String tgUser);
 
-    //Get findAllFromUsersProfilesBy3Param
+    @Operation(summary = "Get", description = "findAllFromUsersProfilesBy3Param")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM users_profiles " +
             "WHERE (" +
@@ -96,13 +97,13 @@ public interface UsersProfilesCrudRepository extends JpaRepository<UsersProfiles
             nativeQuery = true)
     List<UsersProfilesEntity> findAllFromUsersProfilesBy3Param(String accessType, String tgUser, String fullFileName);
 
-    //Delete
+    @Operation(summary = "Delete", description = "deleteVoidWhereIdParametr")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "delete from users_profiles where id=:id")
     void deleteVoidWhereIdParametr(long id);
 
-    //Create create_UserProfiles_All8
+    @Operation(summary = "Create", description = "create_UserProfiles_All8")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "insert into users_profiles (" +

@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.repository;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,18 +11,18 @@ import java.util.List;
 
 public interface SavedFilesCrudRepository extends JpaRepository<SavedFilesEntity, Long> {
 
-    //Get
+    @Operation(summary = "Get", description = "findAllFromSavedFiles")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM saved_files", nativeQuery = true)
     List<SavedFilesEntity> findAllFromSavedFiles();
 
-    //Delete
+    @Operation(summary = "Delete", description = "deleteVoidWhereIdParametr")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "delete from saved_files where id=:id")
     void deleteVoidWhereIdParametr(long id);
 
-    //Create
+    @Operation(summary = "Create", description = "create_SavedFiles_All6")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "insert into saved_files (" +

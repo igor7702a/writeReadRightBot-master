@@ -185,14 +185,14 @@ public class SaveFiles {
         if(periodQuater.equals("quarters")){
             period = "quarters";
             numberMonthShort = "3"; // Необходимо автоматически определить номер квартала
-            numberYear = Integer.toString(Integer.parseInt(numberYear) - 1);// Определить как будет в реальном проекте;
+            numberYear = Integer.toString(Integer.parseInt(numberYear));
         }
 
         // Здесь обработать, если загрузка недельная
         if(periodWeeks.equals("weeks")){
             period = "weeks";
             numberMonthShort = numberWeekFull; // Необходимо автоматически определить номер недели
-            numberYear = Integer.toString(Integer.parseInt(numberYear) - 1);// Определить как будет в реальном проекте;
+            numberYear = Integer.toString(Integer.parseInt(numberYear));
         }
 
         StringBuilder sb = new StringBuilder(
@@ -271,14 +271,14 @@ public class SaveFiles {
         if(periodQuater.equals("quarters")){
             period = "quarters";
             numberMonthShort = "3"; // Необходимо автоматически определить номер квартала
-            numberYear = Integer.toString(Integer.parseInt(numberYear) - 1);// Определить как будет в реальном проекте;
+            numberYear = Integer.toString(Integer.parseInt(numberYear));
         }
 
         // Здесь обработать, если загрузка недельная
         if(periodWeeks.equals("weeks")){
             period = "weeks";
             numberMonthShort = Integer.toString(Integer.parseInt(numberWeekFull) + 1); // Необходимо автоматически определить номер недели
-            numberYear = Integer.toString(Integer.parseInt(numberYear) - 1);// Определить как будет в реальном проекте;
+            numberYear = Integer.toString(Integer.parseInt(numberYear));
         }
 
         StringBuilder sb = new StringBuilder(
@@ -306,12 +306,39 @@ public class SaveFiles {
 
         return realPath;
     }
+
+    public String findFirst3SymbolsInFileName(String FileName) throws IOException {
+        int index = 0;
+        StringBuilder sb = new StringBuilder("");
+
+        for (int i = 0, n = FileName.length(); i < n; i++) {
+            ++index;
+            if(index > 3){break;}
+
+            char symb = FileName.charAt(i);
+            if(symb == '0'
+                    || symb == '1'
+                    || symb == '2'
+                    || symb == '3'
+                    || symb == '4'
+                    || symb == '5'
+                    || symb == '6'
+                    || symb == '7'
+                    || symb == '8'
+                    || symb == '9'
+
+            ){
+                sb.append(String.valueOf(symb));
+            } else if (symb == '.' || symb == '_'){
+                sb.append(String.valueOf('.'));
+            }
+            System.out.println(sb);
+
+        }
+        return sb.toString();
+    }
+
 }
-
-
-
-
-
 
 
 

@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.repository;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,43 +11,48 @@ import java.util.List;
 
 public interface SamplesFileNameCrudRepository extends JpaRepository<SamplesFileNameEntity, Long> {
 
-    //Get findAllFromSampleFileName
+    @Operation(summary = "Get", description = "findAllFromSampleFileName")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM samples_filename", nativeQuery = true)
     List<SamplesFileNameEntity> findAllFromSampleFileName();
 
-    //Get findAllFromSamplesFileNameById
+    @Operation(summary = "Get", description = "findAllFromSamplesFileNameById")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM samples_filename WHERE id=:id", nativeQuery = true)
     List<SamplesFileNameEntity> findAllFromSamplesFileNameById(long id);
 
-    //Get findAllFromSamplesFileNameByFileNameV1
+    @Operation(summary = "Get", description = "findAllFromSamplesFileNameByFileNameV1")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM samples_filename WHERE full_file_name=:fullFileName", nativeQuery = true)
     List<SamplesFileNameEntity> findAllFromSamplesFileNameByFileNameV1(String fullFileName);
 
-    //Get findAllFromSamplesFileNameRangeByDate
+    @Operation(summary = "Get", description = "findAllFromSamplesFileNameRangeByDate")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM samples_filename ORDER BY date_setting DESC", nativeQuery = true)
     List<SamplesFileNameEntity> findAllFromSamplesFileNameRangeByDate();
 
-    //Get findAllFromSamplesFileNameFirst
+    @Operation(summary = "Get", description = "findAllFromSamplesFileNameFirst")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM samples_filename ORDER BY date_setting DESC LIMIT 1", nativeQuery = true)
     List<SamplesFileNameEntity> findAllFromSamplesFileNameFirst();
 
-    //Get findAllFromSamplesFileNameFirstParam1
+    @Operation(summary = "Get", description = "findAllFromSamplesFileNameFirstParam1")
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM samples_filename WHERE full_file_name=:fullFileName ORDER BY date_setting DESC LIMIT 1", nativeQuery = true)
     List<SamplesFileNameEntity> findAllFromSamplesFileNameFirstParam1(String fullFileName);
 
-    //Delete
+    @Operation(summary = "Get", description = "findAllFromSamplesByRubricNumber")
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT * FROM samples_filename WHERE rubric_book_number=:rubricNumber ORDER BY date_setting DESC LIMIT 1", nativeQuery = true)
+    List<SamplesFileNameEntity> findAllFromSamplesByRubricNumber(String rubricNumber);
+
+    @Operation(summary = "Delete", description = "deleteVoidWhereIdParametr")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "delete from samples_filename where id=:id")
     void deleteVoidWhereIdParametr(long id);
 
-    //Create create_SampleFileNames_All13
+    @Operation(summary = "Create", description = "create_SampleFileNames_All13")
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "insert into samples_filename (" +
@@ -93,8 +99,6 @@ public interface SamplesFileNameCrudRepository extends JpaRepository<SamplesFile
             String period4,
             String responsible
     );
-
-
 
     //Update
 }

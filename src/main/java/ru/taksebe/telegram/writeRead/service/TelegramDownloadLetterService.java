@@ -23,10 +23,7 @@ import java.nio.file.attribute.FileTime;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -437,10 +434,10 @@ public class TelegramDownloadLetterService {
 
         StringBuilder sb = new StringBuilder(sbPath.toString() + "files/");
         String initialPath = sb.toString();
-        int numberYear = 2021; // Для теста отнимем от номера года 2022-1=2022
+        int numberYear = LocalDate.now().getYear(); // Для теста отнимем от номера года 2022-1=2022
         LocalDate ldFirst = LocalDate.ofYearDay(numberYear, 1);
         LocalDate ldEnd = LocalDate.ofYearDay(numberYear, 365);
-        int numberMonth = 11; // Для теста добавим к номеру месяца 6, чтобы получилось 11
+        int numberMonth = LocalDate.now().getMonthValue(); // Для теста добавим к номеру месяца 6, чтобы получилось 11
         String timetable = "Ежемесячно"; // получить из запроса
         int numberRubric = 2;
         String chatIdAim = "5297506090"; // телеграм бот test_bot
@@ -450,7 +447,7 @@ public class TelegramDownloadLetterService {
         // Получить как параметр системное название рубрики, например нацпроекты и получить запросом всю оставшуюся информацию
         // Получить запросом из таблицы XlsLoadSettingsFiles
         List<XlsLoadSettingsFilesEntity> result10 = xlsLoadSettingsFilesCrudRepository.
-                find1FromXlsLoadSettingsFilesBySystemRubricName(systemRubricName);
+                find1FromXlsLoadSettingsFilesBySystemRubricNameOrder(systemRubricName); //выбираем последнюю строку
         result10.forEach(it10-> System.out.println(it10));
         System.out.println("result10.size = " + result10.size());
         int resultExists10 = result10.size();
@@ -460,7 +457,9 @@ public class TelegramDownloadLetterService {
             numberMonth = result10.get(0).getMonth_number(); // Для теста добавим к номеру месяца 6, чтобы получилось 11
             timetable = result10.get(0).getTimetable(); // получить из запроса
             chatIdAimFile = result10.get(0).getName_recipient(); //"-684336344"; // телеграм канал test_group, получить из запроса
-
+            if(timetable.equals("Недельно")){
+                numberMonth = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
+            }
         }
 
         // По новой схеме выводим одну рубрику на одну кнопку
@@ -542,6 +541,10 @@ public class TelegramDownloadLetterService {
                             timetablePeriod = "quarters";
                         }
 
+                        if (timetable.equals("Недельно")){
+                            timetablePeriod = "weeks";
+                        }
+
                         List<ForwardedFilesEntity> resultAlreadySended9 = forwardedFilesCrudRepository.findAllFromForwardedAlreadySended(
                                 nameRubric,
                                 nameBook,
@@ -585,7 +588,7 @@ public class TelegramDownloadLetterService {
 
                     }
 
-                    //  Отдельно по файлам
+                    //  Отдельно по файлам ВНИМАНИЕ!!!
                     for (XlsLoadSettingsFilesEntity element : result) {
 
                         String nameRubric = element.getSystem_rubric_name();
@@ -593,6 +596,9 @@ public class TelegramDownloadLetterService {
                         String timetablePeriod = "months";
                         if(timetable.equals("Квартально")){
                             timetablePeriod = "quarters";
+                        }
+                        if(timetable.equals("Недельно")){
+                            timetablePeriod = "weeks";
                         }
                         String myFile = receiveEndFileParam(
                                 initialPath, //c:/Books/files/

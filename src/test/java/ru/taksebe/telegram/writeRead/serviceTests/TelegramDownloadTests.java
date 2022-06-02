@@ -1,5 +1,7 @@
 package ru.taksebe.telegram.writeRead.serviceTests;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,8 @@ public class TelegramDownloadTests {
     @Autowired
     TelegramDownloadLetterService telegramDownloadLetterService;
 
-    // Для реальных данных
     @Test
+    @Operation(summary = "docxDownLoadRealLetter", description = "Для реальных данных")
     void docxDownLoadRealLetter() throws IOException {
         telegramDownloadLetterService.docxDownLoadRealLetter();
         Assertions.assertEquals(1, 1);

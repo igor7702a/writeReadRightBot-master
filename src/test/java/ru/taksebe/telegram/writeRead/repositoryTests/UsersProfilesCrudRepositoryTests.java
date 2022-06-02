@@ -1,5 +1,6 @@
 package ru.taksebe.telegram.writeRead.repositoryTests;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ public class UsersProfilesCrudRepositoryTests {
     @Autowired
     UsersProfilesCrudRepository usersProfilesCrudRepository;
 
-    // Get findAllFromUsersProfiles
+    @Operation(summary = "Get", description = "findAllFromUsersProfiles")
     @Test
     void findAllFromUsersProfiles() {
         List<UsersProfilesEntity> notes = usersProfilesCrudRepository.findAllFromUsersProfiles();
@@ -28,7 +29,7 @@ public class UsersProfilesCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Get findAllFromXlsLoadSettingsFilesById
+    @Operation(summary = "Get", description = "findAllFromXlsLoadSettingsFilesById")
     @Test
     void findAllFromMaterialsById() {
         List<UsersProfilesEntity> materials = usersProfilesCrudRepository.findAllFromUsersProfilesById(4L);
@@ -36,7 +37,7 @@ public class UsersProfilesCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Get findAllFromUsersProfilesBy4Test
+    @Operation(summary = "Get", description = "findAllFromUsersProfilesBy4Test")
     @Test
     void findAllFromUsersProfilesBy4Test() {
         List<UsersProfilesEntity> materials = usersProfilesCrudRepository.findAllFromUsersProfilesBy4Test();
@@ -44,7 +45,7 @@ public class UsersProfilesCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Get findAllFromUsersProfilesBy4Param - only 3
+    @Operation(summary = "Get", description = "findAllFromUsersProfilesBy4Param - only 3")
     @Test
     void findAllFromUsersProfilesBy3Param() {
         List<UsersProfilesEntity> materials = usersProfilesCrudRepository.findAllFromUsersProfilesBy4Param(
@@ -56,7 +57,7 @@ public class UsersProfilesCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Get findAllFromUsersProfilesBy4Param - all 4
+    @Operation(summary = "Get", description = "findAllFromUsersProfilesBy4Param")
     @Test
     void findAllFromUsersProfilesBy4Param() {
         List<UsersProfilesEntity> materials = usersProfilesCrudRepository.findAllFromUsersProfilesBy4Param(
@@ -69,7 +70,7 @@ public class UsersProfilesCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Get findAllFromUsersProfilesBy2Param
+    @Operation(summary = "Get", description = "findAllFromUsersProfilesBy2Param")
     @Test
     void findAllFromUsersProfilesBy2Param() {
         List<UsersProfilesEntity> materials = usersProfilesCrudRepository.findAllFromUsersProfilesBy2Param(
@@ -80,7 +81,7 @@ public class UsersProfilesCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Get findAllFromUsersProfilesBy3Param
+    @Operation(summary = "Get", description = "findAllFromUsersProfilesBy3Param")
     @Test
     void findAllFromUsersProfilesBy3ParamLoadSettings() {
         List<UsersProfilesEntity> materials = usersProfilesCrudRepository.findAllFromUsersProfilesBy3Param(
@@ -92,7 +93,7 @@ public class UsersProfilesCrudRepositoryTests {
         Assertions.assertEquals(1, 1);
     }
 
-    // Delete
+    @Operation(summary = "Delete", description = "deleteVoidWhereIdParametr")
     @Test
     void deleteVoidWhereIdParametr() {
         usersProfilesCrudRepository.deleteVoidWhereIdParametr(5L);

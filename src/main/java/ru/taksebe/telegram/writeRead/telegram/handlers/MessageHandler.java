@@ -299,7 +299,7 @@ public class MessageHandler {
         chatId = "-684336344";
 
         List<XlsLoadSettingsFilesEntity> result11 = xlsLoadSettingsFilesCrudRepository.
-                find1FromXlsLoadSettingsFilesBySystemRubricName(systemRubricName);
+                find1FromXlsLoadSettingsFilesBySystemRubricNameOrder(systemRubricName); // поиск последней строк
         result11.forEach(it11-> System.out.println(it11));
         System.out.println("result11.size = " + result11.size());
         int resultExists11 = result11.size();
